@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const authRoutes = require('../src/routes/auth.route');
+const userRoutes = require('../src/routes/user.route');
 
 
 //********** Servidor ***********/
@@ -29,6 +30,7 @@ app.use(cors());
 
 //********** Rutas ***********/
 app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 
 //********** Global variables ***********/
 

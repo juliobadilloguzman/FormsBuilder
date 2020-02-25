@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const pool = require('../database/database');
+const sql = require('mssql');
+const { database } = require('../database/config');
+var conexion = sql.connect(database);
 
 exports.login = (req, res) => {
     res.json({ message: 'Login' });

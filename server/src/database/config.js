@@ -1,12 +1,8 @@
 module.exports = {
     database: {
-        host: 'localhost',
-        user: 'root',
-        port: '8889',
+        user: 'SA',
         password: 'root',
-        database: 'loginexample',
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0
+        server: 'localhost',
+        database: 'Questionaries',
     }
 }
