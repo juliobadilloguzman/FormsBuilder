@@ -1,19 +1,16 @@
 const sql = require('mssql');
-const { database } = require('../database/config');
-var conexion = sql.connect(database);
-
+const db = require('../database/database');
 
 module.exports.obtenerUsuario = (req, res, next) => {
-    conexion.then(pool => {
-        // Query
-        
-        return pool.request()
-        .input('input_parameter', sql.Int, 1)
-        .query('SELECT * FROM Usuario WHERE idUsuario = @input_parameter')
-    }).then(result => {
-        console.dir(result)
-        res.json(result);
-    }).catch(err => {
-      // ... error checks
+
+    let request = new sql.Request();
+
+    request.query('select * from Usuario WHERE idUsuario = 1', function(err, recordset) {
+
+        if (err) console.log(err)
+
+        res.send(recordset.recordset);
+
     });
+
 };

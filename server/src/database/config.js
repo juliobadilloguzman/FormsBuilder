@@ -1,8 +1,8 @@
 module.exports = {
     database: {
-        user: 'SA',
-        password: 'root',
-        server: 'localhost',
+        user: 'julioadmin',
+        password: 'PaolaGuzman1996',
+        server: 'servidoravanzadas.database.windows.net',
         database: 'Questionaries',
     }
 }
