@@ -14,7 +14,9 @@ const Cuestionario = sequelize.define('Cuestionario', {
     fk_idUsuarioCreador: {
         type: Sequelize.INTEGER
     },
-
+    Descripcion: {
+        type: Sequelize.STRING
+    },
 }, {
     timestamps: false,
     freezeTableName: true

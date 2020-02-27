@@ -8,8 +8,7 @@ router.post('/login', authController.login);
 router.post('/signup', authController.signup);
 
 //**** MIDDLEWARE para proteger las rutas ****/
-const rutasProtegidas = express.Router();
-rutasProtegidas.use((req, res, next) => {
+router.use((req, res, next) => {
 
     //Obtenemos el token
     const token = req.headers['authorization'];
@@ -36,6 +35,6 @@ rutasProtegidas.use((req, res, next) => {
     }
 });
 
-router.get('/profile', rutasProtegidas, authController.profile);
+router.get('/profile', router, authController.profile);
 
 module.exports = router;
