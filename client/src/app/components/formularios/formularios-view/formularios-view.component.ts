@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormulariosViewComponent implements OnInit {
 
-  constructor() { }
+  idUsuario: number;
+
+  constructor() { 
+    this.idUsuario = parseInt(localStorage.getItem('idUsuario'));
+  }
 
   ngOnInit(): void {
   }
