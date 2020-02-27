@@ -4,9 +4,13 @@
 
         <h4 class="subtitle-description text-white">Crea, personaliza y comparte tus encuestas.</h4>
 
-        <div class="container-buttons">
+        <div class="container-buttons" *ngIf="!isLogged">
             <button class="btn btn-login" (click)="goToLogin()">Inicia Sesion</button>
             <button class="btn btn-signup" (click)="goToSignUp()">Registrate</button>
+        </div>
+
+        <div class="container-button-crear" *ngIf="isLogged">
+            <button class="btn btn-crear" (click)="goToForms()">Crear Formulario</button>
         </div>
 
     </div>

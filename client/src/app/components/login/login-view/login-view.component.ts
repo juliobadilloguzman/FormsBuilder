@@ -53,7 +53,7 @@ export class LoginViewComponent implements OnInit {
       }else if(res.message == 'incorrectPassword'){
           this.incorrectPassword = true;
       }else{
-        console.log('Login successfull');
+        this.router.navigate(['/formularios']);
       }
 
     },

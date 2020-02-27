@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -9,9 +10,14 @@ import { Router } from '@angular/router';
 })
 export class HomeViewComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  isLogged: boolean;
+
+  constructor(private router: Router, private _authService: AuthService) { }
 
   ngOnInit(): void {
+    // localStorage.removeItem('idUsuario');
+    // localStorage.removeItem('userToken');
+    this.isLogged = this._authService.isLoggedIn();
   }
 
   goToLogin(): void{
@@ -20,6 +26,10 @@ export class HomeViewComponent implements OnInit {
 
   goToSignUp(): void{
     this.router.navigate(['/registro'])
+  }
+
+  goToForms(): void{
+    this.router.navigate(['/formularios'])
   }
 
 }
