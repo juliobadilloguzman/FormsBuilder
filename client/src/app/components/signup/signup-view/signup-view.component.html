@@ -1,0 +1,35 @@
+<div class="container">
+    <mat-progress-bar [mode]="'indeterminate'" *ngIf="hasReponse">
+    </mat-progress-bar>
+    <div class="container-registro">
+        <h1 class="title-registro text-white">Regístrate</h1>
+        <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+            <div>
+                <input class="full-width" type="text" formControlName="Nombre" placeholder="Usuario">
+            </div>
+            <div *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.invalid && Nombre.errors.required">
+                <span class="text-danger">Nombre de usuario invalido</span>
+            </div>
+            <div *ngIf="userExists">
+                <span class="text-danger">El nombre de usuario ya existe</span>
+            </div>
+            <div>
+                <input class="full-width" type="password" formControlName="Contrasena" placeholder="Contraseña">
+            </div>
+            <div>
+                <input class="full-width" type="password" formControlName="ConfirmContrasena" placeholder="Confirmar contraseña">
+
+            </div>
+            <div *ngIf="equalPassowords">
+                <span class="text-danger">Las contraseñas no coinciden</span>
+            </div>
+            <div>
+                <button class="full-width btn-registrar">Registrarme</button>
+            </div>
+        </form>
+        <span class="text-white container-title-crear">
+            <a routerLink="/login" class="title-crear text-white">Inicia Sesión</a> <span>o</span>
+        <a routerLink="/" class="title-crear text-white">Regresar a la pagina de inicio</a>
+        </span>
+    </div>
+</div>

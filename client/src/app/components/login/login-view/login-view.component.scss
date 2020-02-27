@@ -1,0 +1,104 @@
+:host {
+    background: #1f8ded !important;
+    font-family: 'Raleway', sans-serif;
+}
+
+.container {
+    width: 100% !important;
+    height: 100% !important;
+    background: #1f8ded !important;
+    font-family: 'Raleway', sans-serif;
+}
+
+.container-login {
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: auto !important;
+    text-align: center !important;
+    .title-crear {
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-top: 1rem;
+        text-decoration: none;
+        transition: all 0.3s ease 0s;
+    }
+    .title-crear:hover {
+        text-shadow: 0px 0px 14px rgb(7, 7, 7, 0.65);
+    }
+    .title-login {
+        font-size: 2.5rem;
+        font-weight: 100;
+        margin-bottom: 1.4rem;
+        font-family: 'Raleway', sans-serif;
+    }
+    form {
+        width: 100%;
+        display: grid;
+        grid-row-gap: 1rem;
+    }
+    form input {
+        border: none !important;
+        background: none;
+        outline: none;
+        padding: 1rem;
+        font-size: 0.7rem;
+        border: 1px solid #fff !important;
+        color: #fff;
+        font-family: 'Raleway', sans-serif;
+        border-radius: 30px;
+        box-sizing: border-box !important;
+    }
+    form .btn-ingresar {
+        border: none !important;
+        background: none;
+        background: #fff;
+        outline: none;
+        padding: 0.8rem;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #1f8ded;
+        cursor: pointer;
+        border-radius: 30px;
+        display: block !important;
+        box-sizing: border-box !important;
+        transition: all 0.3s ease 0s;
+    }
+    form .btn-ingresar:hover {
+        background: #434343;
+        color: #fff !important;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 0.4s ease 0s;
+    }
+    .container-title-crear {
+        margin-top: 1.5rem !important;
+    }
+    .container-title-crear span {
+        font-weight: 700;
+        color: #1f5c91;
+        margin: 0.3rem;
+    }
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #fff;
+    opacity: 1;
+    /* Firefox */
+}
+
+ :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #fff;
+}
+
+ ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #fff;
+}

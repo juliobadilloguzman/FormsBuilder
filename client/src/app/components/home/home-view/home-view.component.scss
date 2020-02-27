@@ -1,0 +1,150 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background: url("/assets/img/bg.jpg") no-repeat center fixed;
+    background-size: cover;
+    font-family: 'Raleway', sans-serif;
+}
+
+.container-description {
+    width: 80%;
+    padding: 4rem;
+    margin: auto;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    .title-description {
+        font-family: 'Raleway', sans-serif;
+        font-weight: 100 !important;
+        font-size: 4rem !important;
+        line-height: 4.3rem !important;
+    }
+    .subtitle-description {
+        margin-top: 2rem !important;
+        margin-bottom: 2rem !important;
+        font-weight: 200 !important;
+        font-size: 2rem !important;
+    }
+}
+
+.container-buttons {
+    width: 50%;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    grid-row-gap: 0.5rem;
+    .btn-login {
+        background: #fbbc05;
+        color: #fff;
+        transition: all 0.4s ease 0s;
+    }
+    .btn-signup {
+        background: rgb(0, 170, 0);
+        color: #fff;
+        transition: all 0.4s ease 0s;
+    }
+    .btn-login:hover {
+        background: #434343;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 0.4s ease 0s;
+        -webkit-box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+        -moz-box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+        box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+    }
+    .btn-signup:hover {
+        background: #434343;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 0.4s ease 0s;
+        -webkit-box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+        -moz-box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+        box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+    }
+}
+
+.container-button-crear {
+    width: 50%;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    grid-row-gap: 0.5rem;
+    .btn-crear {
+        background: #603fb1;
+        color: #fff;
+        transition: all 0.4s ease 0s;
+    }
+    .btn-crear:hover {
+        background: #434343;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 0.4s ease 0s;
+        -webkit-box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+        -moz-box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+        box-shadow: -2px -1px 23px -1px rgba(0, 0, 0, 0.23);
+    }
+}
+
+@media (max-width: 1400px) {
+    .container-description .title-description {
+        font-size: 3.5rem;
+    }
+    .container-description .subtitle-description {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 1240px) {
+    .container-description .title-description {
+        font-size: 3rem;
+    }
+    .container-description .subtitle-description {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 1190px) {
+    .container-description .title-description {
+        font-size: 2.5rem;
+    }
+    .container-description .subtitle-description {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .container-buttons {
+        width: 80%;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 0.5rem;
+    }
+    .btn {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .container-buttons {
+        width: 100%;
+    }
+}
+
+@media (max-width: 620px) {
+    .container-description .title-description {
+        font-size: 2.2rem;
+    }
+    .container-description .subtitle-description {
+        font-size: 1.1rem;
+    }
+}
