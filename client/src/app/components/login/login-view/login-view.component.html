@@ -4,15 +4,15 @@
 
         <h1 class="title-login text-white">Ingresa a tu cuenta</h1>
 
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div>
-                <input class="full-width" type="text" placeholder="Usuario">
+                <input class="full-width" type="text" formControlName="Nombre" placeholder="Usuario">
             </div>
             <div>
-                <input class="full-width" type="password" placeholder="Contraseña">
+                <input class="full-width" type="password" formControlName="Contrasena" placeholder="Contraseña">
             </div>
             <div>
-                <button class="full-width btn-ingresar">Ingresar</button>
+                <button type="submit" class="full-width btn-ingresar">Ingresar</button>
             </div>
         </form>
 
