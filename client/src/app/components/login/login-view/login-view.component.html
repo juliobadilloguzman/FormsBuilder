@@ -1,5 +1,6 @@
 <div class="container">
-
+    <mat-progress-bar [mode]="'indeterminate'" *ngIf="hasReponse">
+    </mat-progress-bar>
     <div class="container-login">
 
         <h1 class="title-login text-white">Ingresa a tu cuenta</h1>
@@ -8,11 +9,20 @@
             <div>
                 <input class="full-width" type="text" formControlName="Nombre" placeholder="Usuario">
             </div>
+            <div *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.invalid && Nombre.errors.required">
+                <span class="text-danger">Nombre de usuario invalido</span>
+            </div>
+            <div *ngIf="userDoesntExists">
+                <span class="text-danger">El nombre de usuario no existe</span>
+            </div>
             <div>
                 <input class="full-width" type="password" formControlName="Contrasena" placeholder="Contraseña">
             </div>
+            <div *ngIf="incorrectPassword">
+                <span class="text-danger">La contraseña es incorrecta</span>
+            </div>
             <div>
-                <button type="submit" class="full-width btn-ingresar">Ingresar</button>
+                <button [disabled]="!loginForm.valid" type="submit" class="full-width btn-ingresar">Ingresar</button>
             </div>
         </form>
 

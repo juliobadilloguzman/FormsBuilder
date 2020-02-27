@@ -29,13 +29,13 @@ module.exports.login = (req, res) => {
                 res.json({ token: token });
 
             } else {
-                res.json({ message: 'La contraseña es incorrecta' });
+                res.json({ message: 'incorrectPassword' });
             }
 
         });
 
     }).catch(err => {
-        res.json({ message: 'El usuario no existe' })
+        res.json({ message: 'userDoesntExists' })
 
     })
 
@@ -59,7 +59,6 @@ module.exports.signup = (req, res) => {
             //Si no encuentra el usuario...
             if (!user) {
 
-                console.log('A hashear: ' + userData.Contrasena);
                 //Hasheamos la contraseña
                 const hash = bycrypt.hashSync(userData.Contrasena, 10);
                 userData.Contrasena = hash;
@@ -73,7 +72,6 @@ module.exports.signup = (req, res) => {
                             expiresIn: 1440
                         });
 
-                        console.log(token);
 
                         //Mandamos el token
                         res.json({ token: token });
@@ -83,9 +81,9 @@ module.exports.signup = (req, res) => {
                         res.send(err);
                     });
 
-                //En caso de no existir...
+                //En caso de YA existir...
             } else {
-                res.json({ message: 'User already exists' });
+                res.json({ message: 'alreadyExists' });
             }
         })
         .catch(err => {

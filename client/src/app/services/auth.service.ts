@@ -60,7 +60,7 @@ export class AuthService {
 
   public register(user: User): Observable<any>{
 
-    const request = this.http.post(`${this.API_URI}/register`, user).pipe(map((data: TokenResponse) => {
+    const request = this.http.post(`${this.API_URI}/signup`, user).pipe(map((data: TokenResponse) => {
       if(data.token){
         this.setToken(data.token);
       }

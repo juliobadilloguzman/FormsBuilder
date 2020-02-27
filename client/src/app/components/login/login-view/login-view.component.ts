@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-view',
@@ -11,7 +12,12 @@ export class LoginViewComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private _authService: AuthService) {
+  //Validaciones
+  public incorrectPassword: boolean = false;
+  public userDoesntExists: boolean = false;
+  public hasReponse: boolean = false;
+
+  constructor(private _authService: AuthService, private router: Router) {
     this.loginForm = this.createFormGroup();
    }
 
@@ -19,10 +25,37 @@ export class LoginViewComponent implements OnInit {
     
   }
 
+  get Nombre() {
+    return this.loginForm.get('Nombre');
+  }
+  
+  get Contrasena() {
+    return this.loginForm.get('Contrasena');
+  }
+
   login(){
+
+    this.hasReponse = true;
+    this.incorrectPassword = false;
+    this.userDoesntExists = false;
+
     console.log(this.loginForm.value);
+
     this._authService.login(this.loginForm.value).subscribe(res =>{
+
       console.log(res);
+
+      this.hasReponse = false;
+
+      if(res.message == 'userDoesntExists'){
+        this.userDoesntExists = true;
+
+      }else if(res.message == 'incorrectPassword'){
+          this.incorrectPassword = true;
+      }else{
+        console.log('Login successfull');
+      }
+
     },
     error => {
       console.log(error)
@@ -31,9 +64,13 @@ export class LoginViewComponent implements OnInit {
 
   createFormGroup(){
     return new FormGroup({
-      Nombre: new FormControl(''),
-      Contrasena: new FormControl('')
+      Nombre: new FormControl('', [Validators.required]), 
+      Contrasena: new FormControl('', [Validators.required])
     })
+  }
+
+  resetForm(){
+    this.loginForm.reset();
   }
 
 }
