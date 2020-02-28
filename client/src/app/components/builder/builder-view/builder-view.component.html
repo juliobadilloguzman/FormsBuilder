@@ -1,1 +1,24 @@
-<p>builder-view works!</p>
+<div class="container">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+
+            <span class="spacer"></span>
+            <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
+            <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <form class="form">
+        <div class="container-titulo">
+            <mat-form-field class="full-width">
+                <mat-label class="titulo-text">Título del cuestionario</mat-label>
+                <input class="input-titulo" matInput placeholder="Ejemplo: Gustos Musicales">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Descripcion del cuestionario</mat-label>
+                <input matInput placeholder="Ejemplo: Mi cuestionario de música">
+            </mat-form-field>
+        </div>
+    </form>
+
+</div>
