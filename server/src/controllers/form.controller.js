@@ -30,7 +30,7 @@ module.exports.getFormByUserId = (req, res) => {
         //TODO: si el usuario no existe
         console.log(cuestionario);
         res.json(cuestionario);
-    });
+    })
 }
 
 module.exports.getFormById = (req, res) => {
@@ -43,45 +43,45 @@ module.exports.getFormById = (req, res) => {
     });
 }
 
-    
-
-    /*//Buscamos el usuario por el nombre de usuario
-    User.findOne({
-            where: {
-                Nombre: req.body.Nombre
-            }
-        }).then(user => {
-
-            //Si no encuentra el usuario...
-            if (!user) {
-
-                //Hasheamos la contraseña
-                const hash = bycrypt.hashSync(userData.Contrasena, 10);
-                userData.Contrasena = hash;
-
-                //Creamos el usuario
-                User.create(userData)
-                    .then(user => {
-
-                        //Generamos el token
-                        let token = jwt.sign(user.dataValues, "primerparcialhugo", {
-                            expiresIn: 1440
-                        });
 
 
-                        //Mandamos el token
-                        res.json({ token: token });
+/*//Buscamos el usuario por el nombre de usuario
+User.findOne({
+        where: {
+            Nombre: req.body.Nombre
+        }
+    }).then(user => {
 
-                    })
-                    .catch(err => {
-                        res.send(err);
+        //Si no encuentra el usuario...
+        if (!user) {
+
+            //Hasheamos la contraseña
+            const hash = bycrypt.hashSync(userData.Contrasena, 10);
+            userData.Contrasena = hash;
+
+            //Creamos el usuario
+            User.create(userData)
+                .then(user => {
+
+                    //Generamos el token
+                    let token = jwt.sign(user.dataValues, "primerparcialhugo", {
+                        expiresIn: 1440
                     });
 
-                //En caso de YA existir...
-            } else {
-                res.json({ message: 'alreadyExists' });
-            }
-        })
-        .catch(err => {
-            res.send('Error ' + err);
-        })*/
+
+                    //Mandamos el token
+                    res.json({ token: token });
+
+                })
+                .catch(err => {
+                    res.send(err);
+                });
+
+            //En caso de YA existir...
+        } else {
+            res.json({ message: 'alreadyExists' });
+        }
+    })
+    .catch(err => {
+        res.send('Error ' + err);
+    })*/

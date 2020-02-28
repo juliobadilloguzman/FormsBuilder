@@ -28,6 +28,9 @@ app.use(express.urlencoded({ extended: false }));
 
 //CORS
 app.use(cors());
+// Configurar cabeceras y cors
+
+
 
 //********** Rutas ***********/
 app.use('/auth', authRoutes);
