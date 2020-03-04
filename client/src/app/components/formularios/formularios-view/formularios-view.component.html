@@ -17,6 +17,7 @@
         <h5 class="miscuestionarios-title">Mis cuestionarios</h5>
     </div>
 
+
     <div class="container-cuestionarios" *ngIf="hasResponse; else noResponseYet">
         <mat-card class="cuestionario-card" *ngFor="let cuestionario of cuestionarios" (click)="editForm(cuestionario.idCuestionario)">
             <p class="nombre-cuestionario">{{cuestionario.Nombre}}</p>
@@ -24,6 +25,12 @@
             <!-- <button class="btn-editar-form" mat-fab color="primary">Editar</button> -->
         </mat-card>
     </div>
+
+    <div class="sinCuestionarios-container" *ngIf="cuestionarios.length <= 0">
+        <h4>Aun no tienes cuestionarios, crea uno.</h4>
+    </div>
+
+
 
 </div>
 

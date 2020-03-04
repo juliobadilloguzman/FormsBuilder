@@ -57,9 +57,10 @@
 }
 
 .form {
-    width: 50%;
+    width: 60%;
     margin: auto;
     .container-titulo {
+        margin-bottom: 2rem;
         background: #fff !important;
         padding: 2rem !important;
         .titulo-text {
@@ -68,5 +69,14 @@
         .input-titulo {
             height: 2rem !important;
         }
+    }
+    .container-preguntas {
+        padding: 2rem !important;
+        background: #fff !important;
+    }
+    .btn-crearFormulario {
+        background: #2F80ED !important;
+        margin: auto !important;
+        color: #fff;
     }
 }

@@ -33,4 +33,8 @@ export class HomeViewComponent implements OnInit {
     this.router.navigate(['/formularios'])
   }
 
+  logOut():void{
+    this._authService.logOut();
+  }
+
 }
