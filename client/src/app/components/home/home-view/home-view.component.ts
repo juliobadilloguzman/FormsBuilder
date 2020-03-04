@@ -15,10 +15,11 @@ export class HomeViewComponent implements OnInit {
   constructor(private router: Router, private _authService: AuthService) { }
 
   ngOnInit(): void {
-    // localStorage.removeItem('idUsuario');
+    //localStorage.removeItem('idUsuario');
     // localStorage.removeItem('userToken');
     this.isLogged = this._authService.isLoggedIn();
   }
+
 
   goToLogin(): void{
     this.router.navigate(['/login'])
@@ -30,6 +31,10 @@ export class HomeViewComponent implements OnInit {
 
   goToForms(): void{
     this.router.navigate(['/formularios'])
+  }
+
+  logOut():void{
+    this._authService.logOut();
   }
 
 }

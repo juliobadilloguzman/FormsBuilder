@@ -30,7 +30,7 @@ module.exports.getFormByUserId = (req, res) => {
         //TODO: si el usuario no existe
         console.log(cuestionario);
         res.json(cuestionario);
-    });
+    })
 }
 
 module.exports.getFormById = (req, res) => {

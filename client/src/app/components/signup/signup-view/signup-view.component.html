@@ -23,6 +23,9 @@
             <div *ngIf="equalPassowords">
                 <span class="text-danger">Las contraseñas no coinciden</span>
             </div>
+            <div *ngIf="emptyFields">
+                <span class="text-danger">Verifica campos vacios</span>
+            </div>
             <div>
                 <button class="full-width btn-registrar">Registrarme</button>
             </div>

@@ -1,0 +1,39 @@
+<div class="container">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+
+            <span class="spacer"></span>
+            <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
+            <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <form class="form" [formGroup]="formulario" (ngSubmit)="crearFormulario()">
+        <div class="container-titulo">
+            <mat-form-field class="full-width">
+                <mat-label class="titulo-text">Título del cuestionario</mat-label>
+                <input class="input-titulo" matInput placeholder="Ejemplo: Gustos Musicales" formControlName="Nombre">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Descripcion del cuestionario</mat-label>
+                <input matInput placeholder="Ejemplo: Mi cuestionario de música" formControlName="Descripcion">
+            </mat-form-field>
+        </div>
+        <button class="btn" (click)="agregarPregunta()">Agregar Pregunta</button>
+
+        <div class="container-preguntas">
+
+            <div formArrayName="preguntas">
+                <h3>Ingresa titulo</h3>
+                <div *ngFor="let pregunta of preguntas.controls; let i=index">
+                    <label>Pregunta {{i+1}}</label>
+                    <input type="text" [formControlName]="i">
+                </div>
+
+            </div>
+        </div>
+
+        <button class="btn btn-crearFormulario">Crear</button>
+    </form>
+
+</div>

@@ -1,1 +1,41 @@
-<p>Estoy mostrando los formularios del usuario con id: {{idUsuario}}</p>
+<div class="container">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+
+            <span class="spacer"></span>
+            <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
+            <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="container-crear">
+        <h2 class="text-white">FormBuilder</h2>
+        <button class="btn btn-crear" (click)="goToBuilder()">Crear</button>
+    </div>
+
+    <div class="container-title-cuestionarios">
+        <h5 class="miscuestionarios-title">Mis cuestionarios</h5>
+    </div>
+
+
+    <div class="container-cuestionarios" *ngIf="hasResponse; else noResponseYet">
+        <mat-card class="cuestionario-card" *ngFor="let cuestionario of cuestionarios" (click)="editForm(cuestionario.idCuestionario)">
+            <p class="nombre-cuestionario">{{cuestionario.Nombre}}</p>
+            <p class="descripcion-cuestionario">{{cuestionario.Descripcion}}</p>
+            <!-- <button class="btn-editar-form" mat-fab color="primary">Editar</button> -->
+        </mat-card>
+    </div>
+
+    <div class="sinCuestionarios-container" *ngIf="cuestionarios.length <= 0">
+        <h4>Aun no tienes cuestionarios, crea uno.</h4>
+    </div>
+
+
+
+</div>
+
+<ng-template #noResponseYet>
+    <div class="container-spinner">
+        <mat-spinner class="spinner-element"></mat-spinner>
+    </div>
+</ng-template>

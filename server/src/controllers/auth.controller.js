@@ -23,7 +23,7 @@ module.exports.login = (req, res) => {
             //Si las contraseñas son iguales 
             if (result) {
                 let token = jwt.sign(user.dataValues, "primerparcialhugo", {
-                    expiresIn: 1440
+                    expiresIn: 60 * 60 * 24
                 });
 
                 res.json({ token: token });

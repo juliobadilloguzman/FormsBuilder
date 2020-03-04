@@ -31,12 +31,20 @@ body {
 }
 
 .full-width {
-    width: 100%;
+    width: 100% !important;
 }
 
 .snackbar-success {
     background: #4285f4;
     color: white;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
