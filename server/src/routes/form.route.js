@@ -3,9 +3,10 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 let formController = require('../controllers/form.controller');
 
-router.post('/createform', formController.create);
+router.post('/createform', formController.CreateUpdateForm);
 router.post('/getForms', formController.getFormByUserId);
 router.get('/:idCuestionario', formController.getFormById);
+router.post('/createOpenQuestion', formController.createOpenQuestion);
 
 
 //**** MIDDLEWARE para proteger las rutas ****/
