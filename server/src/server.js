@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 //Aceptar datos de formularios
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 //CORS
 app.use(cors());

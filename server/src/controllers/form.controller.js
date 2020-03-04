@@ -43,8 +43,7 @@ module.exports.getFormById = (req, res) => {
     });
 }
 
-module.exports.createOpenQuestion = (req, res) =>
-{
+module.exports.createOpenQuestion = (req, res) => {
     let idCuestionario = req.body.idCuestionario;
     let pregunta = req.body.pregunta;
 
@@ -58,14 +57,13 @@ module.exports.createOpenQuestion = (req, res) =>
 
     //Ejecutar el request
     request.execute('preguntaAbierta_C', (err, result) => {
-        
+
         //TODO: Chechar por -1
         res.json(result.recordset);
     });
 }
 
-module.exports.createMultipleQuestion = (req, res) =>
-{
+module.exports.createMultipleQuestion = (req, res) => {
     res.json(req.body);
 
     let idCuestionario = req.body.idCuestionario;
@@ -75,7 +73,7 @@ module.exports.createMultipleQuestion = (req, res) =>
     let opcion3 = req.body.opcion3;
     let opcion4 = req.body.opcion4;
     let opcion5 = req.body.opcion5;
-    
+
     //Crear el request
     let request = new sql.Request();
 
@@ -95,14 +93,13 @@ module.exports.createMultipleQuestion = (req, res) =>
 
     //Ejecutar el request
     request.execute('preguntaMultiple_C', (err, result) => {
-        
+
         //TODO: Chechar por -1        
         res.json(result.recordset);
     });
 }
 
-function CreateOpenQuestionF(idCuestionario, params)
-{
+function CreateOpenQuestionF(idCuestionario, params) {
     let pregunta = params.texto;
 
     //Crear el request
@@ -115,14 +112,13 @@ function CreateOpenQuestionF(idCuestionario, params)
 
     //Ejecutar el request
     request.execute('preguntaAbierta_C', (err, result) => {
-        
+
         //TODO: Chechar por -1
         res.json(result.recordset);
     });
 }
 
-function CreateF(idCreador, params)
-{
+function CreateF(idCreador, params) {
     //Datos a insertar
     const cuestionarioData = {
         Nombre: params.Nombre,
@@ -130,43 +126,46 @@ function CreateF(idCreador, params)
         Descripcion: params.Descripcion,
     }
 
-    Cuestionario.create(cuestionarioData)
-        .then(cuestionario => {
-            res.json(cuestionario.dataValues);
-        });
+    return new Promise((resolve, reject) => {
+        Cuestionario.create(cuestionarioData)
+            .then(cuestionario => {
+                resolve(cuestionario.dataValues);
+
+            }).catch(error => { reject('error') });
+    });
 }
 
-module.exports.CreateUpdateForm = (req, res) => 
-{
+
+module.exports.CreateUpdateForm = (req, res) => {
+
+
     jsonTest = {
         "Nombre": "MiCuestionario",
         "Descripcion": "Una descripcion",
-        "preguntasMultiples": [
-            {
-              "texto": "Dia de la semana",
-              "ocpiones": [
-                  "Lunes",
-                  "Martes",
-                  "Miercoles"
+        "preguntasMultiples": [{
+                "texto": "Dia de la semana",
+                "opciones": [
+                    "Lunes",
+                    "Martes",
+                    "Miercoles"
                 ]
             },
             {
-              "texto": "Mes del año",
-              "ocpiones": [
-                  "Enero",
-                  "Febrero",
-                  "Miercoles"
+                "texto": "Mes del año",
+                "opciones": [
+                    "Enero",
+                    "Febrero",
+                    "Miercoles"
                 ]
             }
-          ],
-        "preguntasAbiertas": [
-            {
-              "texto": "cuantos minutos son 34323 horas?"
+        ],
+        "preguntasAbiertas": [{
+                "texto": "cuantos minutos son 34323 horas?"
             },
             {
-              "texto": "perros o gatos?"
+                "texto": "perros o gatos?"
             }
-          ]
+        ]
     };
 
     //Checar si el formulario ya existe
@@ -175,10 +174,9 @@ module.exports.CreateUpdateForm = (req, res) =>
             Nombre: req.body.Nombre
         }
     }).then(cuestionario => {
-        
+
         //Si se va a actualizar el cuestionario
-        if(cuestionario)
-        {
+        if (cuestionario) {
             //Modificar las preguntas abiertas
             jsonTest.preguntasAbiertas.forEach(element => {
                 //this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
@@ -189,18 +187,20 @@ module.exports.CreateUpdateForm = (req, res) =>
                 this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
             });*/
         }
-        
+
         //Si se va a crear el cuestionario
-        else 
-        {
+        else {
             //Creación del cuestionario
-            CreateF(req.body.idCreador, jsonTest).then( (newCuestionario) => {                
-    
+            CreateF(req.body.idCreador, jsonTest).then((newCuestionario) => {
+
+                console.log('*******');
+                console.log(newCuestionario);
+
                 //Crear las preguntas abiertas
                 jsonTest.preguntasAbiertas.forEach(element => {
                     this.CreateOpenQuestionF(newCuestionario.idCuestionario, element);
                 });
-    
+
                 //Crear las preguntas múltiples
                 /*jsonTest.preguntasAbiertas.forEach(element => {
                     this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
@@ -210,5 +210,3 @@ module.exports.CreateUpdateForm = (req, res) =>
         }
     });
 }
-
-    
