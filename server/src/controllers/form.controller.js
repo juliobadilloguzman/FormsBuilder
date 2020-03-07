@@ -66,7 +66,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
     let opciones = ["", "", "", "", ""];
 
     for(let i = 0; i < params.opciones.length; i++){
-        opciones[i] = params.opciones[i];
+        opciones[i] = params.opciones[i].opcion;
     }
 
     //Crear el request
@@ -151,4 +151,58 @@ module.exports.CreateUpdateForm = (req, res) => {
         //Mandar un response de que ya terminó el proceso
         res.json("Done");
     });
+}
+
+/*
+module.exports.GetFormQuestions = (req, res) => {
+    //Checar si el formulario ya existe
+    Cuestionario.findOne({
+        where: {            
+            Nombre: req.body.idForm
+        }
+    }).then(cuestionario => {
+
+        //Checar si el cuestionario existe
+        if (cuestionario) {
+
+        }
+        else{
+            console.log("No existe el cuestionario");
+            return;
+        }
+
+            //Modificar las preguntas abiertas
+            /*req.body.preguntasAbiertas.forEach(element => {
+                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
+            });*/
+
+            //Modificar las preguntas múltiples
+            /*req.body.preguntasAbiertas.forEach(element => {
+                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
+            });*/
+        }
+
+        //Si se va a crear el cuestionario
+        else {
+            //Creación del cuestionario
+            Create(1, req.body).then((newCuestionario) => {
+
+                //Crear las preguntas abiertas
+                req.body.preguntasAbiertas.forEach(element => {
+                    if(CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
+                        console.log("Error al crear pregunta abierta");
+                });
+
+                //Crear las preguntas múltiples
+                req.body.preguntasMultiples.forEach(element => {
+                    if(CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
+                        console.log("Error al crear pregunta múltiple");
+                });
+            });
+
+        }
+    }).then(() => {
+        //Mandar un response de que ya terminó el proceso
+        res.json("Done");
+    });*/
 }
