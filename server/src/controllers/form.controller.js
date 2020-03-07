@@ -113,7 +113,6 @@ module.exports.CreateUpdateForm = (req, res) => {
             Nombre: req.body.Nombre
         }
     }).then(cuestionario => {
-
         //TODO: Si se va a actualizar el cuestionario
         if (cuestionario) {
 
@@ -172,14 +171,14 @@ module.exports.GetFormQuestions = (req, res) => {
         }
 
             //Modificar las preguntas abiertas
-            /*req.body.preguntasAbiertas.forEach(element => {
+            req.body.preguntasAbiertas.forEach(element => {
                 this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });*/
+            });
 
             //Modificar las preguntas múltiples
-            /*req.body.preguntasAbiertas.forEach(element => {
+            req.body.preguntasAbiertas.forEach(element => {
                 this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });*/
+            });
         }
 
         //Si se va a crear el cuestionario
@@ -204,5 +203,5 @@ module.exports.GetFormQuestions = (req, res) => {
     }).then(() => {
         //Mandar un response de que ya terminó el proceso
         res.json("Done");
-    });*/
-}
+    });
+}*/
