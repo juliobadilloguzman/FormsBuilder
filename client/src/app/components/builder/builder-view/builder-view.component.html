@@ -28,8 +28,8 @@
         </div>
 
         <div class="container-buttons-add">
-            <button class="btn-agregarAbierta" (click)="agregarPreguntaAbierta()">Agregar Pregunta Abierta</button>
-            <button class="btn-agregarMultiple" color="accent" (click)="addNewPreguntaMultiple()">Agregar Pregunta Multiple</button>
+            <button type="button" class="btn-agregarAbierta" (click)="agregarPreguntaAbierta()">Agregar Pregunta Abierta</button>
+            <button type="button" class="btn-agregarMultiple" color="accent" (click)="addNewPreguntaMultiple()">Agregar Pregunta Multiple</button>
         </div>
 
 
@@ -37,7 +37,7 @@
 
             <div [formGroupName]="i" class="container-contenido-abierta">
                 <div class="button-delete-abierta">
-                    <button mat-flat-button color="warn" (click)="deletePreguntaAbierta(i)">Eliminar</button>
+                    <button type="button" mat-flat-button color="warn" (click)="deletePreguntaAbierta(i)">Eliminar</button>
                 </div>
 
                 <mat-form-field class="example-full-width">
@@ -52,14 +52,14 @@
             <div [formGroupName]="i" class="container-contenido-multiple">
 
                 <div class="button-delete-multiple">
-                    <button mat-flat-button color="warn" (click)="deletePreguntaMultiple(i)">Eliminar</button>
+                    <button type="button" mat-flat-button color="warn" (click)="deletePreguntaMultiple(i)">Eliminar</button>
                 </div>
 
                 <div>
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Titulo de la pregunta" formControlName="texto">
                     </mat-form-field>
-                    <button class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
+                    <button type="button" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
                 </div>
 
 
@@ -75,7 +75,7 @@
 
                         <mat-form-field class="example-full-width">
                             <input matInput placeholder="Opcion" formControlName="opcion">
-                        </mat-form-field><button class="btn-eliminar-opcion" mat-stroked-button color="warn" (click)="deleteOpcion(pregunta.controls.opciones, j)">Eliminar opcion</button>
+                        </mat-form-field><button type="button" class="btn-eliminar-opcion" mat-stroked-button color="warn" (click)="deleteOpcion(pregunta.controls.opciones, j)">Eliminar opcion</button>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
 
 
 
-        <button class="btn btn-crearFormulario">Crear</button>
+        <button type="submit" class="btn btn-crearFormulario">Crear</button>
     </form>
 
 </div>
