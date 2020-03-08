@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 
@@ -29,6 +30,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   imports: [
     CommonModule,
     LayoutModule,
+    MatRadioModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -65,6 +67,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatExpansionModule,
     MatTableModule,
     MatMenuModule,
+    MatRadioModule,
     MatPaginatorModule,
     MatSelectModule,
     MatDialogModule,
