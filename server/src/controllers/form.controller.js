@@ -26,10 +26,10 @@ module.exports.getFormByUserId = (req, res) => {
             fk_idUsuarioCreador: req.body.idCreador
         }
     }).then(cuestionario => {
-        
-        if(!cuestionario)
+
+        if (!cuestionario)
             console.log("No hay ningun cuestionario creado por el idCreador ".concat(idCreador));
-        
+
         res.json(cuestionario);
     })
 }
@@ -56,7 +56,7 @@ function CreateOpenQuestion(idCuestionario, params) {
 
     //Ejecutar el request
     request.execute('preguntaAbierta_C', (err, result) => {
-        return result;//res.json(result.recordset);
+        return result; //res.json(result.recordset);
     });
 }
 
@@ -65,7 +65,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
 
     let opciones = ["", "", "", "", ""];
 
-    for(let i = 0; i < params.opciones.length; i++){
+    for (let i = 0; i < params.opciones.length; i++) {
         opciones[i] = params.opciones[i].opcion;
     }
 
@@ -81,7 +81,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
     request.input('p_opcion3_texto', sql.VarChar(100), opciones[2]);
     request.input('p_opcion4_texto', sql.VarChar(100), opciones[3]);
     request.input('p_opcion5_texto', sql.VarChar(100), opciones[4]);
-    
+
     //Ejecutar el request
     request.execute('preguntaMultiple_C', (err, result) => {
         return result;
@@ -113,6 +113,7 @@ module.exports.CreateUpdateForm = (req, res) => {
             Nombre: req.body.Nombre
         }
     }).then(cuestionario => {
+
         //TODO: Si se va a actualizar el cuestionario
         if (cuestionario) {
 
@@ -129,18 +130,20 @@ module.exports.CreateUpdateForm = (req, res) => {
 
         //Si se va a crear el cuestionario
         else {
+
+            console.log(req.body);
             //Creación del cuestionario
-            Create(1, req.body).then((newCuestionario) => {
+            Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
 
                 //Crear las preguntas abiertas
                 req.body.preguntasAbiertas.forEach(element => {
-                    if(CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
+                    if (CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
                         console.log("Error al crear pregunta abierta");
                 });
 
                 //Crear las preguntas múltiples
                 req.body.preguntasMultiples.forEach(element => {
-                    if(CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
+                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
                         console.log("Error al crear pregunta múltiple");
                 });
             });

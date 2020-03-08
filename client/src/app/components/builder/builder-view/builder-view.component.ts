@@ -3,6 +3,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { FormsService } from "src/app/services/forms.service";
 import { Router } from "@angular/router";
 import { FormBuilder, FormArray, Validators, FormGroup } from "@angular/forms";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: "app-builder-view",
@@ -18,12 +19,14 @@ export class BuilderViewComponent implements OnInit {
     private _formsService: FormsService,
     private _authService: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar
   ) {}
 
   formulario = this.fb.group({
     Nombre: ["", Validators.required],
     Descripcion: ["", Validators.required],
+    idUsuarioCreador: [localStorage.getItem('idUsuario')],
     preguntasAbiertas: this.fb.array([this.createAbierta()]),
     preguntasMultiples: this.fb.array([])
   });
@@ -35,10 +38,6 @@ export class BuilderViewComponent implements OnInit {
 
   logOut() {
     this._authService.logOut();
-  }
-
-  crearFormulario() {
-    console.log(this.formulario.value);
   }
 
   get Nombre() {
@@ -104,6 +103,29 @@ export class BuilderViewComponent implements OnInit {
 
   deleteOpcion(control, index) {
     control.removeAt(index);
+  }
+
+  /////ENVIAR FORMULARIO
+  crearFormulario() {
+    this._formsService.createForm(this.formulario.value).subscribe(
+      res=>{
+        this._snackBar.open(`Formulario creado correctamente`, "", {
+          duration: 2000,
+          panelClass: "snackbar-success-green",
+          verticalPosition: "top",
+          horizontalPosition: "right"
+        });
+      },
+      error => {
+        this._snackBar.open(`Error al crear el formulario`, "", {
+          duration: 2000,
+          panelClass: "snackbar-error",
+          verticalPosition: "top",
+          horizontalPosition: "right"
+        });
+      }
+      
+      );
   }
 
 }

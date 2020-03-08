@@ -13,12 +13,17 @@ export class FormsService {
   //Servidor
   API_URI = 'http://localhost:3000/form';
 
+
   constructor(private http: HttpClient, private router: Router) { }
 
   getFormsByUserId(idCreador: string | number){
     return this.http.post<Cuestionario[]>(`${this.API_URI}/getForms`, {idCreador: idCreador});
   }
 
-  
+  createForm(formulario): Observable<any>{
+    console.warn('He creado el formulario');
+    console.log(formulario);
+    return this.http.post(`${this.API_URI}/createform`, formulario);
+  }
 
 }
