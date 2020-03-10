@@ -22,6 +22,7 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.getFormByUserId = (req, res) => {
+    
     Cuestionario.findAll({
         where: {
             fk_idUsuarioCreador: req.body.idCreador
@@ -36,6 +37,7 @@ module.exports.getFormByUserId = (req, res) => {
 }
 
 module.exports.getFormById = (req, res) => {
+
     Cuestionario.findOne({
         where: {
             idCuestionario: req.params.idCuestionario
@@ -46,6 +48,7 @@ module.exports.getFormById = (req, res) => {
 }
 
 function CreateOpenQuestion(idCuestionario, params) {
+
     let pregunta = params.texto;
 
     //Crear el request
@@ -62,8 +65,8 @@ function CreateOpenQuestion(idCuestionario, params) {
 }
 
 function CreateMultipleQuestion(idCuestionario, params) {
-    let pregunta = params.texto;
 
+    let pregunta = params.texto;
     let opciones = ["", "", "", "", ""];
 
     for (let i = 0; i < params.opciones.length; i++) {
@@ -73,7 +76,6 @@ function CreateMultipleQuestion(idCuestionario, params) {
     //Crear el request
     let request = new sql.Request();
 
-    //Declarar parametros de entrada y salida
     //Declarar parametros de entrada y salida
     request.input('p_idCuestionario', sql.Int, idCuestionario);
     request.input('p_textoPregunta', sql.VarChar(500), pregunta);
@@ -98,10 +100,10 @@ function Create(idCreador, params) {
     }
 
     return new Promise((resolve, reject) => {
+        //Crear el cuestionario
         Cuestionario.create(cuestionarioData)
             .then(cuestionario => {
                 resolve(cuestionario.dataValues);
-
             }).catch(error => { reject('errorddd') });
     });
 }
@@ -130,6 +132,7 @@ function GetMultipleQuestions(idCuestionario) {
 
         setTimeout(() => resolve(preguntasMultiplesObj), 1000);
 
+        //Buscar todas las preguntas del cuestionario
         CuestionarioPreguntaMult.findAll({
             where: {
                 fk_idCuestionario: idCuestionario
@@ -140,19 +143,22 @@ function GetMultipleQuestions(idCuestionario) {
 
                 let pregMult = {};
                 let element = CuestionarioPreguntaMult[index];
-                // CONSEGUIR TEXTO
+
+                //Conseguir el texto de la pregunta
                 request = new sql.Request();
                 request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
                 request.execute('textoPreguntaMult_R', (err, result) => {
                     pregMult["texto"] = result.recordset[0].Pregunta;
                 });
-                // CONSEGUIR OPCIONES
+
+                //Conseguir las opciones
                 request2 = new sql.Request();
                 request2.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
                 request2.execute('OpcionesPreguntaMult_R', (err, result2) => {
                     pregMult["opciones"] = result2.recordset; 
                 });
-                // AGREGAR REGISTRO A ARREGLO
+
+                //Agregar el registro al arreglo
                 preguntasMultiplesObj.push(pregMult);
             }
         })
@@ -168,24 +174,13 @@ module.exports.CreateUpdateForm = (req, res) => {
         }
     }).then(cuestionario => {
 
-        //TODO: Si se va a actualizar el cuestionario
+        //Si se va a actualizar el cuestionario
         if (cuestionario) {
-
-            //Modificar las preguntas abiertas
-            /*req.body.preguntasAbiertas.forEach(element => {
-                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });*/
-
-            //Modificar las preguntas múltiples
-            /*req.body.preguntasAbiertas.forEach(element => {
-                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });*/
+            //TODO: Actualizar cuestionario
         }
 
         //Si se va a crear el cuestionario
         else {
-
-            console.log(req.body);
             //Creación del cuestionario
             Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
 
@@ -201,7 +196,6 @@ module.exports.CreateUpdateForm = (req, res) => {
                         console.log("Error al crear pregunta múltiple");
                 });
             });
-
         }
     }).then(() => {
         //Mandar un response de que ya terminó el proceso
@@ -238,7 +232,6 @@ module.exports.GetFormQuestions = (req, res) => {
                     res.json(cuestionarioJson);
                 });
             });
-            
         }
         else {
             console.log("No existe el cuestionario");
