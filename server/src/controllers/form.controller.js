@@ -3,6 +3,7 @@ const sql = require('mssql');
 const express = require('express');
 const db = require('../database/database');
 const Cuestionario = require('../models/Cuestionario');
+const CuestionarioPreguntaMult = require('../models/CuestionarioPreguntasMult');
 const bycrypt = require('bcryptjs');
 
 module.exports.create = (req, res) => {
@@ -26,10 +27,10 @@ module.exports.getFormByUserId = (req, res) => {
             fk_idUsuarioCreador: req.body.idCreador
         }
     }).then(cuestionario => {
-        
-        if(!cuestionario)
+
+        if (!cuestionario)
             console.log("No hay ningun cuestionario creado por el idCreador ".concat(idCreador));
-        
+
         res.json(cuestionario);
     })
 }
@@ -65,7 +66,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
 
     let opciones = ["", "", "", "", ""];
 
-    for(let i = 0; i < params.opciones.length; i++){
+    for (let i = 0; i < params.opciones.length; i++) {
         opciones[i] = params.opciones[i].opcion;
     }
 
@@ -81,7 +82,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
     request.input('p_opcion3_texto', sql.VarChar(100), opciones[2]);
     request.input('p_opcion4_texto', sql.VarChar(100), opciones[3]);
     request.input('p_opcion5_texto', sql.VarChar(100), opciones[4]);
-    
+
     //Ejecutar el request
     request.execute('preguntaMultiple_C', (err, result) => {
         return result;
@@ -103,6 +104,82 @@ function Create(idCreador, params) {
 
             }).catch(error => { reject('errorddd') });
     });
+}
+
+function GetOpenQuestions(idCuestionario) {
+    //Crear el request
+    let request = new sql.Request();
+
+    //Declarar parametros de entrada y salida
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+
+    //Ejecutar el request
+    return new Promise((resolve, reject) => {
+
+        request.execute('preguntaAbierta_R', (err, result) => {
+
+            resolve(result);//res.json(result.recordset);
+        });
+    });
+}
+
+function GetMultipleQuestions(idCuestionario) {
+
+    let request = new sql.Request();
+    let preguntasMultiplesObj = [];
+
+    return new Promise((resolve, reject) => {
+
+        CuestionarioPreguntaMult.findAll({
+            where: {
+                fk_idCuestionario: idCuestionario
+            }
+        }).then(CuestionarioPreguntaMult => {
+
+                for (index in CuestionarioPreguntaMult) {
+
+                    let pregMult = {};
+                    let element = CuestionarioPreguntaMult[index];
+
+                    request = new sql.Request();
+                    request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
+                    request.execute('textoPreguntaMult_R', (err, result) => {
+                        pregMult["texto"] = result.recordset[0].Pregunta;
+                    });
+
+                    request = new sql.Request();
+                    request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
+                    request.execute('OpcionesPreguntaMult_R', (err, result) => {
+                        pregMult["opciones"] = result.recordset;                        
+                    });
+                    
+                    preguntasMultiplesObj.push(pregMult);
+                }
+
+            console.log(preguntasMultiplesObj);
+
+        }).then(() => {
+            //Mandar un response de que ya terminó el proceso
+
+            resolve(preguntasMultiplesObj);
+        });
+    });
+
+
+    /*//Crear el request
+    let request = new sql.Request();
+
+    //Declarar parametros de entrada y salida
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+
+    //Ejecutar el request
+    return new Promise((resolve, reject) => {
+
+        request.execute('preguntaMultiple_R', (err, result) => {
+
+            resolve(result);//res.json(result.recordset);
+        });
+    });*/
 }
 
 
@@ -134,13 +211,13 @@ module.exports.CreateUpdateForm = (req, res) => {
 
                 //Crear las preguntas abiertas
                 req.body.preguntasAbiertas.forEach(element => {
-                    if(CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
+                    if (CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
                         console.log("Error al crear pregunta abierta");
                 });
 
                 //Crear las preguntas múltiples
                 req.body.preguntasMultiples.forEach(element => {
-                    if(CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
+                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
                         console.log("Error al crear pregunta múltiple");
                 });
             });
@@ -152,56 +229,30 @@ module.exports.CreateUpdateForm = (req, res) => {
     });
 }
 
-/*
+
 module.exports.GetFormQuestions = (req, res) => {
+
     //Checar si el formulario ya existe
     Cuestionario.findOne({
-        where: {            
-            Nombre: req.body.idForm
+        where: {
+            idCuestionario: req.params.idForm
         }
     }).then(cuestionario => {
-
         //Checar si el cuestionario existe
         if (cuestionario) {
-
+            /*GetOpenQuestions(cuestionario.idCuestionario).then((preguntasAbiertas) => {
+                res.json(preguntasAbiertas);
+            });*/
+            GetMultipleQuestions(cuestionario.idCuestionario).then((preguntasMultiples) => {
+                res.json(preguntasMultiples);
+            });
         }
-        else{
+        else {
             console.log("No existe el cuestionario");
             return;
         }
-
-            //Modificar las preguntas abiertas
-            req.body.preguntasAbiertas.forEach(element => {
-                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });
-
-            //Modificar las preguntas múltiples
-            req.body.preguntasAbiertas.forEach(element => {
-                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });
-        }
-
-        //Si se va a crear el cuestionario
-        else {
-            //Creación del cuestionario
-            Create(1, req.body).then((newCuestionario) => {
-
-                //Crear las preguntas abiertas
-                req.body.preguntasAbiertas.forEach(element => {
-                    if(CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
-                        console.log("Error al crear pregunta abierta");
-                });
-
-                //Crear las preguntas múltiples
-                req.body.preguntasMultiples.forEach(element => {
-                    if(CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
-                        console.log("Error al crear pregunta múltiple");
-                });
-            });
-
-        }
     }).then(() => {
         //Mandar un response de que ya terminó el proceso
-        res.json("Done");
+        //res.json("Done");        
     });
-}*/
+}

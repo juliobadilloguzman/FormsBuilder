@@ -11,7 +11,7 @@ const CuestionarioPreguntasMult = sequelize.define('CuestionarioPreguntasMult', 
     fk_idCuestionario: {
         type: Sequelize.INTEGER
     },
-    fk_idPreguntaMultiple: {
+    fk_PreguntaMultiple: {
         type: Sequelize.INTEGER
     },
 
