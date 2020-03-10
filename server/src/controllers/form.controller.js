@@ -130,56 +130,35 @@ function GetMultipleQuestions(idCuestionario) {
 
     return new Promise((resolve, reject) => {
 
+        setTimeout(() => resolve(preguntasMultiplesObj), 1000);
+
         CuestionarioPreguntaMult.findAll({
             where: {
                 fk_idCuestionario: idCuestionario
             }
         }).then(CuestionarioPreguntaMult => {
 
-                for (index in CuestionarioPreguntaMult) {
+            for (index in CuestionarioPreguntaMult) {
 
-                    let pregMult = {};
-                    let element = CuestionarioPreguntaMult[index];
-
-                    request = new sql.Request();
-                    request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
-                    request.execute('textoPreguntaMult_R', (err, result) => {
-                        pregMult["texto"] = result.recordset[0].Pregunta;
-                    });
-
-                    request = new sql.Request();
-                    request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
-                    request.execute('OpcionesPreguntaMult_R', (err, result) => {
-                        pregMult["opciones"] = result.recordset;                        
-                    });
-                    
-                    preguntasMultiplesObj.push(pregMult);
-                }
-
-            console.log(preguntasMultiplesObj);
-
-        }).then(() => {
-            //Mandar un response de que ya terminó el proceso
-
-            resolve(preguntasMultiplesObj);
-        });
+                let pregMult = {};
+                let element = CuestionarioPreguntaMult[index];
+                // CONSEGUIR TEXTO
+                request = new sql.Request();
+                request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
+                request.execute('textoPreguntaMult_R', (err, result) => {
+                    pregMult["texto"] = result.recordset[0].Pregunta;
+                });
+                // CONSEGUIR OPCIONES
+                request2 = new sql.Request();
+                request2.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
+                request2.execute('OpcionesPreguntaMult_R', (err, result2) => {
+                    pregMult["opciones"] = result2.recordset; 
+                });
+                // AGREGAR REGISTRO A ARREGLO
+                preguntasMultiplesObj.push(pregMult);
+            }
+        })
     });
-
-
-    /*//Crear el request
-    let request = new sql.Request();
-
-    //Declarar parametros de entrada y salida
-    request.input('p_idCuestionario', sql.Int, idCuestionario);
-
-    //Ejecutar el request
-    return new Promise((resolve, reject) => {
-
-        request.execute('preguntaMultiple_R', (err, result) => {
-
-            resolve(result);//res.json(result.recordset);
-        });
-    });*/
 }
 
 
