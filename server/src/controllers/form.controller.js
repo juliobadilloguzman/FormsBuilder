@@ -57,7 +57,7 @@ function CreateOpenQuestion(idCuestionario, params) {
 
     //Ejecutar el request
     request.execute('preguntaAbierta_C', (err, result) => {
-        return result;//res.json(result.recordset);
+        return result; //res.json(result.recordset);
     });
 }
 
@@ -167,6 +167,7 @@ module.exports.CreateUpdateForm = (req, res) => {
             Nombre: req.body.Nombre
         }
     }).then(cuestionario => {
+
         //TODO: Si se va a actualizar el cuestionario
         if (cuestionario) {
 
@@ -183,8 +184,10 @@ module.exports.CreateUpdateForm = (req, res) => {
 
         //Si se va a crear el cuestionario
         else {
+
+            console.log(req.body);
             //Creación del cuestionario
-            Create(1, req.body).then((newCuestionario) => {
+            Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
 
                 //Crear las preguntas abiertas
                 req.body.preguntasAbiertas.forEach(element => {

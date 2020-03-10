@@ -1,0 +1,29 @@
+{
+    "Nombre": "MiCuestionario",
+    "Descripcion": "Una descripcion",
+    "idUsuarioCreador": 15,
+    "preguntasMultiples": [{
+            "texto": "Dia de la semana",
+            "opciones": [
+                { "opcion": "Lunes" },
+                { "opcion": "Miercoles" },
+                { "opcion": "Martes" }
+            ]
+        },
+        {
+            "texto": "Mes del año",
+            "opciones": [
+                { "opcion": "Enero" },
+                { "opcion": "Febrero" },
+                { "opcion": "Marxo" }
+            ]
+        }
+    ],
+    "preguntasAbiertas": [{
+            "texto": "cuantos minutos son 34323 horas?"
+        },
+        {
+            "texto": "perros o gatos?"
+        }
+    ]
+}
