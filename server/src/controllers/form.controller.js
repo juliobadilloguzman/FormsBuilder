@@ -115,10 +115,8 @@ function GetOpenQuestions(idCuestionario) {
 
     //Ejecutar el request
     return new Promise((resolve, reject) => {
-
         request.execute('preguntaAbierta_R', (err, result) => {
-
-            resolve(result);//res.json(result.recordset);
+            resolve(result.recordset);
         });
     });
 }
@@ -211,6 +209,8 @@ module.exports.CreateUpdateForm = (req, res) => {
 
 module.exports.GetFormQuestions = (req, res) => {
 
+    cuestionarioJson = {};
+
     //Checar si el formulario ya existe
     Cuestionario.findOne({
         where: {
@@ -219,19 +219,27 @@ module.exports.GetFormQuestions = (req, res) => {
     }).then(cuestionario => {
         //Checar si el cuestionario existe
         if (cuestionario) {
-            /*GetOpenQuestions(cuestionario.idCuestionario).then((preguntasAbiertas) => {
-                res.json(preguntasAbiertas);
-            });*/
+
+            cuestionarioJson["Nombre"] = cuestionario.Nombre;
+            cuestionarioJson["Descripcion"] = cuestionario.Descripcion;
+
             GetMultipleQuestions(cuestionario.idCuestionario).then((preguntasMultiples) => {
-                res.json(preguntasMultiples);
+                cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
+                console.log("hola");
+                //res.json(preguntasMultiples);
+            }).then(()=>{                
+                GetOpenQuestions(cuestionario.idCuestionario).then((preguntasAbiertas) => {
+                    cuestionarioJson["preguntasAbiertas"] = preguntasAbiertas;
+                    //res.json(preguntasAbiertas);
+                    console.log("holax2");
+                    res.json(cuestionarioJson);
+                });
             });
+            
         }
         else {
             console.log("No existe el cuestionario");
             return;
         }
-    }).then(() => {
-        //Mandar un response de que ya terminó el proceso
-        //res.json("Done");        
     });
 }
