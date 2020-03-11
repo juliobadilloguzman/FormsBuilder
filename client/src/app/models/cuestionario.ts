@@ -1,6 +1,7 @@
 export interface Cuestionario {
-    idCuestionario: number,
+    idCuestionario?: number,
     Nombre: string,
     Descripcion: string,
-    fk_idUsuarioCreador: number
+    preguntasMultiples: [],
+    preguntasAbiertas: []
 }

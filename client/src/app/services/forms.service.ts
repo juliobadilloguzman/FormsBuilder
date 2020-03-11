@@ -26,4 +26,9 @@ export class FormsService {
     return this.http.post(`${this.API_URI}/createform`, formulario);
   }
 
+  getFormById(id: number | string):Observable<any>{
+    console.warn('Obtieniendo cuestionario...');
+    return this.http.get(`${this.API_URI}/${id}`);
+  }
+
 }

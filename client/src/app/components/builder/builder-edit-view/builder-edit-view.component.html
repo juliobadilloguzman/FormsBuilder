@@ -1,0 +1,89 @@
+<div class="container">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+
+            <span class="spacer"></span>
+            <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
+            <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <form class="form" [formGroup]="formulario" (ngSubmit)="editarFormulario()">
+        <div class="container-titulo">
+            <mat-form-field class="full-width">
+                <mat-label class="titulo-text">Título de la encuesta</mat-label>
+                <input class="input-titulo" matInput placeholder="Ejemplo: Gustos Musicales" formControlName="Nombre">
+                <mat-error *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.invalid && Nombre.errors.required">
+                    El titulo de la encuesta es requerido
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Descripcion de la encuesta</mat-label>
+                <input matInput placeholder="Ejemplo: Mi encuesta de música" formControlName="Descripcion">
+                <mat-error *ngIf="(Descripcion.dirty || Descripcion.touched) && Descripcion.invalid && Descripcion.errors.required">
+                    La descripcion de la encuesta es requerido
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="container-buttons-add">
+            <button type="button" class="btn-agregarAbierta" (click)="agregarPreguntaAbierta()">Agregar Pregunta Abierta</button>
+            <button type="button" class="btn-agregarMultiple" color="accent" (click)="addNewPreguntaMultiple()">Agregar Pregunta Multiple</button>
+        </div>
+
+
+        <div class="container-preguntaAbierta-individual" formArrayName="preguntasAbiertas" *ngFor="let pregunta of preguntasAbiertas.controls; let i = index;">
+
+            <div [formGroupName]="i" class="container-contenido-abierta">
+                <div class="button-delete-abierta">
+                    <button type="button" mat-flat-button color="warn" (click)="deletePreguntaAbierta(i)">Eliminar</button>
+                </div>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Titulo de la pregunta</mat-label>
+                    <input matInput placeholder="Titulo de la pregunta" formControlName="texto">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="container-preguntaMultiple-individual" formArrayName="preguntasMultiples" *ngFor="let pregunta of preguntasMultiples.controls; let i = index;">
+
+            <div [formGroupName]="i" class="container-contenido-multiple">
+
+                <div class="button-delete-multiple">
+                    <button type="button" mat-flat-button color="warn" (click)="deletePreguntaMultiple(i)">Eliminar</button>
+                </div>
+
+                <div>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Titulo de la pregunta" formControlName="texto">
+                    </mat-form-field>
+                    <button type="button" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
+                </div>
+
+
+
+                <div formArrayName="opciones" *ngFor="let opcion of pregunta.get('opciones').controls;let j=index">
+                    <!-- <div [formGroupName]="j">
+                            <input type="radio" disabled><input type="text" formControlName="opcion"><button (click)="deleteOpcion(pregunta.controls.opciones, j)">Eliminar opcion</button>
+                        </div> -->
+                    <div [formGroupName]="j">
+
+                        <mat-radio-button disabled>
+                        </mat-radio-button>
+
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Opcion" formControlName="opcion">
+                        </mat-form-field><button type="button" class="btn-eliminar-opcion" mat-stroked-button color="warn" (click)="deleteOpcion(pregunta.controls.opciones, j)">Eliminar opcion</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <button type="submit" class="btn btn-crearFormulario">Crear</button>
+    </form>
+
+</div>
