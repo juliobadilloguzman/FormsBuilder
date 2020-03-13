@@ -246,3 +246,16 @@ module.exports.GetFormQuestions = (req, res) => {
         }
     });
 }
+
+
+module.exports.VerifyOwner = (req, res) => {
+    request = new sql.Request();
+    request.input('@p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.input('@p_idUsuario', sql.Int, req.body.idUsuario);
+    request.query(`SELECT dbo.isOwner(${req.body.idCuestionario}, ${req.body.idUsuario})`, (err, result) => {
+        if(err)
+            res.json(err);
+        res.json(result.recordset[0][""]);
+    });
+}
+

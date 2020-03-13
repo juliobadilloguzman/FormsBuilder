@@ -7,6 +7,7 @@ router.post('/createform', formController.CreateUpdateForm);
 router.post('/getForms', formController.getFormByUserId);
 //router.get('/:idCuestionario', formController.getFormById);
 router.get('/:idForm', formController.GetFormQuestions);
+router.post('/verifyOwner', formController.VerifyOwner);
 
 //**** MIDDLEWARE para proteger las rutas ****/
 // router.use((req, res, next) => {
