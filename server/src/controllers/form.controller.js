@@ -259,3 +259,12 @@ module.exports.VerifyOwner = (req, res) => {
     });
 }
 
+module.exports.ShowAnswers = (req, res) => {
+    request = new sql.Request();
+    request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.execute(`LlenadoCuestionario_RA`, (err, result) => {
+        if(err)
+            res.json(err);
+        res.json(result.recordset);
+    });
+}
