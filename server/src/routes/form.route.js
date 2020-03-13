@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 let formController = require('../controllers/form.controller');
 
 router.post('/createform', formController.CreateUpdateForm);
+router.get('/:idForm', formController.GetFormQuestions);    
 router.post('/getForms', formController.getFormByUserId);
-//router.get('/:idCuestionario', formController.getFormById);
-router.get('/:idForm', formController.GetFormQuestions);
+router.post('/fillForm', formController.FillForm);
 
 //**** MIDDLEWARE para proteger las rutas ****/
 // router.use((req, res, next) => {

@@ -4,25 +4,12 @@ const express = require('express');
 const db = require('../database/database');
 const Cuestionario = require('../models/Cuestionario');
 const CuestionarioPreguntaMult = require('../models/CuestionarioPreguntasMult');
+const LlenadoPreguntaAbierta = require('../models/LlenadoPreguntaAbierta');
+const LlenadoCuestionario = require('../models/LlenadoCuestionario');
 const bycrypt = require('bcryptjs');
 
-module.exports.create = (req, res) => {
-
-    //Datos a insertar
-    const cuestionarioData = {
-        Nombre: req.body.Nombre,
-        fk_idUsuarioCreador: req.body.idCreador,
-        Descripcion: req.body.Descripcion,
-    }
-
-    Cuestionario.create(cuestionarioData)
-        .then(cuestionario => {
-            res.json(cuestionario.dataValues);
-        });
-}
-
 module.exports.getFormByUserId = (req, res) => {
-    
+
     Cuestionario.findAll({
         where: {
             fk_idUsuarioCreador: req.body.idCreador
@@ -34,17 +21,6 @@ module.exports.getFormByUserId = (req, res) => {
 
         res.json(cuestionario);
     })
-}
-
-module.exports.getFormById = (req, res) => {
-
-    Cuestionario.findOne({
-        where: {
-            idCuestionario: req.params.idCuestionario
-        }
-    }).then(cuestionario => {
-        res.json(cuestionario.dataValues);
-    });
 }
 
 function CreateOpenQuestion(idCuestionario, params) {
@@ -104,7 +80,26 @@ function Create(idCreador, params) {
         Cuestionario.create(cuestionarioData)
             .then(cuestionario => {
                 resolve(cuestionario.dataValues);
-            }).catch(error => { reject('errorddd') });
+            }).catch(error => { reject('error') });
+    });
+}
+
+function CreateFill(idCreador, idCuestionario) {
+    let currentDate = new Date();
+
+    //Datos a insertar
+    const fillData = {
+        fk_idUsuario: idCreador,
+        fk_idCuestionario: idCuestionario,
+        Fecha: currentDate
+    }
+
+    return new Promise((resolve, reject) => {
+        //Create el filler
+        LlenadoCuestionario.create(fillData)
+            .then(llenado => {
+                resolve(llenado.dataValues);
+            });
     });
 }
 
@@ -155,7 +150,7 @@ function GetMultipleQuestions(idCuestionario) {
                 request2 = new sql.Request();
                 request2.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
                 request2.execute('OpcionesPreguntaMult_R', (err, result2) => {
-                    pregMult["opciones"] = result2.recordset; 
+                    pregMult["opciones"] = result2.recordset;
                 });
 
                 //Agregar el registro al arreglo
@@ -165,6 +160,21 @@ function GetMultipleQuestions(idCuestionario) {
     });
 }
 
+function GetFormOpenQuestion(idCuestionario, pregunta) {
+    //Crear el request
+    let request = new sql.Request();
+
+    //Declarar parametros de entrada y salida
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+    request.input('p_pregunta', sql.VarChar, pregunta);
+
+    //Ejecutar el request
+    return new Promise((resolve, reject) => {
+        request.execute('getCuestionarioPregunta', (err, result) => {
+            resolve(result.recordset[0]);
+        });
+    });
+}
 
 module.exports.CreateUpdateForm = (req, res) => {
     //Checar si el formulario ya existe
@@ -203,7 +213,6 @@ module.exports.CreateUpdateForm = (req, res) => {
     });
 }
 
-
 module.exports.GetFormQuestions = (req, res) => {
 
     cuestionarioJson = {};
@@ -222,13 +231,9 @@ module.exports.GetFormQuestions = (req, res) => {
 
             GetMultipleQuestions(cuestionario.idCuestionario).then((preguntasMultiples) => {
                 cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
-                console.log("hola");
-                //res.json(preguntasMultiples);
-            }).then(()=>{                
+            }).then(() => {
                 GetOpenQuestions(cuestionario.idCuestionario).then((preguntasAbiertas) => {
                     cuestionarioJson["preguntasAbiertas"] = preguntasAbiertas;
-                    //res.json(preguntasAbiertas);
-                    console.log("holax2");
                     res.json(cuestionarioJson);
                 });
             });
@@ -238,4 +243,58 @@ module.exports.GetFormQuestions = (req, res) => {
             return;
         }
     });
+}
+
+module.exports.FillForm = (req, res) => {
+
+    /*//Checar si el formulario ya existe
+    Cuestionario.findOne({
+        where: {
+            idCuestionario: req.params.idForm
+        }
+    }).then(cuestionario => {*/
+
+
+    /*let idCuestionario = req.body.idCuestionario;        
+    let idUsuario = req.body.idUsuarioLlenador;*/
+
+    let idUsuario = 14;
+    let idCuestionario = 29;
+    let pregunta = "gatos o perros?";
+
+    let currentDate = new Date();
+
+    //Datos a insertar en tabla LlenadoCuestionario
+    const fillData = {
+        fk_idUsuario: idUsuario,
+        fk_idCuestionario: idCuestionario,
+        Fecha: currentDate
+    }
+
+    //Crear llenado
+    LlenadoCuestionario.create(fillData)
+        .then(llenado => {
+
+            //Guardar preguntas múltiples
+
+
+            //Guardar preguntas abiertas
+
+
+            //Obtener la pregunta por medio de un procedimiento (dado un cuestionario y el texto de una pregunta)
+            GetFormOpenQuestion(idCuestionario, pregunta).then((formOpenQuestion) => {
+
+                const llenadoData = {
+                    fk_idLlenado: llenado.dataValues.idLlenado,
+                    fk_idCuestionarioPreguntaAbierta: formOpenQuestion.idCuestionarioPreguntaAbierta,
+                    Respuesta: "AMBOS"
+                }
+
+                LlenadoPreguntaAbierta.create(llenadoData)
+                    .then(llenadoPreguntaAbierta => {
+                        res.json(llenadoPreguntaAbierta.dataValues);
+                    }).catch(error => { res.json(error) });
+                
+            });
+        });
 }
