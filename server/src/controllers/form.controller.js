@@ -161,7 +161,7 @@ function GetMultipleQuestions(idCuestionario) {
     });
 }
 
-function GetFormOpenQuestion(idCuestionario, pregunta) {
+async function GetFormOpenQuestion(idCuestionario, pregunta) {
     //Crear el request
     let request = new sql.Request();
 
@@ -263,11 +263,35 @@ module.exports.GetFormQuestions = (req, res) => {
     });
 }
 
+async function fillOpenQuestions(array, idCuestionario, idLlenado) {
+    for (const item of array) {
+
+        //Obtener el texto de la pregunta y respuesta abierta
+        pregunta = item.texto;
+        respuesta = item.respuesta;
+
+        //Obtener la pregunta abierta por medio de un procedimiento (dado un cuestionario y el texto de la pregunta)
+        await GetFormOpenQuestion(idCuestionario, pregunta).then((formOpenQuestion) => {
+            const llenadoData = {
+                fk_idLlenado: idLlenado,
+                fk_idCuestionarioPreguntaAbierta: formOpenQuestion.idCuestionarioPreguntaAbierta,
+                Respuesta: respuesta
+            }
+
+            LlenadoPreguntaAbierta.create(llenadoData)
+                .then(llenadoPreguntaAbierta => {
+                    console.log(llenadoPreguntaAbierta.dataValues);
+                }).catch(error => { res.json(error) });
+        });
+    }
+    console.log('Done!');
+}
+
 module.exports.FillForm = (req, res) => {
 
     let idUsuario = req.body.idUsuario;
     let idCuestionario = req.body.idCuestionario;
-    
+
     //Crear el request de llenado
     let request = new sql.Request();
 
@@ -280,29 +304,35 @@ module.exports.FillForm = (req, res) => {
         let idLlenado = result.recordset[0].idLlenado;
 
         //Guardar preguntas múltiples
-        req.body.preguntasMultiples.forEach(element => {
+        {
+            /*req.body.preguntasMultiples.forEach(element => {
+    
+                //Obtener el texto de la pregunta y la respuesta múltiple
+                pregunta = element.texto;
+                respuesta = element.respuesta;
+    
+                //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
+                GetFormMultQuestionOption(idCuestionario, pregunta, respuesta).then((formMultQuestion) => {
+    
+                    const llenadoData = {
+                        fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
+                        fk_idLlenado: idLlenado,
+                        fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
+                    }
+    
+                    LlenadoPreguntaMult.create(llenadoData)
+                        .then(llenadoPreguntaMult => {
+                            console.log(llenadoPreguntaMult.dataValues);
+                        }).catch(error => { res.json(error) });
+                });
+            });*/
+        }
 
-            //Obtener el texto de la pregunta y la respuesta múltiple
-            pregunta = element.texto;
-            respuesta = element.respuesta;
-
-            //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
-            GetFormMultQuestionOption(idCuestionario, pregunta, respuesta).then((formMultQuestion) => {
-
-                const llenadoData = {
-                    fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
-                    fk_idLlenado: idLlenado,
-                    fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
-                }
-
-                LlenadoPreguntaMult.create(llenadoData)
-                    .then(llenadoPreguntaMult => {
-                        console.log(llenadoPreguntaMult.dataValues);
-                    }).catch(error => { res.json(error) });
-            });
-        });
+        fillOpenQuestions(req.body.preguntasAbiertas, idCuestionario, idLlenado);
 
         //Guardar preguntas abiertas
+        {
+        /*
         req.body.preguntasAbiertas.forEach(element => {
 
             //Obtener el texto de la pregunta y respuesta abierta
@@ -320,12 +350,15 @@ module.exports.FillForm = (req, res) => {
                 LlenadoPreguntaAbierta.create(llenadoData)
                     .then(llenadoPreguntaAbierta => {
                         console.log(llenadoPreguntaAbierta.dataValues);
+                        fill = true;
+                        console.log("now");
                     }).catch(error => { res.json(error) });
             });
-        });
+        });*/
+        }
 
         console.log("Done");
         res.json("Done");
     });
-    
+
 }
