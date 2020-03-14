@@ -14,7 +14,7 @@ const LlenadoPreguntaMult = sequelize.define('LlenadoPreguntaMult', {
     fk_idCuestionarioPreguntasMult: {
         type: Sequelize.INTEGER,
     },
-    fk_idOpcionesPreguntaMult: {
+    fk_idOpcionesPreguntaMultcol: {
         type: Sequelize.STRING,
     },
 }, {
