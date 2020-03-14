@@ -11,6 +11,7 @@ router.get('/:idForm', formController.GetFormQuestions);
 router.post('/verifyOwner', formController.VerifyOwner);
 router.post('/answers', formController.ShowAnswers);
 router.post('/userAnswers', formController.ShowUserAnswers);
+router.post('/deleteForm', formController.DeleteForm);
 
 //**** MIDDLEWARE para proteger las rutas ****/
 // router.use((req, res, next) => {

@@ -372,3 +372,13 @@ module.exports.ShowUserAnswers = (req, res) => {
         res.json(allAnswers);
     });
 }
+
+module.exports.DeleteForm = (req, res) => {
+    request = new sql.Request();
+    request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.execute(`Cuestionario_D`, (err, result) => {
+        if(err)
+            res.json(err);
+        res.json(result.recordset);
+    });
+}
