@@ -82,7 +82,7 @@ export class FormulariosViewComponent implements OnInit {
   }
 
   goToFilledByUsers(idCuestionario: number | string){
-    this.router.navigate([`/form/${idCuestionario}/users'`]);
+    this.router.navigate([`/formularios/${idCuestionario}/users`]);
   }
 
   

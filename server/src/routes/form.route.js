@@ -9,7 +9,7 @@ router.post('/fillForm', formController.FillForm);
 //router.get('/:idCuestionario', formController.getFormById);
 router.get('/:idForm', formController.GetFormQuestions);
 router.post('/verifyOwner', formController.VerifyOwner);
-router.post('/answers', formController.ShowAnswers);
+router.get('/:idCuestionario/answers', formController.ShowAnswers);
 router.post('/userAnswers', formController.ShowUserAnswers);
 
 //**** MIDDLEWARE para proteger las rutas ****/

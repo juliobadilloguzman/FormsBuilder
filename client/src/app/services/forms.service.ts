@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Cuestionario } from '../models/cuestionario';
+import { UsuarioLlenado } from '../models/usuariollenado';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,11 @@ export class FormsService {
   getFormById(id: number | string):Observable<any>{
     console.warn('Obtieniendo cuestionario...');
     return this.http.get(`${this.API_URI}/${id}`);
+  }
+
+  getUsersAnswersByFormId(idCuestionario: number | string): Observable<UsuarioLlenado[]> | Observable<any>{
+    console.warn('Obtieniendo respuestas del cuestionario...');
+    return this.http.get<UsuarioLlenado[]>(`${this.API_URI}/${idCuestionario}/answers`);
   }
 
 }

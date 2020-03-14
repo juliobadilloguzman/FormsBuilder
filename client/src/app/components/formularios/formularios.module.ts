@@ -6,10 +6,12 @@ import { FormulariosViewComponent } from './formularios-view/formularios-view.co
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { ListUsersViewComponent } from './list-users-view/list-users-view.component';
+import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respuestas-llenado-view.component';
 
 
 @NgModule({
-  declarations: [FormulariosViewComponent],
+  declarations: [FormulariosViewComponent, ListUsersViewComponent, RespuestasLlenadoViewComponent],
   imports: [
     CommonModule,
     FormulariosRoutingModule,
