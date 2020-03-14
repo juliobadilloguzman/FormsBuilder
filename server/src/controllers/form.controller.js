@@ -236,8 +236,7 @@ module.exports.GetFormQuestions = (req, res) => {
                     res.json(cuestionarioJson);
                 });
             });
-        }
-        else {
+        } else {
             console.log("No existe el cuestionario");
             return;
         }
@@ -264,7 +263,7 @@ async function fillOpenQuestions(array, idCuestionario, idLlenado) {
                     console.log(llenadoPreguntaAbierta.dataValues);
                 }).catch(error => { res.json(error) });
         });
-    }    
+    }
 }
 
 async function fillMultipleQuestions(array, idCuestionario, idLlenado) {
@@ -288,7 +287,7 @@ async function fillMultipleQuestions(array, idCuestionario, idLlenado) {
                     console.log(llenadoPreguntaMult.dataValues);
                 }).catch(error => { res.json(error) });
         });
-    }    
+    }
 }
 
 module.exports.FillForm = (req, res) => {
@@ -324,7 +323,7 @@ module.exports.VerifyOwner = (req, res) => {
     request.input('@p_idCuestionario', sql.Int, req.body.idCuestionario);
     request.input('@p_idUsuario', sql.Int, req.body.idUsuario);
     request.query(`SELECT dbo.isOwner(${req.body.idCuestionario}, ${req.body.idUsuario})`, (err, result) => {
-        if(err)
+        if (err)
             res.json(err);
         res.json(result.recordset[0][""]);
     });
@@ -332,11 +331,18 @@ module.exports.VerifyOwner = (req, res) => {
 
 module.exports.ShowAnswers = (req, res) => {
     request = new sql.Request();
-    request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.input('p_idCuestionario', sql.Int, req.params.idCuestionario);
     request.execute(`LlenadoCuestionario_RA`, (err, result) => {
-        if(err)
+        if (err)
             res.json(err);
-        res.json(result.recordset);
+
+        if (result['recordset'].length <= 0) {
+            res.json({ message: 'noUsers' });
+        } else {
+            res.json(result.recordsets[0]);
+        }
+
+        // res.json(result['recordset']);
     });
 }
 
@@ -348,7 +354,7 @@ module.exports.ShowUserAnswers = (req, res) => {
     request.input('p_idUsuario', sql.Int, req.body.idUsuario);
     request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
     request.execute(`LlenadoPreguntaMult_RA`, (err, result) => {
-        if(err) {res.json(err);}
+        if (err) { res.json(err); }
         for (index in result.recordset) {
             let preguntaTemp = {};
             preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;
@@ -362,7 +368,7 @@ module.exports.ShowUserAnswers = (req, res) => {
     request.input('p_idUsuario', sql.Int, req.body.idUsuario);
     request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
     request.execute(`LlenadoPreguntaAbierta_RA`, (err, result) => {
-        if(err) {res.json(err);}
+        if (err) { res.json(err); }
         for (index in result.recordset) {
             let preguntaTemp = {};
             preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;

@@ -3,6 +3,7 @@ import { FormsService } from 'src/app/services/forms.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Cuestionario } from 'src/app/models/cuestionario';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-formularios-view',
@@ -17,7 +18,7 @@ export class FormulariosViewComponent implements OnInit {
   hasResponse: boolean;;
 
   constructor(private _formsService: FormsService, private _authService: AuthService,
-    private router: Router) { 
+    private router: Router, private _snackBar: MatSnackBar) { 
     this.idUsuario = parseInt(localStorage.getItem('idUsuario'));
   }
 
@@ -48,6 +49,40 @@ export class FormulariosViewComponent implements OnInit {
 
   editForm(idCuestionario: string | number){
     this.router.navigate([`/builder/${idCuestionario}`]);
+  }
+
+  copyToClipBoard(idFormulario){
+
+    let ruta = "http://localhost:4200/builder/"+idFormulario;
+
+    let input = document.createElement('input');
+    input.value = ruta;
+    
+
+    document.body.appendChild(input);
+
+    input.select();
+    document.execCommand('copy');
+    input.focus();
+    input.setSelectionRange(0, 0);
+
+    input.setAttribute('type', 'hidden');
+
+    this._snackBar.open(`Vínculo copiado a portapapeles`, "", {
+      duration: 2000,
+      panelClass: "snackbar-success-green",
+      verticalPosition: "bottom",
+      horizontalPosition: "right"
+    });
+
+  }
+
+  deleteForm(idFormulario: number | string){
+    alert(`a eliminar ${idFormulario}`);
+  }
+
+  goToFilledByUsers(idCuestionario: number | string){
+    this.router.navigate([`/formularios/${idCuestionario}/users`]);
   }
 
   

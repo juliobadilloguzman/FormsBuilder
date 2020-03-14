@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'login', canActivate: [LoggedGuard], loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule) },
   { path: 'registro', canActivate: [LoggedGuard], loadChildren: () => import('./components/signup/signup.module').then(m => m.SignupModule) },
   { path: 'formularios', loadChildren: () => import('./components/formularios/formularios.module').then(m => m.FormulariosModule), canActivate: [AuthGuard] },
-  { path: 'builder', canActivate: [AuthGuard], loadChildren: () => import('./components/builder/builder.module').then(m => m.BuilderModule) }
+  { path: 'builder', canActivate: [AuthGuard], loadChildren: () => import('./components/builder/builder.module').then(m => m.BuilderModule) },
+  { path: 'fill', canActivate: [AuthGuard], loadChildren: () => import('./components/fill/fill.module').then(m => m.FillModule) }
 ];
 
 @NgModule({

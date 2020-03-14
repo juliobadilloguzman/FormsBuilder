@@ -7,11 +7,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Cuestionario } from '../../../models/cuestionario';
 
 @Component({
-  selector: "app-builder-view",
-  templateUrl: "./builder-view.component.html",
-  styleUrls: ["./builder-view.component.scss"]
+  selector: 'app-builder-edit-view',
+  templateUrl: './builder-edit-view.component.html',
+  styleUrls: ['./builder-edit-view.component.scss']
 })
-export class BuilderViewComponent implements OnInit {
+export class BuilderEditViewComponent implements OnInit {
 
   nombreUsuario: string;
   opcionMultiple: string;
@@ -37,7 +37,45 @@ export class BuilderViewComponent implements OnInit {
 
   ngOnInit(): void {
     //Obtiene el nombre de usuario
-    this.nombreUsuario = this._authService.getUserDetails().Nombre;   
+    this.nombreUsuario = this._authService.getUserDetails().Nombre;
+
+    //Obtiene el id del Cuestionerio
+    this.idCuestionario = this.activatedRoute.snapshot.paramMap.get('idCuestionario');
+    console.log(this.idCuestionario);
+
+    this._formsService.getFormById(this.idCuestionario).subscribe(
+      res => {
+        this.cuestionarioEditar = res;
+        console.log(this.cuestionarioEditar);
+
+        this.formulario.patchValue({
+          Nombre: this.cuestionarioEditar.Nombre
+        })
+
+        // this.formulario.setControl('preguntasAbiertas', this.fb.array(this.cuestionarioEditar.preguntasAbiertas || []))
+
+        //Setear preguntas multiples
+        this.formulario.setControl('preguntasMultiples', this.fb.array(this.cuestionarioEditar.preguntasMultiples || []))
+
+        console.log(this.preguntasMultiples.controls[0].value);
+
+        this.preguntasMultiples.controls[0].get('texto').patchValue('yourEmailId@gmail.com');
+        
+        
+      },
+      error => console.log(error)
+    )
+
+  
+    
+  }
+
+  getName(i) {
+    return this.getControls()[i].value.name;
+  }
+
+  getControls() {
+    return (<FormArray>this.formulario.get('preguntasMultiples')).controls;
   }
 
   logOut() {
@@ -110,7 +148,7 @@ export class BuilderViewComponent implements OnInit {
   }
 
   /////ENVIAR FORMULARIO
-  crearFormulario() {
+  editarFormulario() {
     this._formsService.createForm(this.formulario.value).subscribe(
       res=>{
         this._snackBar.open(`Formulario creado correctamente`, "", {
