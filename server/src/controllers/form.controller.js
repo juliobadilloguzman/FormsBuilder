@@ -85,25 +85,6 @@ function Create(idCreador, params) {
     });
 }
 
-function CreateFill(idCreador, idCuestionario) {
-    let currentDate = new Date();
-
-    //Datos a insertar
-    const fillData = {
-        fk_idUsuario: idCreador,
-        fk_idCuestionario: idCuestionario,
-        Fecha: currentDate
-    }
-
-    return new Promise((resolve, reject) => {
-        //Create el filler
-        LlenadoCuestionario.create(fillData)
-            .then(llenado => {
-                resolve(llenado.dataValues);
-            });
-    });
-}
-
 function GetOpenQuestions(idCuestionario) {
     //Crear el request
     let request = new sql.Request();
@@ -177,7 +158,7 @@ async function GetFormOpenQuestion(idCuestionario, pregunta) {
     });
 }
 
-function GetFormMultQuestionOption(idCuestionario, pregunta, respuesta) {
+async function GetFormMultQuestionOption(idCuestionario, pregunta, respuesta) {
     //Crear el request
     let request = new sql.Request();
 
@@ -267,8 +248,8 @@ async function fillOpenQuestions(array, idCuestionario, idLlenado) {
     for (const item of array) {
 
         //Obtener el texto de la pregunta y respuesta abierta
-        pregunta = item.texto;
-        respuesta = item.respuesta;
+        let pregunta = item.texto;
+        let respuesta = item.respuesta;
 
         //Obtener la pregunta abierta por medio de un procedimiento (dado un cuestionario y el texto de la pregunta)
         await GetFormOpenQuestion(idCuestionario, pregunta).then((formOpenQuestion) => {
@@ -283,8 +264,31 @@ async function fillOpenQuestions(array, idCuestionario, idLlenado) {
                     console.log(llenadoPreguntaAbierta.dataValues);
                 }).catch(error => { res.json(error) });
         });
-    }
-    console.log('Done!');
+    }    
+}
+
+async function fillMultipleQuestions(array, idCuestionario, idLlenado) {
+    for (const item of array) {
+
+        //Obtener el texto de la pregunta y la respuesta múltiple
+        let pregunta = item.texto;
+        let respuesta = item.respuesta;
+
+        //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
+        await GetFormMultQuestionOption(idCuestionario, pregunta, respuesta).then((formMultQuestion) => {
+
+            const llenadoData = {
+                fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
+                fk_idLlenado: idLlenado,
+                fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
+            }
+
+            LlenadoPreguntaMult.create(llenadoData)
+                .then(llenadoPreguntaMult => {
+                    console.log(llenadoPreguntaMult.dataValues);
+                }).catch(error => { res.json(error) });
+        });
+    }    
 }
 
 module.exports.FillForm = (req, res) => {
@@ -304,58 +308,10 @@ module.exports.FillForm = (req, res) => {
         let idLlenado = result.recordset[0].idLlenado;
 
         //Guardar preguntas múltiples
-        {
-            /*req.body.preguntasMultiples.forEach(element => {
-    
-                //Obtener el texto de la pregunta y la respuesta múltiple
-                pregunta = element.texto;
-                respuesta = element.respuesta;
-    
-                //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
-                GetFormMultQuestionOption(idCuestionario, pregunta, respuesta).then((formMultQuestion) => {
-    
-                    const llenadoData = {
-                        fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
-                        fk_idLlenado: idLlenado,
-                        fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
-                    }
-    
-                    LlenadoPreguntaMult.create(llenadoData)
-                        .then(llenadoPreguntaMult => {
-                            console.log(llenadoPreguntaMult.dataValues);
-                        }).catch(error => { res.json(error) });
-                });
-            });*/
-        }
-
-        fillOpenQuestions(req.body.preguntasAbiertas, idCuestionario, idLlenado);
+        fillMultipleQuestions(req.body.preguntasMultiples, idCuestionario, idLlenado);
 
         //Guardar preguntas abiertas
-        {
-        /*
-        req.body.preguntasAbiertas.forEach(element => {
-
-            //Obtener el texto de la pregunta y respuesta abierta
-            pregunta = element.texto;
-            respuesta = element.respuesta;
-
-            //Obtener la pregunta abierta por medio de un procedimiento (dado un cuestionario y el texto de la pregunta)
-            GetFormOpenQuestion(idCuestionario, pregunta).then((formOpenQuestion) => {
-                const llenadoData = {
-                    fk_idLlenado: idLlenado,
-                    fk_idCuestionarioPreguntaAbierta: formOpenQuestion.idCuestionarioPreguntaAbierta,
-                    Respuesta: respuesta
-                }
-
-                LlenadoPreguntaAbierta.create(llenadoData)
-                    .then(llenadoPreguntaAbierta => {
-                        console.log(llenadoPreguntaAbierta.dataValues);
-                        fill = true;
-                        console.log("now");
-                    }).catch(error => { res.json(error) });
-            });
-        });*/
-        }
+        fillOpenQuestions(req.body.preguntasAbiertas, idCuestionario, idLlenado);
 
         console.log("Done");
         res.json("Done");
