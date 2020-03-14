@@ -112,13 +112,43 @@
     grid-template-columns: repeat(3, 1fr);
     grid-row-gap: 1.5rem;
     grid-column-gap: 1.5rem;
+    .container-buttons-options {
+        justify-self: end;
+        .btn-copy {
+            color: #525151 !important;
+            transition: all 0.3s ease 0s;
+        }
+        .btn-copy:hover {
+            color: #9b9999 !important;
+        }
+        .btn-delete {
+            color: #ea4335 !important;
+            transition: all 0.3s ease 0s;
+        }
+        .btn-delete:hover {
+            color: #ac3329 !important;
+        }
+        .btn-edit {
+            color: #2295f3 !important;
+            transition: all 0.3s ease 0s;
+        }
+        .btn-edit:hover {
+            color: #186eb4 !important;
+        }
+        .btn-eye {
+            color: #21bb54 !important;
+            transition: all 0.3s ease 0s;
+        }
+        .btn-eye:hover {
+            color: #178a3d !important;
+        }
+    }
     .cuestionario-card {
-        padding: 2rem !important;
-        // display: grid;
         cursor: pointer;
         padding: 1rem !important;
         border-radius: 10px;
         height: 20vh;
+        display: grid;
         transition: all 0.3s ease 0s;
         .nombre-cuestionario {
             font-size: 1.2rem;
@@ -130,8 +160,11 @@
             font-weight: 100;
             font-family: 'Raleway', sans-serif !important;
         }
-        .btn-editar-form {
-            background: #34a853 !important;
+        .btn-self {
+            cursor: pointer !important;
+            background: none !important;
+            outline: none !important;
+            border: none !important;
             align-self: end;
             justify-self: end;
         }

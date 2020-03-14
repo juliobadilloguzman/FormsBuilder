@@ -37,22 +37,7 @@ export class BuilderViewComponent implements OnInit {
 
   ngOnInit(): void {
     //Obtiene el nombre de usuario
-    this.nombreUsuario = this._authService.getUserDetails().Nombre;
-
-    //Obtiene el id del Cuestionerio
-    this.idCuestionario = this.activatedRoute.snapshot.paramMap.get('idCuestionario');
-    console.log(this.idCuestionario);
-
-    this._formsService.getFormById(this.idCuestionario).subscribe(
-      res => {
-        this.cuestionarioEditar = res;
-        console.log(res);
-      },
-      error => console.log(error)
-    )
-
-    //Obtiene la data del formulario
-    
+    this.nombreUsuario = this._authService.getUserDetails().Nombre;   
   }
 
   logOut() {

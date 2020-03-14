@@ -50,6 +50,30 @@ export class FormulariosViewComponent implements OnInit {
     this.router.navigate([`/builder/${idCuestionario}`]);
   }
 
+  copyToClipBoard(idFormulario){
+
+    let ruta = "http://localhost:4200/builder/"+idFormulario;
+
+    let input = document.createElement('input');
+    input.value = ruta;
+
+    document.body.appendChild(input);
+
+    input.select();
+    document.execCommand('copy');
+    input.focus();
+    input.setSelectionRange(0, 0);
+
+  }
+
+  deleteForm(idFormulario: number | string){
+    alert(`a eliminar ${idFormulario}`);
+  }
+
+  goToFilledByUsers(idCuestionario: number | string){
+    this.router.navigate([`/form/${idCuestionario}/users'`]);
+  }
+
   
 
 }
