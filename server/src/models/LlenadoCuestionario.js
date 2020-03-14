@@ -3,7 +3,7 @@ const sequelize = require('../database/dbsequelize');
 
 const LlenadoCuestionario = sequelize.define('LlenadoCuestionario', {
 
-    idLlenadoCuestionario: {
+    idLlenado: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true

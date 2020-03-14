@@ -5,6 +5,7 @@ let formController = require('../controllers/form.controller');
 
 router.post('/createform', formController.CreateUpdateForm);
 router.post('/getForms', formController.getFormByUserId);
+router.post('/fillForm', formController.FillForm);
 //router.get('/:idCuestionario', formController.getFormById);
 router.get('/:idForm', formController.GetFormQuestions);
 router.post('/verifyOwner', formController.VerifyOwner);

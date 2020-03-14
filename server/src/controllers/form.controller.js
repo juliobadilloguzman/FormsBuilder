@@ -4,24 +4,13 @@ const express = require('express');
 const db = require('../database/database');
 const Cuestionario = require('../models/Cuestionario');
 const CuestionarioPreguntaMult = require('../models/CuestionarioPreguntasMult');
+const LlenadoPreguntaAbierta = require('../models/LlenadoPreguntaAbierta');
+const LlenadoPreguntaMult = require('../models/LlenadoPreguntaMult');
+const LlenadoCuestionario = require('../models/LlenadoCuestionario');
 const bycrypt = require('bcryptjs');
 
-module.exports.create = (req, res) => {
-
-    //Datos a insertar
-    const cuestionarioData = {
-        Nombre: req.body.Nombre,
-        fk_idUsuarioCreador: req.body.idCreador,
-        Descripcion: req.body.Descripcion,
-    }
-
-    Cuestionario.create(cuestionarioData)
-        .then(cuestionario => {
-            res.json(cuestionario.dataValues);
-        });
-}
-
 module.exports.getFormByUserId = (req, res) => {
+
     Cuestionario.findAll({
         where: {
             fk_idUsuarioCreador: req.body.idCreador
@@ -35,17 +24,8 @@ module.exports.getFormByUserId = (req, res) => {
     })
 }
 
-module.exports.getFormById = (req, res) => {
-    Cuestionario.findOne({
-        where: {
-            idCuestionario: req.params.idCuestionario
-        }
-    }).then(cuestionario => {
-        res.json(cuestionario.dataValues);
-    });
-}
-
 function CreateOpenQuestion(idCuestionario, params) {
+
     let pregunta = params.texto;
 
     //Crear el request
@@ -62,8 +42,8 @@ function CreateOpenQuestion(idCuestionario, params) {
 }
 
 function CreateMultipleQuestion(idCuestionario, params) {
-    let pregunta = params.texto;
 
+    let pregunta = params.texto;
     let opciones = ["", "", "", "", ""];
 
     for (let i = 0; i < params.opciones.length; i++) {
@@ -73,7 +53,6 @@ function CreateMultipleQuestion(idCuestionario, params) {
     //Crear el request
     let request = new sql.Request();
 
-    //Declarar parametros de entrada y salida
     //Declarar parametros de entrada y salida
     request.input('p_idCuestionario', sql.Int, idCuestionario);
     request.input('p_textoPregunta', sql.VarChar(500), pregunta);
@@ -98,11 +77,11 @@ function Create(idCreador, params) {
     }
 
     return new Promise((resolve, reject) => {
+        //Crear el cuestionario
         Cuestionario.create(cuestionarioData)
             .then(cuestionario => {
                 resolve(cuestionario.dataValues);
-
-            }).catch(error => { reject('errorddd') });
+            }).catch(error => { reject('error') });
     });
 }
 
@@ -130,6 +109,7 @@ function GetMultipleQuestions(idCuestionario) {
 
         setTimeout(() => resolve(preguntasMultiplesObj), 1000);
 
+        //Buscar todas las preguntas del cuestionario
         CuestionarioPreguntaMult.findAll({
             where: {
                 fk_idCuestionario: idCuestionario
@@ -140,25 +120,60 @@ function GetMultipleQuestions(idCuestionario) {
 
                 let pregMult = {};
                 let element = CuestionarioPreguntaMult[index];
-                // CONSEGUIR TEXTO
+
+                //Conseguir el texto de la pregunta
                 request = new sql.Request();
                 request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
                 request.execute('textoPreguntaMult_R', (err, result) => {
                     pregMult["texto"] = result.recordset[0].Pregunta;
                 });
-                // CONSEGUIR OPCIONES
+
+                //Conseguir las opciones
                 request2 = new sql.Request();
                 request2.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
                 request2.execute('OpcionesPreguntaMult_R', (err, result2) => {
-                    pregMult["opciones"] = result2.recordset; 
+                    pregMult["opciones"] = result2.recordset;
                 });
-                // AGREGAR REGISTRO A ARREGLO
+
+                //Agregar el registro al arreglo
                 preguntasMultiplesObj.push(pregMult);
             }
         })
     });
 }
 
+async function GetFormOpenQuestion(idCuestionario, pregunta) {
+    //Crear el request
+    let request = new sql.Request();
+
+    //Declarar parametros de entrada y salida
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+    request.input('p_pregunta', sql.VarChar, pregunta);
+
+    //Ejecutar el request
+    return new Promise((resolve, reject) => {
+        request.execute('getCuestionarioPreguntaAbierta', (err, result) => {
+            resolve(result.recordset[0]);
+        });
+    });
+}
+
+async function GetFormMultQuestionOption(idCuestionario, pregunta, respuesta) {
+    //Crear el request
+    let request = new sql.Request();
+
+    //Declarar parametros de entrada y salida
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+    request.input('p_pregunta', sql.VarChar, pregunta);
+    request.input('p_opcion', sql.VarChar, respuesta);
+
+    //Ejecutar el request
+    return new Promise((resolve, reject) => {
+        request.execute('getCuestionarioPreguntaMult', (err, result) => {
+            resolve(result.recordset[0]);
+        });
+    });
+}
 
 module.exports.CreateUpdateForm = (req, res) => {
     //Checar si el formulario ya existe
@@ -168,24 +183,13 @@ module.exports.CreateUpdateForm = (req, res) => {
         }
     }).then(cuestionario => {
 
-        //TODO: Si se va a actualizar el cuestionario
+        //Si se va a actualizar el cuestionario
         if (cuestionario) {
-
-            //Modificar las preguntas abiertas
-            /*req.body.preguntasAbiertas.forEach(element => {
-                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });*/
-
-            //Modificar las preguntas múltiples
-            /*req.body.preguntasAbiertas.forEach(element => {
-                this.CreateOpenQuestionF(cuestionario.idCuestionario, element);
-            });*/
+            //TODO: Actualizar cuestionario
         }
 
         //Si se va a crear el cuestionario
         else {
-
-            console.log(req.body);
             //Creación del cuestionario
             Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
 
@@ -201,14 +205,12 @@ module.exports.CreateUpdateForm = (req, res) => {
                         console.log("Error al crear pregunta múltiple");
                 });
             });
-
         }
     }).then(() => {
         //Mandar un response de que ya terminó el proceso
         res.json("Done");
     });
 }
-
 
 module.exports.GetFormQuestions = (req, res) => {
 
@@ -228,17 +230,12 @@ module.exports.GetFormQuestions = (req, res) => {
 
             GetMultipleQuestions(cuestionario.idCuestionario).then((preguntasMultiples) => {
                 cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
-                console.log("hola");
-                //res.json(preguntasMultiples);
-            }).then(()=>{                
+            }).then(() => {
                 GetOpenQuestions(cuestionario.idCuestionario).then((preguntasAbiertas) => {
                     cuestionarioJson["preguntasAbiertas"] = preguntasAbiertas;
-                    //res.json(preguntasAbiertas);
-                    console.log("holax2");
                     res.json(cuestionarioJson);
                 });
             });
-            
         }
         else {
             console.log("No existe el cuestionario");
@@ -247,6 +244,80 @@ module.exports.GetFormQuestions = (req, res) => {
     });
 }
 
+async function fillOpenQuestions(array, idCuestionario, idLlenado) {
+    for (const item of array) {
+
+        //Obtener el texto de la pregunta y respuesta abierta
+        let pregunta = item.texto;
+        let respuesta = item.respuesta;
+
+        //Obtener la pregunta abierta por medio de un procedimiento (dado un cuestionario y el texto de la pregunta)
+        await GetFormOpenQuestion(idCuestionario, pregunta).then((formOpenQuestion) => {
+            const llenadoData = {
+                fk_idLlenado: idLlenado,
+                fk_idCuestionarioPreguntaAbierta: formOpenQuestion.idCuestionarioPreguntaAbierta,
+                Respuesta: respuesta
+            }
+
+            LlenadoPreguntaAbierta.create(llenadoData)
+                .then(llenadoPreguntaAbierta => {
+                    console.log(llenadoPreguntaAbierta.dataValues);
+                }).catch(error => { res.json(error) });
+        });
+    }    
+}
+
+async function fillMultipleQuestions(array, idCuestionario, idLlenado) {
+    for (const item of array) {
+
+        //Obtener el texto de la pregunta y la respuesta múltiple
+        let pregunta = item.texto;
+        let respuesta = item.respuesta;
+
+        //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
+        await GetFormMultQuestionOption(idCuestionario, pregunta, respuesta).then((formMultQuestion) => {
+
+            const llenadoData = {
+                fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
+                fk_idLlenado: idLlenado,
+                fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
+            }
+
+            LlenadoPreguntaMult.create(llenadoData)
+                .then(llenadoPreguntaMult => {
+                    console.log(llenadoPreguntaMult.dataValues);
+                }).catch(error => { res.json(error) });
+        });
+    }    
+}
+
+module.exports.FillForm = (req, res) => {
+
+    let idUsuario = req.body.idUsuario;
+    let idCuestionario = req.body.idCuestionario;
+
+    //Crear el request de llenado
+    let request = new sql.Request();
+
+    //Declarar parametros de entrada y salida
+    request.input('p_idUsuario', sql.Int, idUsuario);
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+
+    //Ejecutar el request
+    request.execute('LlenadoCuestionario_C', (err, result) => {
+        let idLlenado = result.recordset[0].idLlenado;
+
+        //Guardar preguntas múltiples
+        fillMultipleQuestions(req.body.preguntasMultiples, idCuestionario, idLlenado);
+
+        //Guardar preguntas abiertas
+        fillOpenQuestions(req.body.preguntasAbiertas, idCuestionario, idLlenado);
+
+        console.log("Done");
+        res.json("Done");
+    });
+
+}
 
 module.exports.VerifyOwner = (req, res) => {
     request = new sql.Request();
