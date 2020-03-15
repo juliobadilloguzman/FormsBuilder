@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Cuestionario } from '../models/cuestionario';
 import { UsuarioLlenado } from '../models/usuariollenado';
+import { CuestionarioLlenado } from '../models/cuestionariollenado';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +33,19 @@ export class FormsService {
     return this.http.get(`${this.API_URI}/${id}`);
   }
 
-  getUsersAnswersByFormId(idCuestionario: number | string): Observable<UsuarioLlenado[]> | Observable<any>{
-    console.warn('Obtieniendo respuestas del cuestionario...');
+  getUsersByFormId(idCuestionario: number | string): Observable<UsuarioLlenado[]> | Observable<any>{
+    console.warn('Obtieniendo usuarios del cuestionario...');
     return this.http.get<UsuarioLlenado[]>(`${this.API_URI}/${idCuestionario}/answers`);
+  }
+
+  deleteForm(idCuestionario: number | string){
+    console.warn('Eliminando cuestionario...');
+    return this.http.delete(`${this.API_URI}/${idCuestionario}`);
+  }
+
+  getUserAnswersByFormAndUserId(idCuestionario: string | number, idUsuario: string | number): Observable<CuestionarioLlenado[]>{
+    console.warn('Obtieniendo usuarios del cuestionario...');
+    return this.http.get<CuestionarioLlenado[]>(`${this.API_URI}/${idCuestionario}/user/${idUsuario}`);
   }
 
 }

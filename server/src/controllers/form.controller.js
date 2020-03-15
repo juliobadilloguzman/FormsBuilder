@@ -351,8 +351,8 @@ module.exports.ShowUserAnswers = (req, res) => {
 
     // PREGUNTAS DE OPCION MULTIPLE
     request = new sql.Request();
-    request.input('p_idUsuario', sql.Int, req.body.idUsuario);
-    request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.input('p_idUsuario', sql.Int, req.params.idUsuario);
+    request.input('p_idCuestionario', sql.Int, req.params.idCuestionario);
     request.execute(`LlenadoPreguntaMult_RA`, (err, result) => {
         if (err) { res.json(err); }
         for (index in result.recordset) {
@@ -365,8 +365,8 @@ module.exports.ShowUserAnswers = (req, res) => {
 
     //PREGUNTAS ABIERTAS
     request = new sql.Request();
-    request.input('p_idUsuario', sql.Int, req.body.idUsuario);
-    request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.input('p_idUsuario', sql.Int, req.params.idUsuario);
+    request.input('p_idCuestionario', sql.Int, req.params.idCuestionario);
     request.execute(`LlenadoPreguntaAbierta_RA`, (err, result) => {
         if (err) { res.json(err); }
         for (index in result.recordset) {
@@ -376,15 +376,16 @@ module.exports.ShowUserAnswers = (req, res) => {
             allAnswers.push(preguntaTemp);
         }
         res.json(allAnswers);
+
     });
 }
 
 module.exports.DeleteForm = (req, res) => {
     request = new sql.Request();
-    request.input('p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.input('p_idCuestionario', sql.Int, req.params.idFormulario);
     request.execute(`Cuestionario_D`, (err, result) => {
-        if(err)
+        if (err)
             res.json(err);
-        res.json(result.recordset);
+        res.json({ message: 'deleted' });
     });
 }

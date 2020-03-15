@@ -7,10 +7,10 @@
             <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
         </mat-toolbar-row>
     </mat-toolbar>
-
+    <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseForm || !hasResponseUsers">
+    </mat-progress-bar>
     <div class="container-info-formulario">
-        <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseForm">
-        </mat-progress-bar>
+
         <div class="container-titulo">
             <h2 class="titulo-text">{{nombreFormulario}}</h2>
             <h4 class="descripcion-text">{{descripcionFormulario}}</h4>
@@ -19,8 +19,8 @@
         <h4 class="title-contestados">Usuarios que han contestado este cuestionario</h4>
 
         <div class="container-usuarios">
-            <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseUsers">
-            </mat-progress-bar>
+            <!-- <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseUsers">
+            </mat-progress-bar> -->
 
             <div *ngIf="!hasUsers; else noUsersYet">
                 <div class="listado-container" *ngFor="let usuario of usuarios">
@@ -29,7 +29,7 @@
                         <p class="listado-fecha"><span class="span-contestado">Contestado el: </span><span class="span-fecha">{{usuario.Fecha | date: 'dd/MM/yyyy'}}</span> </p>
 
                     </div>
-                    <button mat-raised-button>Ver Respuestas</button>
+                    <button mat-raised-button (click)="goToUserAnswers(usuario.idUsuario)">Ver Respuestas</button>
 
                 </div>
             </div>

@@ -10,8 +10,9 @@ router.post('/fillForm', formController.FillForm);
 router.get('/:idForm', formController.GetFormQuestions);
 router.post('/verifyOwner', formController.VerifyOwner);
 router.get('/:idCuestionario/answers', formController.ShowAnswers);
-router.post('/userAnswers', formController.ShowUserAnswers);
-router.post('/deleteForm', formController.DeleteForm);
+router.get('/:idCuestionario/user/:idUsuario', formController.ShowUserAnswers);
+
+router.delete('/:idFormulario', formController.DeleteForm);
 
 //**** MIDDLEWARE para proteger las rutas ****/
 // router.use((req, res, next) => {

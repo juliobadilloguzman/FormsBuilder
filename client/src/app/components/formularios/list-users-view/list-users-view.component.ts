@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormsService } from 'src/app/services/forms.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Cuestionario } from 'src/app/models/cuestionario';
 import { UsuarioLlenado } from 'src/app/models/usuariollenado';
 
@@ -25,7 +25,7 @@ export class ListUsersViewComponent implements OnInit {
   hasUsers: boolean = true;
 
   constructor(private _authService: AuthService, private _formsService: FormsService,
-    private activatedRoute: ActivatedRoute) { 
+    private activatedRoute: ActivatedRoute, private router: Router) { 
     this.idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   }
@@ -40,7 +40,7 @@ export class ListUsersViewComponent implements OnInit {
     console.log(this.idCuestionario);
 
     //Obtiene los usuarios que han respondido el formulario
-    this._formsService.getUsersAnswersByFormId(this.idCuestionario).subscribe(
+    this._formsService.getUsersByFormId(this.idCuestionario).subscribe(
       res => {
 
         console.log(res);
@@ -74,6 +74,10 @@ export class ListUsersViewComponent implements OnInit {
 
   logOut(){
     this._authService.logOut();
+  }
+
+  goToUserAnswers(idUsuario: string | number){
+    this.router.navigate([`/formularios/${this.idCuestionario}/respuestas/${idUsuario}`]);
   }
 
 }

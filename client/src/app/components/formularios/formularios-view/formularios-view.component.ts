@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Cuestionario } from 'src/app/models/cuestionario';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-formularios-view',
@@ -53,7 +54,7 @@ export class FormulariosViewComponent implements OnInit {
 
   copyToClipBoard(idFormulario){
 
-    let ruta = "http://localhost:4200/builder/"+idFormulario;
+    let ruta = "http://localhost:4200/fill/"+idFormulario;
 
     let input = document.createElement('input');
     input.value = ruta;
@@ -78,7 +79,32 @@ export class FormulariosViewComponent implements OnInit {
   }
 
   deleteForm(idFormulario: number | string){
-    alert(`a eliminar ${idFormulario}`);
+    console.log(`a eliminar ${idFormulario}`);
+    Swal.fire({
+      title: '¿Está seguro de eliminar el cuestionario?',
+      text: "No podrá recuperarlo despues de haberla borrado",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this._formsService.deleteForm(idFormulario).subscribe(
+          res => {
+            Swal.fire(
+              'Eliminado!',
+              'El cuestionario ha sido eliminado correctamente.',
+              'success'
+            )
+            this.ngOnInit();
+          },
+          err => alert(err)
+        )
+        
+      }
+    })
   }
 
   goToFilledByUsers(idCuestionario: number | string){

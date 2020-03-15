@@ -55,3 +55,60 @@
         }
     }
 }
+
+.container-info-formulario {
+    margin-top: 2rem !important;
+    width: 50%;
+    margin: auto;
+    .container-respuesta {
+        margin-bottom: 2rem;
+        background: #fff !important;
+        padding: 2rem !important;
+        border-left: 3px solid #2F80ED !important;
+        .respuesta-text {
+            font-family: 'Raleway', sans-serif !important;
+            font-size: 1.4rem;
+            color: rgb(87, 87, 87);
+            line-height: 2rem;
+            span {
+                font-weight: 700;
+                color: rgb(44, 44, 44);
+            }
+        }
+        .respuesta-individual-container {
+            padding: 1rem;
+            border: 1px solid #34a853;
+            background-color: rgba(55, 158, 82, 0.2);
+            p {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #2d9449;
+            }
+        }
+    }
+    .title-respuestas {
+        font-size: 1.8rem;
+        margin: auto;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: 'Raleway', sans-serif !important;
+        color: #34a853;
+    }
+    .container-titulo {
+        margin-bottom: 2rem;
+        background: #fff !important;
+        padding: 2rem !important;
+        border-left: 3px solid #2F80ED !important;
+        .titulo-text {
+            font-size: 2.2rem !important;
+            font-family: 'Raleway', sans-serif !important;
+            font-weight: 300;
+            color: rgb(70, 70, 70);
+        }
+        .descripcion-text {
+            font-size: 1.2rem !important;
+            font-weight: 300;
+            color: rgb(163, 162, 162);
+        }
+    }
+}
