@@ -100,10 +100,11 @@ function GetOpenQuestions(idCuestionario) {
     });
 }
 
-function GetMultipleQuestions(idCuestionario) {
+function GetMultipleQuestions(idCuestionario, cuestionarioJson) {
 
     let request = new sql.Request();
     let preguntasMultiplesObj = [];
+    let seleccionMultiplesObj = [];
 
     return new Promise((resolve, reject) => {
 
@@ -135,10 +136,22 @@ function GetMultipleQuestions(idCuestionario) {
                     pregMult["opciones"] = result2.recordset;
                 });
 
-                //Agregar el registro al arreglo
-                preguntasMultiplesObj.push(pregMult);
+                
+                //Agregar el registro al arreglo que corresponde
+                request3 = new sql.Request();
+                request3.query(`SELECT dbo.hasUniqueAnswer(${element.idCuestionarioPreguntasMult})`, (err, result) => {
+                    if (err)
+                        res.json(err);
+                    if(result.recordset[0][""]){
+                        preguntasMultiplesObj.push(pregMult);
+                    } else {
+                        seleccionMultiplesObj.push(pregMult);
+                    }
+                });
             }
         })
+        cuestionarioJson["preguntasMultiples"] = preguntasMultiplesObj;
+        cuestionarioJson["seleccionMultiple"] = seleccionMultiplesObj;
     });
 }
 
@@ -228,8 +241,9 @@ module.exports.GetFormQuestions = (req, res) => {
             cuestionarioJson["Nombre"] = cuestionario.Nombre;
             cuestionarioJson["Descripcion"] = cuestionario.Descripcion;
 
-            GetMultipleQuestions(cuestionario.idCuestionario).then((preguntasMultiples) => {
-                cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
+            GetMultipleQuestions(cuestionario.idCuestionario, cuestionarioJson).then((preguntasMultiples) => {
+                // Append se hace dentro de GetMultipleQuestions
+                // cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
             }).then(() => {
                 GetOpenQuestions(cuestionario.idCuestionario).then((preguntasAbiertas) => {
                     cuestionarioJson["preguntasAbiertas"] = preguntasAbiertas;
