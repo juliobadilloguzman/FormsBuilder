@@ -48,4 +48,8 @@ export class FormsService {
     return this.http.get<CuestionarioLlenado[]>(`${this.API_URI}/${idCuestionario}/user/${idUsuario}`);
   }
 
+  llenarCuestionario(formulario: any): Observable<any>{
+    return this.http.post<any>(`${this.API_URI}/fillForm`, formulario);
+  }
+
 }

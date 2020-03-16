@@ -8,4 +8,39 @@
         </mat-toolbar-row>
     </mat-toolbar>
 
+    <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasForm">
+    </mat-progress-bar>
+
+    <div class="container-info-formulario">
+        <div class="container-titulo">
+            <h2 class="titulo-text">{{nombreFormulario}}</h2>
+            <h4 class="descripcion-text">{{descripcionFormulario}}</h4>
+        </div>
+
+    </div>
+
+    <div class="container-info-formulario" *ngIf="hasForm">
+
+        <form>
+            <div class="container-abiertas" *ngFor="let pregunta of cuestionario.preguntasAbiertas; let i = index">
+                <h4>{{pregunta.texto}}</h4>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Escribe tu respuesta" [(ngModel)]="pregunta.respuesta" name="respuesta">
+                </mat-form-field>
+
+            </div>
+            <div class="container-multiples" *ngFor="let preguntaMultiple of cuestionario.preguntasMultiples">
+                <h4>{{preguntaMultiple.texto}}</h4>
+                <div *ngFor="let opcion of preguntaMultiple.opciones;let j=index">
+
+                    <input type="radio" [name]="preguntaMultiple.id" [value]="opcion.opcion" [(ngModel)]="preguntaMultiple.respuesta"> {{opcion.opcion}}
+                </div>
+            </div>
+            <button class="btn btn-fill" (click)="fill()">Enviar</button>
+        </form>
+
+    </div>
+
+
+
 </div>

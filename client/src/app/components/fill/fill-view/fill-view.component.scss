@@ -55,3 +55,59 @@
         }
     }
 }
+
+.container-info-formulario {
+    margin-top: 2rem !important;
+    width: 50%;
+    margin: auto;
+}
+
+.container-titulo {
+    margin-bottom: 2rem;
+    background: #fff !important;
+    padding: 2rem !important;
+    border-left: 3px solid #2F80ED !important;
+    .titulo-text {
+        font-size: 2.2rem !important;
+        font-family: 'Raleway', sans-serif !important;
+        font-weight: 700;
+        color: rgb(70, 70, 70);
+    }
+    .descripcion-text {
+        font-size: 1.2rem !important;
+        font-weight: 300;
+        color: rgb(163, 162, 162);
+    }
+}
+
+.container-abiertas {
+    margin-bottom: 2rem;
+    background: #fff !important;
+    padding: 2rem !important;
+    border-left: 3px solid #2F80ED !important;
+    h4 {
+        font-size: 1.3rem;
+        font-family: 'Raleway', sans-serif !important;
+    }
+}
+
+.container-multiples {
+    margin-bottom: 2rem;
+    background: #fff !important;
+    padding: 2rem !important;
+    border-left: 3px solid #2F80ED !important;
+    h4 {
+        font-size: 1.3rem;
+        font-family: 'Raleway', sans-serif !important;
+    }
+}
+
+.btn-fill {
+    background: -webkit-linear-gradient(to left, #34a853, #43e56f);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #34a853, #43e56f);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    margin: auto !important;
+    color: #fff;
+    margin: auto !important;
+}
