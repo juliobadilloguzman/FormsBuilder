@@ -19,6 +19,7 @@ export class ListUsersViewComponent implements OnInit {
   nombreFormulario: string;
   descripcionFormulario: string;
   usuarios: UsuarioLlenado[];
+  nombreUsuarioContestado: string;
 
   hasResponseForm: boolean = false;
   hasResponseUsers: boolean = false;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormsService } from 'src/app/services/forms.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +11,10 @@ import { CuestionarioLlenado } from 'src/app/models/cuestionariollenado';
   styleUrls: ['./respuestas-llenado-view.component.scss']
 })
 export class RespuestasLlenadoViewComponent implements OnInit {
+
+  //Sticky Menu
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+
 
   nombreUsuario: string;
   idUsuario: number;
@@ -61,6 +65,7 @@ export class RespuestasLlenadoViewComponent implements OnInit {
 
   }
 
+ 
   logOut(){
     this._authService.logOut();
   }

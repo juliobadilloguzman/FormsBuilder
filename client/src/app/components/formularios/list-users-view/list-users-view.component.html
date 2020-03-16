@@ -9,6 +9,15 @@
     </mat-toolbar>
     <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseForm || !hasResponseUsers">
     </mat-progress-bar>
+
+    <nav aria-label="breadcrumb" class="container-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
+            <li class="breadcrumb-item"> <a routerLink="/builder/{{idCuestionario}}">{{nombreFormulario}}</a>/</li>
+            <li class="breadcrumb-item active">Usuarios</li>
+        </ol>
+    </nav>
+
     <div class="container-info-formulario">
 
         <div class="container-titulo">

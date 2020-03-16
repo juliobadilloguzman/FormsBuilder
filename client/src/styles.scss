@@ -58,3 +58,36 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.sticky {
+    position: fixed;
+    top: 0;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.breadcrumb {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: .75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #e9ecef;
+    border-radius: .25rem;
+    a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+    }
+}
+
+.container-breadcrumb {
+    margin: auto;
+    width: 50%;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}

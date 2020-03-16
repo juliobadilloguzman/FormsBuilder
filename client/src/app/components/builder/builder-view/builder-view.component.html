@@ -8,6 +8,13 @@
         </mat-toolbar-row>
     </mat-toolbar>
 
+    <nav aria-label="breadcrumb" class="container-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
+            <li class="breadcrumb-item active"> Crear</li>
+        </ol>
+    </nav>
+
     <form class="form" [formGroup]="formulario" (ngSubmit)="crearFormulario()">
         <div class="container-titulo">
             <mat-form-field class="full-width">

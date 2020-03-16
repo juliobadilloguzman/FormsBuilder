@@ -10,6 +10,7 @@ import { ListUsersViewComponent } from './list-users-view/list-users-view.compon
 import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respuestas-llenado-view.component';
 
 
+
 @NgModule({
   declarations: [FormulariosViewComponent, ListUsersViewComponent, RespuestasLlenadoViewComponent],
   imports: [
@@ -17,7 +18,9 @@ import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respue
     FormulariosRoutingModule,
     SharedModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    
+  
   ]
 })
 export class FormulariosModule { }
