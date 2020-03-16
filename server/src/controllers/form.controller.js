@@ -45,6 +45,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
 
     let pregunta = params.texto;
     let opciones = ["", "", "", "", ""];
+    let hasUniqueAnswer = params.unico;
 
     for (let i = 0; i < params.opciones.length; i++) {
         opciones[i] = params.opciones[i].opcion;
@@ -56,6 +57,7 @@ function CreateMultipleQuestion(idCuestionario, params) {
     //Declarar parametros de entrada y salida
     request.input('p_idCuestionario', sql.Int, idCuestionario);
     request.input('p_textoPregunta', sql.VarChar(500), pregunta);
+    request.input('p_unicaRespuesta', sql.Bit, hasUniqueAnswer);
     request.input('p_opcion1_texto', sql.VarChar(100), opciones[0]);
     request.input('p_opcion2_texto', sql.VarChar(100), opciones[1]);
     request.input('p_opcion3_texto', sql.VarChar(100), opciones[2]);
