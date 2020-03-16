@@ -41,11 +41,10 @@ function CreateOpenQuestion(idCuestionario, params) {
     });
 }
 
-function CreateMultipleQuestion(idCuestionario, params) {
+function CreateMultipleQuestion(idCuestionario, params, hasUniqueAnswer) {
 
     let pregunta = params.texto;
     let opciones = ["", "", "", "", ""];
-    let hasUniqueAnswer = params.unico;
 
     for (let i = 0; i < params.opciones.length; i++) {
         opciones[i] = params.opciones[i].opcion;
@@ -216,7 +215,13 @@ module.exports.CreateUpdateForm = (req, res) => {
 
                 //Crear las preguntas múltiples
                 req.body.preguntasMultiples.forEach(element => {
-                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element) == -1)
+                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 1) == -1)
+                        console.log("Error al crear pregunta múltiple");
+                });
+
+                //Crear las preguntas múltiples
+                req.body.seleccionMultiple.forEach(element => {
+                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 0) == -1)
                         console.log("Error al crear pregunta múltiple");
                 });
             });
