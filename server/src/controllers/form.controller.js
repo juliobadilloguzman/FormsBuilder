@@ -219,10 +219,10 @@ module.exports.CreateUpdateForm = (req, res) => {
                         console.log("Error al crear pregunta múltiple");
                 });
 
-                //Crear las preguntas múltiples
+                //Crear las preguntas de selección multiple
                 req.body.seleccionMultiple.forEach(element => {
                     if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 0) == -1)
-                        console.log("Error al crear pregunta múltiple");
+                        console.log("Error al crear pregunta selección multiple");
                 });
             });
         //}
