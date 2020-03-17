@@ -198,12 +198,12 @@ module.exports.CreateUpdateForm = (req, res) => {
     }).then(cuestionario => {
 
         //Si se va a actualizar el cuestionario
-        if (cuestionario) {
+        //if (cuestionario) {
             //TODO: Actualizar cuestionario
-        }
+        //}
 
         //Si se va a crear el cuestionario
-        else {
+        //else {
             //Creación del cuestionario
             Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
 
@@ -225,7 +225,7 @@ module.exports.CreateUpdateForm = (req, res) => {
                         console.log("Error al crear pregunta múltiple");
                 });
             });
-        }
+        //}
     }).then(() => {
         //Mandar un response de que ya terminó el proceso
         res.json("Done");
@@ -367,8 +367,18 @@ module.exports.ShowAnswers = (req, res) => {
     });
 }
 
+function findAnswer(array, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i]["Pregunta"] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 module.exports.ShowUserAnswers = (req, res) => {
     let allAnswers = [];
+    let mult = [];
 
     // PREGUNTAS DE OPCION MULTIPLE
     request = new sql.Request();
@@ -380,7 +390,14 @@ module.exports.ShowUserAnswers = (req, res) => {
             let preguntaTemp = {};
             preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;
             preguntaTemp["Respuesta"] = result.recordset[index].Opcion;
-            allAnswers.push(preguntaTemp);
+
+            if (mult.includes(result.recordset[index].Pregunta)){
+                let modifyIndex = findAnswer(allAnswers, result.recordset[index].Pregunta);
+                allAnswers[modifyIndex]["Respuesta"] = allAnswers[modifyIndex]["Respuesta"].concat(", ").concat(result.recordset[index].Opcion);
+            } else {
+                mult.push(result.recordset[index].Pregunta);
+                allAnswers.push(preguntaTemp);
+            }
         }
     });
 
