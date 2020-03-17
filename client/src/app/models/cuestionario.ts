@@ -3,5 +3,6 @@ export interface Cuestionario {
     Nombre: string,
     Descripcion: string,
     preguntasMultiples: [],
-    preguntasAbiertas: []
+    preguntasAbiertas: [],
+    seleccionMultiple?: []
 }

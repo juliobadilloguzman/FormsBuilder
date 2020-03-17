@@ -123,7 +123,7 @@
         margin-top: 2rem;
         margin-bottom: 2rem;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         justify-content: space-between;
         grid-column-gap: 0.5rem;
         grid-row-gap: 0.5rem;
@@ -158,8 +158,22 @@
             border: none;
             transition: all 0.4s ease 0s;
         }
+        .btn-seleccionMultiple {
+            cursor: pointer !important;
+            color: #fff !important;
+            text-transform: uppercase;
+            text-decoration: none;
+            background: rgb(6, 4, 116);
+            padding: 1rem;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            display: inline-block;
+            border: none;
+            transition: all 0.4s ease 0s;
+        }
         .btn-agregarAbierta:hover,
-        .btn-agregarMultiple:hover {
+        .btn-agregarMultiple:hover,
+        .btn-seleccionMultiple:hover {
             cursor: pointer !important;
             background: #434343;
             letter-spacing: 1px;

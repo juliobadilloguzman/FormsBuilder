@@ -37,6 +37,7 @@
         <div class="container-buttons-add">
             <button type="button" class="btn-agregarAbierta" (click)="agregarPreguntaAbierta()">Agregar Pregunta Abierta</button>
             <button type="button" class="btn-agregarMultiple" color="accent" (click)="addNewPreguntaMultiple()">Agregar Pregunta Multiple</button>
+            <button type="button" class="btn-seleccionMultiple" color="accent" (click)="addNewSeleccionMultiple()">Agregar Seleccion Multiple</button>
         </div>
 
 
@@ -79,6 +80,38 @@
 
                         <mat-radio-button disabled>
                         </mat-radio-button>
+
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Opcion" formControlName="opcion">
+                        </mat-form-field><button type="button" class="btn-eliminar-opcion" mat-stroked-button color="warn" (click)="deleteOpcion(pregunta.controls.opciones, j)">Eliminar opcion</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seleccion Multiple -->
+        <div class="container-preguntaMultiple-individual" formArrayName="seleccionMultiple" *ngFor="let pregunta of seleccionMultiple.controls; let i = index;">
+
+            <div [formGroupName]="i" class="container-contenido-multiple">
+
+                <div class="button-delete-multiple">
+                    <button type="button" mat-flat-button color="warn" (click)="deleteSeleccionMultiple(i)">Eliminar</button>
+                </div>
+
+                <div>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Titulo de la pregunta" formControlName="texto">
+                    </mat-form-field>
+                    <button type="button" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
+                </div>
+
+
+
+                <div formArrayName="opciones" *ngFor="let opcion of pregunta.get('opciones').controls;let j=index">
+
+                    <div [formGroupName]="j">
+
+                        <mat-checkbox disabled></mat-checkbox>
 
                         <mat-form-field class="example-full-width">
                             <input matInput placeholder="Opcion" formControlName="opcion">

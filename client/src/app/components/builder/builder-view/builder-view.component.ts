@@ -32,7 +32,8 @@ export class BuilderViewComponent implements OnInit {
     Descripcion: ["", Validators.required],
     idUsuarioCreador: [localStorage.getItem('idUsuario')],
     preguntasAbiertas: this.fb.array([this.createAbierta()]),
-    preguntasMultiples: this.fb.array([])
+    preguntasMultiples: this.fb.array([]),
+    seleccionMultiple: this.fb.array([])
   });
 
   ngOnInit(): void {
@@ -58,6 +59,10 @@ export class BuilderViewComponent implements OnInit {
 
   get preguntasMultiples() {
     return this.formulario.get("preguntasMultiples") as FormArray;
+  }
+
+  get seleccionMultiple() {
+    return this.formulario.get("seleccionMultiple") as FormArray;
   }
 
   get opciones() {
@@ -88,6 +93,17 @@ export class BuilderViewComponent implements OnInit {
     );
   }
 
+  addNewSeleccionMultiple() {
+    let control = this.formulario.controls.seleccionMultiple as FormArray;
+
+    control.push(
+      this.fb.group({
+        texto: [""],
+        opciones: this.fb.array([])
+      })
+    );
+  }
+
   addNewOpcion(control) {
     control.push(this.fb.group({
       opcion: ''
@@ -105,12 +121,18 @@ export class BuilderViewComponent implements OnInit {
     control.removeAt(index)
   }
 
+  deleteSeleccionMultiple(index) {
+    let control = <FormArray>this.formulario.controls.seleccionMultiple;
+    control.removeAt(index)
+  }
+
   deleteOpcion(control, index) {
     control.removeAt(index);
   }
 
   /////ENVIAR FORMULARIO
   crearFormulario() {
+    console.warn(this.formulario.value);
     this._formsService.createForm(this.formulario.value).subscribe(
       res=>{
         this._snackBar.open(`Formulario creado correctamente`, "", {

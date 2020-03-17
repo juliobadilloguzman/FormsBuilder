@@ -137,13 +137,13 @@ function GetMultipleQuestions(idCuestionario, cuestionarioJson) {
                     pregMult["opciones"] = result2.recordset;
                 });
 
-                
+
                 //Agregar el registro al arreglo que corresponde
                 request3 = new sql.Request();
                 request3.query(`SELECT dbo.hasUniqueAnswer(${element.idCuestionarioPreguntasMult})`, (err, result) => {
                     if (err)
                         res.json(err);
-                    if(result.recordset[0][""]){
+                    if (result.recordset[0][""]) {
                         preguntasMultiplesObj.push(pregMult);
                     } else {
                         seleccionMultiplesObj.push(pregMult);
@@ -325,6 +325,7 @@ module.exports.FillForm = (req, res) => {
 
     //Ejecutar el request
     request.execute('LlenadoCuestionario_C', (err, result) => {
+
         let idLlenado = result.recordset[0].idLlenado;
 
         //Guardar preguntas múltiples

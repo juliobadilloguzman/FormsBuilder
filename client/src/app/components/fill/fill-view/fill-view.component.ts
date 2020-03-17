@@ -60,6 +60,14 @@ export class FillViewComponent implements OnInit {
           element.id = idPregunta+i;
           i++;
         }
+
+        let j = 0;
+        let idPreguntaSeleccion = 'pregunta'+j;
+
+        for (let element of this.questionarie.seleccionMultiple) {
+          element.id = idPreguntaSeleccion+j;
+          j++;
+        }
         
 
         console.warn(this.questionarie);
@@ -89,31 +97,36 @@ export class FillViewComponent implements OnInit {
       delete itearator.opciones;
     }
 
+    //Elimina las opciones
+    for(let itearator of this.questionarie.seleccionMultiple){
+      delete itearator.opciones;
+    }
+
     console.log(this.questionarie);
 
-    this._formsService.llenarCuestionario(this.questionarie).subscribe(
-      res => {
-        if(res == 'Done'){
-          this._snackBar.open(`Formulario llenado correctamente`, "", {
-            duration: 2000,
-            panelClass: "snackbar-success",
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          });
-          this.ngOnInit();
-        }else{
-          this._snackBar.open(`No se ha podido llenar el formulario`, "", {
-            duration: 2000,
-            panelClass: "snackbar-error ",
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          });
-        }
-      },
-      err => {
-        alert(err);
-      }
-    )
+    // this._formsService.llenarCuestionario(this.questionarie).subscribe(
+    //   res => {
+    //     if(res == 'Done'){
+    //       this._snackBar.open(`Formulario llenado correctamente`, "", {
+    //         duration: 2000,
+    //         panelClass: "snackbar-success",
+    //         verticalPosition: "top",
+    //         horizontalPosition: "right"
+    //       });
+    //       this.ngOnInit();
+    //     }else{
+    //       this._snackBar.open(`No se ha podido llenar el formulario`, "", {
+    //         duration: 2000,
+    //         panelClass: "snackbar-error ",
+    //         verticalPosition: "top",
+    //         horizontalPosition: "right"
+    //       });
+    //     }
+    //   },
+    //   err => {
+    //     alert(err);
+    //   }
+    // )
 
   }
 
