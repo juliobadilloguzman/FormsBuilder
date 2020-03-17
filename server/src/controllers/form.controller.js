@@ -311,6 +311,34 @@ async function fillMultipleQuestions(array, idCuestionario, idLlenado) {
     }
 }
 
+async function fillSeleccionQuestions(array, idCuestionario, idLlenado) {
+    for (const item of array) {
+
+        //Obtener el texto de la pregunta y la respuesta múltiple
+        let pregunta = item.texto;
+        let respuesta = item.respuestas;
+
+        for (const opcion of respuesta){
+            //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
+            await GetFormMultQuestionOption(idCuestionario, pregunta, opcion["respuesta"]).then((formMultQuestion) => {
+
+                const llenadoData = {
+                    fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
+                    fk_idLlenado: idLlenado,
+                    fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
+                }
+
+                
+                LlenadoPreguntaMult.create(llenadoData)
+                    .then(llenadoPreguntaMult => {
+                        console.log(llenadoPreguntaMult.dataValues);
+                    }).catch(error => { res.json(error) });
+                
+            });
+        }
+    }
+}
+
 module.exports.FillForm = (req, res) => {
 
     let idUsuario = req.body.idUsuario;
@@ -330,6 +358,8 @@ module.exports.FillForm = (req, res) => {
         //Guardar preguntas múltiples
         fillMultipleQuestions(req.body.preguntasMultiples, idCuestionario, idLlenado);
 
+        fillSeleccionQuestions(req.body.seleccionMultiple, idCuestionario, idLlenado);
+
         //Guardar preguntas abiertas
         fillOpenQuestions(req.body.preguntasAbiertas, idCuestionario, idLlenado);
 
@@ -338,6 +368,44 @@ module.exports.FillForm = (req, res) => {
     });
 
 }
+
+module.exports.VerifyOwner = (req, res) => {
+    request = new sql.Request();
+    request.input('@p_idCuestionario', sql.Int, req.body.idCuestionario);
+    request.input('@p_idUsuario', sql.Int, req.body.idUsuario);
+    request.query(`SELECT dbo.isOwner(${req.body.idCuestionario}, ${req.body.idUsuario})`, (err, result) => {
+        if (err)
+            res.json(err);
+        res.json(result.recordset[0][""]);
+    });
+}
+
+module.exports.ShowAnswers = (req, res) => {
+    request = new sql.Request();
+    request.input('p_idCuestionario', sql.Int, req.params.idCuestionario);
+    request.execute(`LlenadoCuestionario_RA`, (err, result) => {
+        if (err)
+            res.json(err);
+
+        if (result['recordset'].length <= 0) {
+            res.json({ message: 'noUsers' });
+        } else {
+            res.json(result.recordsets[0]);
+        }
+
+        // res.json(result['recordset']);
+    });
+}
+
+function findAnswer(array, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i]["Pregunta"] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 
 module.exports.VerifyOwner = (req, res) => {
     request = new sql.Request();
