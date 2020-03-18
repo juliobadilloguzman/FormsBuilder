@@ -199,32 +199,32 @@ module.exports.CreateUpdateForm = (req, res) => {
 
         //Si se va a actualizar el cuestionario
         //if (cuestionario) {
-            //TODO: Actualizar cuestionario
+        //TODO: Actualizar cuestionario
         //}
 
         //Si se va a crear el cuestionario
         //else {
-            //Creación del cuestionario
-            Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
+        //Creación del cuestionario
+        Create(req.body.idUsuarioCreador, req.body).then((newCuestionario) => {
 
-                //Crear las preguntas abiertas
-                req.body.preguntasAbiertas.forEach(element => {
-                    if (CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
-                        console.log("Error al crear pregunta abierta");
-                });
-
-                //Crear las preguntas múltiples
-                req.body.preguntasMultiples.forEach(element => {
-                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 1) == -1)
-                        console.log("Error al crear pregunta múltiple");
-                });
-
-                //Crear las preguntas de selección multiple
-                req.body.seleccionMultiple.forEach(element => {
-                    if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 0) == -1)
-                        console.log("Error al crear pregunta selección multiple");
-                });
+            //Crear las preguntas abiertas
+            req.body.preguntasAbiertas.forEach(element => {
+                if (CreateOpenQuestion(newCuestionario.idCuestionario, element) == -1)
+                    console.log("Error al crear pregunta abierta");
             });
+
+            //Crear las preguntas múltiples
+            req.body.preguntasMultiples.forEach(element => {
+                if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 1) == -1)
+                    console.log("Error al crear pregunta múltiple");
+            });
+
+            //Crear las preguntas de selección multiple
+            req.body.seleccionMultiple.forEach(element => {
+                if (CreateMultipleQuestion(newCuestionario.idCuestionario, element, 0) == -1)
+                    console.log("Error al crear pregunta selección multiple");
+            });
+        });
         //}
     }).then(() => {
         //Mandar un response de que ya terminó el proceso
@@ -318,9 +318,9 @@ async function fillSeleccionQuestions(array, idCuestionario, idLlenado) {
         let pregunta = item.texto;
         let respuesta = item.respuestas;
 
-        for (const opcion of respuesta){
+        for (const opcion of respuesta) {
             //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
-            await GetFormMultQuestionOption(idCuestionario, pregunta, opcion["respuesta"]).then((formMultQuestion) => {
+            await GetFormMultQuestionOption(idCuestionario, pregunta, opcion).then((formMultQuestion) => {
 
                 const llenadoData = {
                     fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
@@ -328,12 +328,12 @@ async function fillSeleccionQuestions(array, idCuestionario, idLlenado) {
                     fk_idOpcionesPreguntaMultcol: formMultQuestion.idOpcionesPreguntaMultcol
                 }
 
-                
+
                 LlenadoPreguntaMult.create(llenadoData)
                     .then(llenadoPreguntaMult => {
                         console.log(llenadoPreguntaMult.dataValues);
                     }).catch(error => { res.json(error) });
-                
+
             });
         }
     }
@@ -399,8 +399,8 @@ module.exports.ShowAnswers = (req, res) => {
 }
 
 function findAnswer(array, value) {
-    for(var i = 0; i < array.length; i += 1) {
-        if(array[i]["Pregunta"] === value) {
+    for (var i = 0; i < array.length; i += 1) {
+        if (array[i]["Pregunta"] === value) {
             return i;
         }
     }
@@ -437,53 +437,70 @@ module.exports.ShowAnswers = (req, res) => {
 }
 
 function findAnswer(array, value) {
-    for(var i = 0; i < array.length; i += 1) {
-        if(array[i]["Pregunta"] === value) {
+    for (var i = 0; i < array.length; i += 1) {
+        if (array[i]["Pregunta"] === value) {
             return i;
         }
     }
     return -1;
 }
 
-module.exports.ShowUserAnswers = (req, res) => {
+async function GetUserMultAnswers(idUsuario, idCuestionario) {
+
     let allAnswers = [];
     let mult = [];
 
-    // PREGUNTAS DE OPCION MULTIPLE
-    request = new sql.Request();
-    request.input('p_idUsuario', sql.Int, req.params.idUsuario);
-    request.input('p_idCuestionario', sql.Int, req.params.idCuestionario);
-    request.execute(`LlenadoPreguntaMult_RA`, (err, result) => {
-        if (err) { res.json(err); }
-        for (index in result.recordset) {
-            let preguntaTemp = {};
-            preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;
-            preguntaTemp["Respuesta"] = result.recordset[index].Opcion;
+    let request = new sql.Request();
 
-            if (mult.includes(result.recordset[index].Pregunta)){
-                let modifyIndex = findAnswer(allAnswers, result.recordset[index].Pregunta);
-                allAnswers[modifyIndex]["Respuesta"] = allAnswers[modifyIndex]["Respuesta"].concat(", ").concat(result.recordset[index].Opcion);
-            } else {
-                mult.push(result.recordset[index].Pregunta);
+    request.input('p_idUsuario', sql.Int, idUsuario);
+    request.input('p_idCuestionario', sql.Int, idCuestionario);
+
+    return new Promise((resolve, reject) => {
+
+        request.execute(`LlenadoPreguntaMult_RA`, (err, result) => {
+            if (err) { resolve(err); }
+
+            for (index in result.recordset) {
+                let preguntaTemp = {};
+                preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;
+                preguntaTemp["Respuesta"] = result.recordset[index].Opcion;
+
+                if (mult.includes(result.recordset[index].Pregunta)) {
+                    let modifyIndex = findAnswer(allAnswers, result.recordset[index].Pregunta);
+                    allAnswers[modifyIndex]["Respuesta"] = allAnswers[modifyIndex]["Respuesta"].concat(", ").concat(result.recordset[index].Opcion);
+                } else {
+                    mult.push(result.recordset[index].Pregunta);
+                    allAnswers.push(preguntaTemp);
+                }
+            }
+
+            resolve(allAnswers);
+        });
+    });
+}
+
+module.exports.ShowUserAnswers = (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+    let idCuestionario = req.params.idCuestionario;
+
+    //Preguntas de opción múltiple
+    GetUserMultAnswers(idUsuario, idCuestionario).then((allAnswers) => {
+
+        //Preguntas abiertas
+        request = new sql.Request();
+        request.input('p_idUsuario', sql.Int, idUsuario);
+        request.input('p_idCuestionario', sql.Int, idCuestionario);
+        request.execute(`LlenadoPreguntaAbierta_RA`, (err, result) => {
+            if (err) { res.json(err); }
+            for (index in result.recordset) {
+                let preguntaTemp = {};
+                preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;
+                preguntaTemp["Respuesta"] = result.recordset[index].Respuesta;
                 allAnswers.push(preguntaTemp);
             }
-        }
-    });
-
-    //PREGUNTAS ABIERTAS
-    request = new sql.Request();
-    request.input('p_idUsuario', sql.Int, req.params.idUsuario);
-    request.input('p_idCuestionario', sql.Int, req.params.idCuestionario);
-    request.execute(`LlenadoPreguntaAbierta_RA`, (err, result) => {
-        if (err) { res.json(err); }
-        for (index in result.recordset) {
-            let preguntaTemp = {};
-            preguntaTemp["Pregunta"] = result.recordset[index].Pregunta;
-            preguntaTemp["Respuesta"] = result.recordset[index].Respuesta;
-            allAnswers.push(preguntaTemp);
-        }
-        res.json(allAnswers);
-
+            res.json(allAnswers);
+        });
     });
 }
 
