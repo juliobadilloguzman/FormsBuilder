@@ -24,6 +24,8 @@ export class FillViewComponent implements OnInit {
 
   questionarie: any;
 
+  respuestas: string[] = [];
+
   constructor(private _authService: AuthService, private _formsService: FormsService,
     private activatedRoute: ActivatedRoute, private fb: FormBuilder, private _snackBar: MatSnackBar) { }
 
@@ -61,13 +63,13 @@ export class FillViewComponent implements OnInit {
           i++;
         }
 
-        let j = 0;
-        let idPreguntaSeleccion = 'pregunta'+j;
 
-        for (let element of this.questionarie.seleccionMultiple) {
-          element.id = idPreguntaSeleccion+j;
-          j++;
+        //Agregamos el atributo de respuesta a las preguntas multiples
+        for (let iterator of this.questionarie.seleccionMultiple) {
+          iterator.respuestas = [''];
+          
         }
+
         
 
         console.warn(this.questionarie);
@@ -80,6 +82,26 @@ export class FillViewComponent implements OnInit {
 
   logOut(){
     this._authService.logOut();
+  }
+
+  seleccionarMultiples(pregunta: any, opcion: string, event:any){
+
+  
+    if(event.target.checked){
+      console.log('la opcion: ' + opcion + ' esta check');
+      pregunta.respuestas.push(opcion);
+    }else{
+      //elimina la opcion
+      pregunta.respuestas = pregunta.respuestas.filter(e => e !== opcion);
+      console.log('no esta');
+      
+    }
+
+    //elimina campos vacios
+    pregunta.respuestas = pregunta.respuestas.filter(item => item);
+
+    console.log(pregunta);
+    
   }
 
   fill(){
@@ -103,6 +125,7 @@ export class FillViewComponent implements OnInit {
     }
 
     console.log(this.questionarie);
+    
 
     // this._formsService.llenarCuestionario(this.questionarie).subscribe(
     //   res => {
