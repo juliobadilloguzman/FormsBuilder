@@ -320,7 +320,7 @@ async function fillSeleccionQuestions(array, idCuestionario, idLlenado) {
 
         for (const opcion of respuesta) {
             //Obtener la pregunta múltiple y la opción por medio de un procedimiento (dado un cuestionario, la pregunta y la opción)
-            await GetFormMultQuestionOption(idCuestionario, pregunta, opcion["respuesta"]).then((formMultQuestion) => {
+            await GetFormMultQuestionOption(idCuestionario, pregunta, opcion).then((formMultQuestion) => {
 
                 const llenadoData = {
                     fk_idCuestionarioPreguntasMult: formMultQuestion.idCuestionarioPreguntasMult,
