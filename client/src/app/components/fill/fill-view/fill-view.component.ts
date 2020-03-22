@@ -127,29 +127,29 @@ export class FillViewComponent implements OnInit {
     console.log(this.questionarie);
     
 
-    // this._formsService.llenarCuestionario(this.questionarie).subscribe(
-    //   res => {
-    //     if(res == 'Done'){
-    //       this._snackBar.open(`Formulario llenado correctamente`, "", {
-    //         duration: 2000,
-    //         panelClass: "snackbar-success",
-    //         verticalPosition: "top",
-    //         horizontalPosition: "right"
-    //       });
-    //       this.ngOnInit();
-    //     }else{
-    //       this._snackBar.open(`No se ha podido llenar el formulario`, "", {
-    //         duration: 2000,
-    //         panelClass: "snackbar-error ",
-    //         verticalPosition: "top",
-    //         horizontalPosition: "right"
-    //       });
-    //     }
-    //   },
-    //   err => {
-    //     alert(err);
-    //   }
-    // )
+    this._formsService.llenarCuestionario(this.questionarie).subscribe(
+      res => {
+        if(res == 'Done'){
+          this._snackBar.open(`Formulario llenado correctamente`, "", {
+            duration: 2000,
+            panelClass: "snackbar-success",
+            verticalPosition: "top",
+            horizontalPosition: "right"
+          });
+          this.ngOnInit();
+        }else{
+          this._snackBar.open(`No se ha podido llenar el formulario`, "", {
+            duration: 2000,
+            panelClass: "snackbar-error ",
+            verticalPosition: "top",
+            horizontalPosition: "right"
+          });
+        }
+      },
+      err => {
+        alert(err);
+      }
+    )
 
   }
 

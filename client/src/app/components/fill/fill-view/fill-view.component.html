@@ -11,6 +11,14 @@
     <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasForm">
     </mat-progress-bar>
 
+    <nav aria-label="breadcrumb" class="container-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
+            <li class="breadcrumb-item"> Llenar formulario/ </li>
+            <li class="breadcrumb-item active"> {{nombreFormulario}}</li>
+        </ol>
+    </nav>
+
     <div class="container-info-formulario">
         <div class="container-titulo">
             <h2 class="titulo-text">{{nombreFormulario}}</h2>
