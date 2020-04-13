@@ -13,12 +13,14 @@ import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 import { GraficaPastelComponent } from './grafica-pastel/grafica-pastel.component';
 import { GraficaBarrasComponent } from './grafica-barras/grafica-barras.component';
 import { GraficaDonaComponent } from './grafica-dona/grafica-dona.component';
+import { GraficasFormularioViewComponent } from './graficas-formulario-view/graficas-formulario-view.component';
 
 @NgModule({
   declarations: [
     FormulariosViewComponent,
     ListUsersViewComponent,
     RespuestasLlenadoViewComponent,
+    GraficasFormularioViewComponent,
     GraficaPastelComponent,
     GraficaBarrasComponent,
     GraficaDonaComponent
