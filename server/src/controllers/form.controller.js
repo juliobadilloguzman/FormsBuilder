@@ -156,6 +156,62 @@ function GetMultipleQuestions(idCuestionario, cuestionarioJson) {
     });
 }
 
+
+function GetMultipleQuestionsGraphs(idCuestionario, cuestionarioJson) {
+
+    let request = new sql.Request();
+    let preguntasMultiplesObj = [];
+    let seleccionMultiplesObj = [];
+
+    return new Promise((resolve, reject) => {
+
+        setTimeout(() => resolve(preguntasMultiplesObj), 1000);
+
+        //Buscar todas las preguntas del cuestionario
+        CuestionarioPreguntaMult.findAll({
+            where: {
+                fk_idCuestionario: idCuestionario
+            }
+        }).then(CuestionarioPreguntaMult => {
+
+            for (index in CuestionarioPreguntaMult) {
+
+                let pregMult = {};
+                let element = CuestionarioPreguntaMult[index];
+
+                //Conseguir el texto de la pregunta
+                request = new sql.Request();
+                request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
+                request.execute('textoPreguntaMult_R', (err, result) => {
+                    pregMult["texto"] = result.recordset[0].Pregunta;
+                });
+
+                //Conseguir las opciones
+                request2 = new sql.Request();
+                request2.input('p_idCuestionarioPreguntasMult', sql.Int, element.idCuestionarioPreguntasMult);
+                request2.execute('EstadisticaPreguntaMult_R', (err, result2) => {
+                    pregMult["opciones"] = result2.recordset;
+                });
+
+
+                //Agregar el registro al arreglo que corresponde
+                request3 = new sql.Request();
+                request3.query(`SELECT dbo.hasUniqueAnswer(${element.idCuestionarioPreguntasMult})`, (err, result) => {
+                    if (err)
+                        res.json(err);
+                    if (result.recordset[0][""]) {
+                        preguntasMultiplesObj.push(pregMult);
+                    } else {
+                        seleccionMultiplesObj.push(pregMult);
+                    }
+                });
+            }
+        })
+        cuestionarioJson["preguntasMultiples"] = preguntasMultiplesObj;
+        cuestionarioJson["seleccionMultiple"] = seleccionMultiplesObj;
+    });
+}
+
 async function GetFormOpenQuestion(idCuestionario, pregunta) {
     //Crear el request
     let request = new sql.Request();
@@ -256,6 +312,36 @@ module.exports.GetFormQuestions = (req, res) => {
                     cuestionarioJson["preguntasAbiertas"] = preguntasAbiertas;
                     res.json(cuestionarioJson);
                 });
+            });
+        } else {
+            console.log("No existe el cuestionario");
+            return;
+        }
+    });
+}
+
+module.exports.GetFormGraphs = (req, res) => {
+
+    cuestionarioJson = {};
+
+    //Checar si el formulario ya existe
+    Cuestionario.findOne({
+        where: {
+            idCuestionario: req.params.idForm
+        }
+    }).then(cuestionario => {
+        //Checar si el cuestionario existe
+        if (cuestionario) {
+
+            cuestionarioJson["Nombre"] = cuestionario.Nombre;
+            //Por si se quiere mostrar la descripcion del cuestionario
+            //cuestionarioJson["Descripcion"] = cuestionario.Descripcion;
+
+            GetMultipleQuestionsGraphs(cuestionario.idCuestionario, cuestionarioJson).then((preguntasMultiples) => {
+                // Append se hace dentro de GetMultipleQuestions
+                // cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
+            }).then(() => {
+                res.json(cuestionarioJson);
             });
         } else {
             console.log("No existe el cuestionario");
