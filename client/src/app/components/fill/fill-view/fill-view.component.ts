@@ -136,7 +136,9 @@ export class FillViewComponent implements OnInit {
             verticalPosition: "top",
             horizontalPosition: "right"
           });
-          this.ngOnInit();
+          setTimeout(()=>{    //<<<---    using ()=> syntax
+            window.location.reload();
+          }, 1000);
         }else{
           this._snackBar.open(`No se ha podido llenar el formulario`, "", {
             duration: 2000,
