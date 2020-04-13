@@ -161,7 +161,6 @@ function GetMultipleQuestionsGraphs(idCuestionario, cuestionarioJson) {
 
     let request = new sql.Request();
     let preguntasMultiplesObj = [];
-    let seleccionMultiplesObj = [];
 
     return new Promise((resolve, reject) => {
 
@@ -192,23 +191,10 @@ function GetMultipleQuestionsGraphs(idCuestionario, cuestionarioJson) {
                 request2.execute('EstadisticaPreguntaMult_R', (err, result2) => {
                     pregMult["opciones"] = result2.recordset;
                 });
-
-
-                //Agregar el registro al arreglo que corresponde
-                request3 = new sql.Request();
-                request3.query(`SELECT dbo.hasUniqueAnswer(${element.idCuestionarioPreguntasMult})`, (err, result) => {
-                    if (err)
-                        res.json(err);
-                    if (result.recordset[0][""]) {
-                        preguntasMultiplesObj.push(pregMult);
-                    } else {
-                        seleccionMultiplesObj.push(pregMult);
-                    }
-                });
+                preguntasMultiplesObj.push(pregMult);
             }
         })
-        cuestionarioJson["preguntasMultiples"] = preguntasMultiplesObj;
-        cuestionarioJson["seleccionMultiple"] = seleccionMultiplesObj;
+        cuestionarioJson["preguntas"] = preguntasMultiplesObj;
     });
 }
 
