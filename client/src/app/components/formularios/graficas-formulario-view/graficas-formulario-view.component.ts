@@ -4,6 +4,7 @@ import { CuestionarioGrafica } from 'src/app/models/cuestionarioGrafica';
 import { FormsService } from 'src/app/services/forms.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { PreguntaMultiple } from 'src/app/models/preguntaMultiple';
 
 @Component({
   selector: 'app-graficas-formulario-view',
@@ -19,7 +20,7 @@ export class GraficasFormularioViewComponent implements OnInit {
 
   nombreFormulario: string;
   descripcionFormulario: string;
-  preguntas: [];
+  preguntas: PreguntaMultiple[];
 
   hasResponse = false;
 

@@ -31,7 +31,7 @@
 
       <div class="container-respuesta " *ngFor="let pregunta of preguntas; let i=index ">
         <h4 class="respuesta-text "><span class="contador ">{{i + 1}}.- </span> {{pregunta.texto}}</h4>
-        <app-grafica-pastel></app-grafica-pastel>
+        <app-grafica-pastel [preguntaJson]=pregunta></app-grafica-pastel>
       </div>
     </div>
 
