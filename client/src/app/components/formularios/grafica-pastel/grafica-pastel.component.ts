@@ -14,10 +14,9 @@ export class GraficaPastelComponent implements OnInit {
   chartLabel: string;
   chartData: number[];
   chartLabels: string[];
+  chartDatasets: Array<any>;
 
   public chartType = 'pie';
-
-  chartDatasets: Array<any>;
 
   public chartColors: Array<any> = [
     {

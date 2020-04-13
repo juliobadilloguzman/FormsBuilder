@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PreguntaMultiple } from 'src/app/models/preguntaMultiple';
 
 @Component({
   selector: 'app-grafica-dona',
@@ -7,13 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GraficaDonaComponent implements OnInit {
 
+  @Input()
+  preguntaJson: PreguntaMultiple;
+
+  chartLabel: string;
+  chartData: number[];
+  chartLabels: string[];
+  chartDatasets: Array<any>;
+
   public chartType = 'doughnut';
-
-  public chartDatasets: Array<any> = [
-    { data: [300, 50, 100, 40, 120], label: 'My First dataset' }
-  ];
-
-  public chartLabels: Array<any> = ['Red', 'Green', 'Yellow', 'Grey', 'Dark Grey'];
 
   public chartColors: Array<any> = [
     {
@@ -32,6 +35,19 @@ export class GraficaDonaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.chartLabel = this.preguntaJson.texto;
+    this.chartData = [];
+    this.chartLabels = [];
+
+    this.preguntaJson.opciones.forEach(element => {
+      this.chartData.push(element.Porcentaje);
+      this.chartLabels.push(element.Texto);
+    });
+
+    this.chartDatasets = [
+      { data: this.chartData, label: this.chartLabel }
+    ];
+
   }
 
 }

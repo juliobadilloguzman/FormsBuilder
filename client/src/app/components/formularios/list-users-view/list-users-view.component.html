@@ -25,6 +25,22 @@
             <h4 class="descripcion-text">{{descripcionFormulario}}</h4>
         </div>
 
+        <h4 class="title-contestados">Estadísticas del cuestionario</h4>
+
+        <div class="container-usuarios">
+          <div *ngIf="!hasUsers; else noUsersYet">
+              <div class="listado-container" *ngFor="let usuario of usuarios">
+                  <div>
+                      <a class="listado-nombre">{{usuario.Nombre}}</a>
+                      <p class="listado-fecha"><span class="span-contestado">Contestado el: </span><span class="span-fecha">{{usuario.Fecha | date: 'dd/MM/yyyy'}}</span> </p>
+
+                  </div>
+                  <button mat-raised-button (click)="goToUserAnswers(usuario.idUsuario)">Ver Respuestas</button>
+
+              </div>
+          </div>
+      </div>
+
         <h4 class="title-contestados">Usuarios que han contestado este cuestionario</h4>
 
         <div class="container-usuarios">
@@ -42,8 +58,6 @@
 
                 </div>
             </div>
-
-
         </div>
 
         <!-- <div class="container-comparte">
