@@ -9,20 +9,26 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ListUsersViewComponent } from './list-users-view/list-users-view.component';
 import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respuestas-llenado-view.component';
 
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 import { GraficalineaComponent } from './graficalinea/graficalinea.component';
+import { GraficaPastelComponent } from './grafica-pastel/grafica-pastel.component';
 
 @NgModule({
-  declarations: [FormulariosViewComponent, ListUsersViewComponent, RespuestasLlenadoViewComponent, GraficalineaComponent],
+  declarations: [
+    FormulariosViewComponent,
+    ListUsersViewComponent,
+    RespuestasLlenadoViewComponent,
+    GraficalineaComponent,
+    GraficaPastelComponent
+  ],
   imports: [
     CommonModule,
     FormulariosRoutingModule,
     SharedModule,
     MaterialModule,
     HttpClientModule,
-    ChartsModule
-    
-  
+    ChartsModule,
+    WavesModule
   ]
 })
 export class FormulariosModule { }

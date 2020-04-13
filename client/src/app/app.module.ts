@@ -8,6 +8,7 @@ import { MaterialModule } from './shared/material.module';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ChartsModule } from 'ng2-charts';
     CoreModule,
     SharedModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    MDBBootstrapModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
