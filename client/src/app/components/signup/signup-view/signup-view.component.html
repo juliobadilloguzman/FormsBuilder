@@ -13,8 +13,14 @@
             <div *ngIf="userExists">
                 <span class="text-danger">El nombre de usuario ya existe</span>
             </div>
+            <div *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.errors?.minlength">
+                <span class="text-danger">El nombre debe de tener minimo 4 caracteres</span>
+            </div>
             <div>
                 <input class="full-width" type="password" formControlName="Contrasena" placeholder="Contraseña">
+            </div>
+            <div *ngIf="(Contrasena.dirty || Contrasena.touched) && Contrasena.errors?.minlength">
+                <span class="text-danger">La contraseña debe de tener minimo 4 caracteres</span>
             </div>
             <div>
                 <input class="full-width" type="password" formControlName="ConfirmContrasena" placeholder="Confirmar contraseña">
@@ -27,7 +33,7 @@
                 <span class="text-danger">Verifica campos vacios</span>
             </div>
             <div>
-                <button class="full-width btn-registrar">Registrarme</button>
+                <button [disabled]="!signUpForm.valid" class="full-width btn-registrar">Registrarme</button>
             </div>
         </form>
         <span class="text-white container-title-crear">

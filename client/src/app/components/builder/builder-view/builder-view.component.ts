@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { FormsService } from "src/app/services/forms.service";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -17,6 +17,7 @@ export class BuilderViewComponent implements OnInit {
   opcionMultiple: string;
   idCuestionario: string;
   cuestionarioEditar: Cuestionario;
+
 
   constructor(
     private _formsService: FormsService,
@@ -71,7 +72,7 @@ export class BuilderViewComponent implements OnInit {
 
   createAbierta(): FormGroup {
     return this.fb.group({
-      texto: ''
+      texto: ['', Validators.required]
     });
   }
 
@@ -87,7 +88,7 @@ export class BuilderViewComponent implements OnInit {
 
     control.push(
       this.fb.group({
-        texto: [""],
+        texto: ["", Validators.required],
         opciones: this.fb.array([])
       })
     );
@@ -98,16 +99,19 @@ export class BuilderViewComponent implements OnInit {
 
     control.push(
       this.fb.group({
-        texto: [""],
+        texto: ["", Validators.required],
         opciones: this.fb.array([])
       })
     );
   }
 
   addNewOpcion(control) {
+    console.log(control);
+
     control.push(this.fb.group({
-      opcion: ''
+      opcion: ['', Validators.required]
     }));
+
   }
 
   //REMOVE PREGUNTAS
@@ -141,6 +145,11 @@ export class BuilderViewComponent implements OnInit {
           verticalPosition: "top",
           horizontalPosition: "right"
         });
+
+        setTimeout(()=>{    //<<<---    using ()=> syntax
+          window.location.reload();
+     }, 1000);
+        
       },
       error => {
         this._snackBar.open(`Error al crear el formulario`, "", {
@@ -153,5 +162,7 @@ export class BuilderViewComponent implements OnInit {
       
       );
   }
+
+
 
 }
