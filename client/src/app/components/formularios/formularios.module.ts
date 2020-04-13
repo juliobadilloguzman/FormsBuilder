@@ -11,13 +11,17 @@ import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respue
 
 import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 import { GraficaPastelComponent } from './grafica-pastel/grafica-pastel.component';
+import { GraficaBarrasComponent } from './grafica-barras/grafica-barras.component';
+import { GraficaDonaComponent } from './grafica-dona/grafica-dona.component';
 
 @NgModule({
   declarations: [
     FormulariosViewComponent,
     ListUsersViewComponent,
     RespuestasLlenadoViewComponent,
-    GraficaPastelComponent
+    GraficaPastelComponent,
+    GraficaBarrasComponent,
+    GraficaDonaComponent
   ],
   imports: [
     CommonModule,
