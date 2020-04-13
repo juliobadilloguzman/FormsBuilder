@@ -26,7 +26,7 @@ export class ListUsersViewComponent implements OnInit {
   hasUsers: boolean = true;
 
   constructor(private _authService: AuthService, private _formsService: FormsService,
-    private activatedRoute: ActivatedRoute, private router: Router) { 
+    private activatedRoute: ActivatedRoute, private router: Router) {
     this.idUsuario = parseInt(localStorage.getItem('idUsuario'));
 
   }
@@ -46,16 +46,16 @@ export class ListUsersViewComponent implements OnInit {
 
         console.log(res);
         this.hasResponseUsers = true;
-        
-        if(res['message'] == 'noUsers'){
-         this.hasUsers=true;
-        }else{
-          this.hasUsers=false;
+
+        if (res['message'] == 'noUsers') {
+          this.hasUsers = true;
+        } else {
+          this.hasUsers = false;
           this.usuarios = res;
         }
 
-       
-      
+
+
       },
       error => console.log(error)
     )
@@ -63,7 +63,7 @@ export class ListUsersViewComponent implements OnInit {
     //Obtiene el Cuestionario
     this._formsService.getFormById(this.idCuestionario).subscribe(
       res => {
-        this.hasResponseForm=true;
+        this.hasResponseForm = true;
         this.cuestionario = res;
         this.nombreFormulario = this.cuestionario.Nombre;
         this.descripcionFormulario = this.cuestionario.Descripcion;
@@ -73,11 +73,11 @@ export class ListUsersViewComponent implements OnInit {
 
   }
 
-  logOut(){
+  logOut() {
     this._authService.logOut();
   }
 
-  goToUserAnswers(idUsuario: string | number){
+  goToUserAnswers(idUsuario: string | number) {
     this.router.navigate([`/formularios/${this.idCuestionario}/respuestas/${idUsuario}`]);
   }
 

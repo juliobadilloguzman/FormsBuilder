@@ -54,6 +54,7 @@ export class FormsService {
   }
 
   getFormGraphData(idCuestionario: string | number) {
-    return this.http.get<CuestionarioGrafica[]>(`${this.API_URI}/${idCuestionario}/graphs`);
+    console.warn('Obteniendo los datos de las gráficas...');
+    return this.http.get<CuestionarioGrafica>(`${this.API_URI}/${idCuestionario}/graphs`);
   }
 }

@@ -1,1 +1,44 @@
-<p>graficas-formulario-view works!</p>
+<div class="container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+
+      <span class="spacer"></span>
+      <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
+      <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-progress-bar [mode]=" 'indeterminate' " *ngIf="!hasResponse ">
+  </mat-progress-bar>
+
+  <nav aria-label="breadcrumb" class="container-breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
+      <li class="breadcrumb-item"> {{nombreFormulario}}/</li>
+      <li class="breadcrumb-item active">Gráficas</li>
+    </ol>
+  </nav>
+
+  <div class="graphs">
+
+    <div class="container-info-formulario ">
+      <div class="container-titulo ">
+        <h2 class="titulo-text ">{{nombreFormulario}}</h2>
+        <h4 class="descripcion-text ">{{descripcionFormulario}}</h4>
+      </div>
+
+      <h4 class="title-respuestas ">Respuestas</h4>
+
+      <div class="container-respuesta " *ngFor="let pregunta of preguntas; let i=index ">
+        <h4 class="respuesta-text "><span class="contador ">{{i + 1}}.- </span> {{pregunta.texto}}</h4>
+        <app-grafica-pastel></app-grafica-pastel>
+      </div>
+    </div>
+
+    <!--div style="width: 600px;" class="center">
+      <app-grafica-barras></app-grafica-barras>
+    </div>
+    <app-grafica-dona></app-grafica-dona-->
+  </div>
+
+</div>
