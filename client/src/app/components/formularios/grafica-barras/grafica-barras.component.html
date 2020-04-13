@@ -1,1 +1,13 @@
-<p>grafica-barras works!</p>
+<div style="display: block">
+  <canvas mdbChart
+      height="40px"
+      [chartType]="chartType"
+      [datasets]="chartDatasets"
+      [labels]="chartLabels"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+</div>
