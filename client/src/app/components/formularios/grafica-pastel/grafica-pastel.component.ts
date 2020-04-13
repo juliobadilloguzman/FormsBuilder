@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GraficaPastelComponent implements OnInit {
 
-  public chartType: string = 'pie';
+  public chartType = 'pie';
 
   public chartDatasets: Array<any> = [
     { data: [300, 50, 100, 40, 120], label: 'My First dataset' }

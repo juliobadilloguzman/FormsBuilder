@@ -10,7 +10,6 @@ import { ListUsersViewComponent } from './list-users-view/list-users-view.compon
 import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respuestas-llenado-view.component';
 
 import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
-import { GraficalineaComponent } from './graficalinea/graficalinea.component';
 import { GraficaPastelComponent } from './grafica-pastel/grafica-pastel.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { GraficaPastelComponent } from './grafica-pastel/grafica-pastel.componen
     FormulariosViewComponent,
     ListUsersViewComponent,
     RespuestasLlenadoViewComponent,
-    GraficalineaComponent,
     GraficaPastelComponent
   ],
   imports: [
