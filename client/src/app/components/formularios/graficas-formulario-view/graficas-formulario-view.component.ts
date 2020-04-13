@@ -47,7 +47,7 @@ export class GraficasFormularioViewComponent implements OnInit {
         this.cuestionario = res;
         this.nombreFormulario = this.cuestionario.Nombre;
         this.descripcionFormulario = this.cuestionario.Descripcion;
-        this.preguntas = this.cuestionario.preguntasMultiples;
+        this.preguntas = this.cuestionario.preguntas;
       },
       error => console.log(error)
     );

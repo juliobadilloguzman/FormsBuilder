@@ -1,77 +1,68 @@
 <div class="container">
-    <mat-toolbar color="primary">
-        <mat-toolbar-row>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
 
-            <span class="spacer"></span>
-            <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
-            <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
-        </mat-toolbar-row>
-    </mat-toolbar>
-    <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseForm || !hasResponseUsers">
-    </mat-progress-bar>
+      <span class="spacer"></span>
+      <span class="bienvenido-usuario">Bienvenido <span class="nombreUsuario">{{nombreUsuario}}</span></span>
+      <button class="btn-cerrarSesion" (click)="logOut()">Cerrar Sesión</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseForm || !hasResponseUsers">
+  </mat-progress-bar>
 
-    <nav aria-label="breadcrumb" class="container-breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
-            <li class="breadcrumb-item"> {{nombreFormulario}}/</li>
-            <li class="breadcrumb-item active">Usuarios</li>
-        </ol>
-    </nav>
+  <nav aria-label="breadcrumb" class="container-breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
+      <li class="breadcrumb-item"> {{nombreFormulario}}/</li>
+      <li class="breadcrumb-item active">Usuarios</li>
+    </ol>
+  </nav>
 
-    <div class="container-info-formulario">
+  <div class="container-info-formulario">
 
-        <div class="container-titulo">
-            <h2 class="titulo-text">{{nombreFormulario}}</h2>
-            <h4 class="descripcion-text">{{descripcionFormulario}}</h4>
-        </div>
+    <div class="container-titulo">
+      <h2 class="titulo-text">{{nombreFormulario}}</h2>
+      <h4 class="descripcion-text">{{descripcionFormulario}}</h4>
+    </div>
 
-        <h4 class="title-contestados">Estadísticas del cuestionario</h4>
+    <!--h4 class="title-contestados">Estadísticas del cuestionario</h4>
 
-        <div class="container-usuarios">
-          <div *ngIf="!hasUsers; else noUsersYet">
-              <div class="listado-container" *ngFor="let usuario of usuarios">
-                  <div>
-                      <a class="listado-nombre">{{usuario.Nombre}}</a>
-                      <p class="listado-fecha"><span class="span-contestado">Contestado el: </span><span class="span-fecha">{{usuario.Fecha | date: 'dd/MM/yyyy'}}</span> </p>
+    <div>
+      <button mat-raised-button>Ver Respuestas</button>
+    </div-->
 
-                  </div>
-                  <button mat-raised-button (click)="goToUserAnswers(usuario.idUsuario)">Ver Respuestas</button>
+    <h4 class="title-contestados">Usuarios que han contestado este cuestionario</h4>
 
-              </div>
-          </div>
-      </div>
-
-        <h4 class="title-contestados">Usuarios que han contestado este cuestionario</h4>
-
-        <div class="container-usuarios">
-            <!-- <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseUsers">
+    <div class="container-usuarios">
+      <!-- <mat-progress-bar [mode]="'indeterminate'" *ngIf="!hasResponseUsers">
             </mat-progress-bar> -->
 
-            <div *ngIf="!hasUsers; else noUsersYet">
-                <div class="listado-container" *ngFor="let usuario of usuarios">
-                    <div>
-                        <a class="listado-nombre">{{usuario.Nombre}}</a>
-                        <p class="listado-fecha"><span class="span-contestado">Contestado el: </span><span class="span-fecha">{{usuario.Fecha | date: 'dd/MM/yyyy'}}</span> </p>
+      <div *ngIf="!hasUsers; else noUsersYet">
+        <div class="listado-container" *ngFor="let usuario of usuarios">
+          <div>
+            <a class="listado-nombre">{{usuario.Nombre}}</a>
+            <p class="listado-fecha"><span class="span-contestado">Contestado el: </span><span
+                class="span-fecha">{{usuario.Fecha | date: 'dd/MM/yyyy'}}</span> </p>
 
-                    </div>
-                    <button mat-raised-button (click)="goToUserAnswers(usuario.idUsuario)">Ver Respuestas</button>
+          </div>
+          <button mat-raised-button (click)="goToUserAnswers(usuario.idUsuario)">Ver Respuestas</button>
 
-                </div>
-            </div>
         </div>
+      </div>
+    </div>
 
-        <!-- <div class="container-comparte">
+    <!-- <div class="container-comparte">
 
 
         </div> -->
 
-    </div>
+  </div>
 
 </div>
 
 <ng-template #noUsersYet>
-    <div class="container-sinUsuarios">
-        <h5 class="ops-texto">Ooops!!</h5>
-        <span class="noUsuarios">Aun no hay usuarios que contestaron esta encuesta</span>
-    </div>
+  <div class="container-sinUsuarios">
+    <h5 class="ops-texto">Ooops!!</h5>
+    <span class="noUsuarios">Aun no hay usuarios que contestaron esta encuesta</span>
+  </div>
 </ng-template>
