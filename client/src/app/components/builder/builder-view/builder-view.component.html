@@ -67,7 +67,7 @@
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Titulo de la pregunta" formControlName="texto">
                     </mat-form-field>
-                    <button type="button" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
+                    <button type="button" [ngClass]="{'btn-disabled' : pregunta.controls.opciones.controls.length == 5}" [disabled]="pregunta.controls.opciones.controls.length == 5" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
                 </div>
 
 
@@ -102,7 +102,7 @@
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Titulo de la pregunta" formControlName="texto">
                     </mat-form-field>
-                    <button type="button" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
+                    <button type="button" [ngClass]="{'btn-disabled' : pregunta.controls.opciones.controls.length == 5}" [disabled]="pregunta.controls.opciones.controls.length == 5" class="btn-agregar-opcion" (click)="addNewOpcion(pregunta.controls.opciones)">Agregar Opcion</button>
                 </div>
 
 
