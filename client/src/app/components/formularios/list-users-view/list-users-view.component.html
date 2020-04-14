@@ -23,13 +23,10 @@
     <div class="container-titulo">
       <h2 class="titulo-text">{{nombreFormulario}}</h2>
       <h4 class="descripcion-text">{{descripcionFormulario}}</h4>
+      <div *ngIf="hasResponseForm && hasResponseUsers">
+        <button mat-raised-button (click)="goToGraphs()" class="estadistica-boton">Ver Estadísticas</button>
+      </div>
     </div>
-
-    <!--h4 class="title-contestados">Estadísticas del cuestionario</h4>
-
-    <div>
-      <button mat-raised-button>Ver Respuestas</button>
-    </div-->
 
     <h4 class="title-contestados">Usuarios que han contestado este cuestionario</h4>
 

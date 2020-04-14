@@ -81,4 +81,7 @@ export class ListUsersViewComponent implements OnInit {
     this.router.navigate([`/formularios/${this.idCuestionario}/respuestas/${idUsuario}`]);
   }
 
+  goToGraphs() {
+    this.router.navigate([`/formularios/${this.idCuestionario}/graphs`]);
+  }
 }
