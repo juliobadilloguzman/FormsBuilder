@@ -9,7 +9,7 @@ const LlenadoPreguntaMult = require('../models/LlenadoPreguntaMult');
 const LlenadoCuestionario = require('../models/LlenadoCuestionario');
 const bycrypt = require('bcryptjs');
 
-module.exports.getFormByUserId = (req, res) => {
+module.exports.GetFormByUserId = (req, res) => {
 
     Cuestionario.findAll({
         where: {
@@ -22,6 +22,17 @@ module.exports.getFormByUserId = (req, res) => {
 
         res.json(cuestionario);
     })
+}
+
+module.exports.GetFormsByDate = (req, res) => {
+    
+    //Crear el request
+    let request = new sql.Request();    
+
+    //Ejecutar el request
+    request.execute('getAllFormsByDate', (err, result) => {
+        res.json(result.recordset);
+    });
 }
 
 function CreateOpenQuestion(idCuestionario, params) {

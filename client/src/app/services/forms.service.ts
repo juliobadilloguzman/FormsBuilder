@@ -7,6 +7,7 @@ import { Cuestionario } from '../models/cuestionario';
 import { UsuarioLlenado } from '../models/usuariollenado';
 import { CuestionarioLlenado } from '../models/cuestionariollenado';
 import { CuestionarioGrafica } from '../models/cuestionarioGrafica';
+import { CuestionarioGeneralInfo } from '../models/cuestionarioGeneralInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +57,10 @@ export class FormsService {
   getFormGraphData(idCuestionario: string | number) {
     console.warn('Obteniendo los datos de las gráficas...');
     return this.http.get<CuestionarioGrafica>(`${this.API_URI}/${idCuestionario}/graphs`);
+  }
+
+  getAllFormsByDate() {
+    console.warn('Obteniendo los datos de los formularios...');
+    return this.http.get<CuestionarioGeneralInfo[]>(`${this.API_URI}/getFormsByDate`);
   }
 }
