@@ -40,7 +40,7 @@ export class GraficaPastelComponent implements OnInit {
     this.chartLabels = [];
 
     this.preguntaJson.opciones.forEach(element => {
-      this.chartData.push(element.Porcentaje);
+      this.chartData.push(element.Votos);
       this.chartLabels.push(element.Texto);
     });
 

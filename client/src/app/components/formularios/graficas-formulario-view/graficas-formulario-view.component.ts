@@ -23,6 +23,8 @@ export class GraficasFormularioViewComponent implements OnInit {
   preguntas: PreguntaMultiple[];
 
   hasResponse = false;
+  hasResponseUsers: boolean;
+  hasUsers: boolean;
 
   constructor(private _authService: AuthService, private _formsService: FormsService,
     private activatedRoute: ActivatedRoute) {
@@ -40,6 +42,19 @@ export class GraficasFormularioViewComponent implements OnInit {
     this.idUsuario = parseInt(this.activatedRoute.snapshot.paramMap.get('idUsuario'));
     console.log(this.idUsuario);
 
+    //Obtiene los usuarios que han respondido el formulario
+    this._formsService.getUsersByFormId(this.idCuestionario).subscribe(
+      res => {
+        this.hasResponseUsers = true;
+        if (res['message'] == 'noUsers') {
+          this.hasUsers = true;
+        } else {
+          this.hasUsers = false;
+        }
+      },
+      error => console.log(error)
+    )
+
     //Obtener los datos de las gráficas del formulario
     this._formsService.getFormGraphData(this.idCuestionario).subscribe(
       res => {
@@ -48,6 +63,8 @@ export class GraficasFormularioViewComponent implements OnInit {
         this.nombreFormulario = this.cuestionario.Nombre;
         this.descripcionFormulario = this.cuestionario.Descripcion;
         this.preguntas = this.cuestionario.preguntas;
+
+        console.log(this.descripcionFormulario);
       },
       error => console.log(error)
     );

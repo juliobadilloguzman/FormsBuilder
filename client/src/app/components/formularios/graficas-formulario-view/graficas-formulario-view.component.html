@@ -8,7 +8,7 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
-  <mat-progress-bar [mode]=" 'indeterminate' " *ngIf="!hasResponse ">
+  <mat-progress-bar [mode]=" 'indeterminate' " *ngIf="!hasResponse || !hasResponseUsers">
   </mat-progress-bar>
 
   <nav aria-label="breadcrumb" class="container-breadcrumb">
@@ -27,12 +27,20 @@
         <h4 class="descripcion-text ">{{descripcionFormulario}}</h4>
       </div>
 
-      <h4 class="title-respuestas ">Respuestas</h4>
+      <h4 class="title-respuestas ">Estadísticas</h4>
 
-      <div class="container-respuesta " *ngFor="let pregunta of preguntas; let i=index ">
-        <h4 class="respuesta-text "><span class="contador ">{{i + 1}}.- </span> {{pregunta.texto}}</h4>
-        <app-grafica-pastel [preguntaJson]=pregunta></app-grafica-pastel>
+      <div *ngIf="!hasUsers; else noUsersYet">
+        <div class="container-respuesta " *ngFor="let pregunta of preguntas; let i=index ">
+          <h4 class="respuesta-text "><span class="contador ">{{i + 1}}.- </span> {{pregunta.texto}}</h4>
+          <app-grafica-pastel [preguntaJson]=pregunta *ngIf="i%3==0"></app-grafica-pastel>
+          <div style="width: 600px;" class="center" *ngIf="i%3==1">
+            <app-grafica-barras [preguntaJson]=pregunta></app-grafica-barras>
+          </div>
+          <app-grafica-pastel [preguntaJson]=pregunta *ngIf="i%3==2"></app-grafica-pastel>
+        </div>
       </div>
+
+
     </div>
 
     <!--div style="width: 600px;" class="center">
@@ -42,3 +50,10 @@
   </div>
 
 </div>
+
+<ng-template #noUsersYet>
+  <div class="container-sinUsuarios">
+    <h5 class="ops-texto">Ooops!!</h5>
+    <span class="noUsuarios">Aún no hay estadísticas de esta encuesta</span>
+  </div>
+</ng-template>
