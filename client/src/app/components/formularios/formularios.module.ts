@@ -14,6 +14,7 @@ import { GraficaPastelComponent } from './grafica-pastel/grafica-pastel.componen
 import { GraficaBarrasComponent } from './grafica-barras/grafica-barras.component';
 import { GraficaDonaComponent } from './grafica-dona/grafica-dona.component';
 import { GraficasFormularioViewComponent } from './graficas-formulario-view/graficas-formulario-view.component';
+import { ListFormulariosComponent } from './list-formularios/list-formularios.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { GraficasFormularioViewComponent } from './graficas-formulario-view/graf
     GraficasFormularioViewComponent,
     GraficaPastelComponent,
     GraficaBarrasComponent,
-    GraficaDonaComponent
+    GraficaDonaComponent,
+    ListFormulariosComponent
   ],
   imports: [
     CommonModule,

@@ -61,8 +61,8 @@
     width: 50%;
     margin: auto;
     .estadistica-boton {
-      color: white;
-      background-color: #2F80ED;
+        color: white;
+        background-color: #2F80ED;
     }
     .title-contestados {
         font-size: 1.5rem;
@@ -142,5 +142,26 @@
         text-align: center !important;
         color: #ea4335;
         font-family: 'Raleway', sans-serif !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container-info-formulario,
+    .container-breadcrumb {
+        width: 70% !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .container-info-formulario,
+    .container-breadcrumb {
+        width: 85% !important;
+    }
+}
+
+@media (max-width: 715px) {
+    .container-info-formulario,
+    .container-breadcrumb {
+        width: 95% !important;
     }
 }

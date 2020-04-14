@@ -25,13 +25,17 @@ module.exports.GetFormByUserId = (req, res) => {
 }
 
 module.exports.GetFormsByDate = (req, res) => {
-    
+
     //Crear el request
-    let request = new sql.Request();    
+    let request = new sql.Request();
 
     //Ejecutar el request
     request.execute('getAllFormsByDate', (err, result) => {
+
+        if (err) { throw (err); }
+
         res.json(result.recordset);
+
     });
 }
 
@@ -169,27 +173,27 @@ function GetMultipleQuestions(idCuestionario, cuestionarioJson) {
 
 
 async function GetMultipleQuestionsGraphs(idCuestionario) {
-    
-        let preguntasMultiplesObj = [];
-        let tempIndex = [];
 
-        await GetMultipleQuestionsGraphs_getIndex(idCuestionario).then((result)=>{
-            tempIndex = result;
-            console.log(tempIndex);
+    let preguntasMultiplesObj = [];
+    let tempIndex = [];
+
+    await GetMultipleQuestionsGraphs_getIndex(idCuestionario).then((result) => {
+        tempIndex = result;
+        console.log(tempIndex);
+    });
+
+    for (index in tempIndex) {
+        pregMult = {};
+        await GetMultipleQuestionsGraphs_async(tempIndex[index]).then((result) => {
+            pregMult = result;
         });
+        preguntasMultiplesObj.push(pregMult);
+    }
 
-        for (index in tempIndex) {
-            pregMult = {};
-            await GetMultipleQuestionsGraphs_async(tempIndex[index]).then((result)=>{
-                pregMult = result;
-            });
-            preguntasMultiplesObj.push(pregMult);
-        }
-
-        return preguntasMultiplesObj;
+    return preguntasMultiplesObj;
 }
 
-async function GetMultipleQuestionsGraphs_getIndex(idCuestionario){
+async function GetMultipleQuestionsGraphs_getIndex(idCuestionario) {
     let tempIndex = [];
 
     return new Promise((resolve, reject) => {
@@ -203,14 +207,14 @@ async function GetMultipleQuestionsGraphs_getIndex(idCuestionario){
             for (index in CuestionarioPreguntaMult) {
                 tempIndex.push(CuestionarioPreguntaMult[index].idCuestionarioPreguntasMult);
             }
-        }).then(()=>{
+        }).then(() => {
             resolve(tempIndex);
         });
     });
 
 }
 
-async function GetMultipleQuestionsGraphs_async(idCuestionario){
+async function GetMultipleQuestionsGraphs_async(idCuestionario) {
     let pregMult = {};
 
     return new Promise((resolve, reject) => {

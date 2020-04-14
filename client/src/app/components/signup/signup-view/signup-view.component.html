@@ -40,7 +40,7 @@
                 <span class="text-danger">Verifica campos vacios</span>
             </div>
             <div>
-                <button [disabled]="!signUpForm.valid" class="full-width btn-registrar">Registrarme</button>
+                <button [ngClass]="{'btn-disabled' : !signUpForm.valid, 'btn-registrar' : signUpForm.valid}" [disabled]="!signUpForm.valid" class="full-width btn-registrar">Registrarme</button>
             </div>
         </form>
         <span class="text-white container-title-crear">

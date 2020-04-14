@@ -4,13 +4,16 @@ import { FormulariosViewComponent } from './formularios-view/formularios-view.co
 import { ListUsersViewComponent } from './list-users-view/list-users-view.component';
 import { RespuestasLlenadoViewComponent } from './respuestas-llenado-view/respuestas-llenado-view.component';
 import { GraficasFormularioViewComponent } from './graficas-formulario-view/graficas-formulario-view.component';
+import { ListFormulariosComponent } from './list-formularios/list-formularios.component';
+
 
 
 const routes: Routes = [
   {path: '', component: FormulariosViewComponent},
   {path: ':idFormulario/users', component: ListUsersViewComponent},
   {path: ':idFormulario/respuestas/:idUsuario', component: RespuestasLlenadoViewComponent},
-  {path: ':idFormulario/graphs', component: GraficasFormularioViewComponent}
+  {path: ':idFormulario/graphs', component: GraficasFormularioViewComponent},
+  {path: 'explorar', component: ListFormulariosComponent}
 ];
 
 @NgModule({

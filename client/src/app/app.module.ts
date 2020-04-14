@@ -10,10 +10,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { ChartsModule } from 'ng2-charts';
+import { Error404Component } from './components/errors/error404/error404.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,

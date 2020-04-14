@@ -115,5 +115,9 @@ export class FormulariosViewComponent implements OnInit {
     this.router.navigate([`/formularios/${idCuestionario}/graphs`]);
   }
   
+  goToExplore(){
+    this.router.navigate([`/formularios/explorar`]);
+  }
+
 
 }

@@ -31,7 +31,7 @@
                 <span class="text-danger">La contraseña es incorrecta</span>
             </div>
             <div>
-                <button [disabled]="!loginForm.valid" type="submit" class="full-width btn-ingresar">Ingresar</button>
+                <button [ngClass]="{'btn-disabled' : !loginForm.valid, 'btn-ingresar' : loginForm.valid}" [disabled]="!loginForm.valid" type="submit" class="full-width">Ingresar</button>
             </div>
         </form>
 

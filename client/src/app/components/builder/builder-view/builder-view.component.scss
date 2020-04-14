@@ -227,3 +227,9 @@
         width: 95% !important;
     }
 }
+
+@media (max-width: 650px) {
+    .container-buttons-add {
+        grid-template-columns: 2fr !important;
+    }
+}

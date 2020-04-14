@@ -102,3 +102,19 @@
     /* Microsoft Edge */
     color: #fff;
 }
+
+.btn-disabled {
+    border: none !important;
+    background: none;
+    background: #525252;
+    outline: none;
+    padding: 0.8rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 30px;
+    display: block !important;
+    box-sizing: border-box !important;
+}

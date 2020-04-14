@@ -59,7 +59,7 @@ export class FormsService {
     return this.http.get<CuestionarioGrafica>(`${this.API_URI}/${idCuestionario}/graphs`);
   }
 
-  getAllFormsByDate() {
+  getAllFormsByDate(): Observable<CuestionarioGeneralInfo[]> {
     console.warn('Obteniendo los datos de los formularios...');
     return this.http.get<CuestionarioGeneralInfo[]>(`${this.API_URI}/getFormsByDate`);
   }

@@ -101,30 +101,21 @@
     }
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 960px) {
     .container-description .title-description {
-        font-size: 3.5rem;
+        font-size: 3.5rem !important;
     }
     .container-description .subtitle-description {
-        font-size: 1.8rem;
+        font-size: 1.2rem !important;
     }
 }
 
-@media (max-width: 1240px) {
+@media (max-width: 960px) {
     .container-description .title-description {
-        font-size: 3rem;
+        font-size: 3rem !important;
     }
     .container-description .subtitle-description {
-        font-size: 1.4rem;
-    }
-}
-
-@media (max-width: 1190px) {
-    .container-description .title-description {
-        font-size: 2.5rem;
-    }
-    .container-description .subtitle-description {
-        font-size: 1.2rem;
+        font-size: 1rem !important;
     }
 }
 
