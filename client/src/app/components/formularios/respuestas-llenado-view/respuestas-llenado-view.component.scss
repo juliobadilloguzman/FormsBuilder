@@ -112,3 +112,24 @@
         }
     }
 }
+
+@media (max-width: 1200px) {
+    .container-info-formulario,
+    .container-breadcrumb {
+        width: 70% !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .container-info-formulario,
+    .container-breadcrumb {
+        width: 85% !important;
+    }
+}
+
+@media (max-width: 715px) {
+    .container-info-formulario,
+    .container-breadcrumb {
+        width: 95% !important;
+    }
+}
