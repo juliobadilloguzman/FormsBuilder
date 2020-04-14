@@ -142,6 +142,13 @@
         .btn-eye:hover {
             color: #178a3d !important;
         }
+        .btn-chart {
+            color: #2295f3 !important;
+            transition: all 0.3s ease 0s;
+        }
+        .btn-chart:hover {
+            color: #186eb4 !important;
+        }
     }
     .cuestionario-card {
         cursor: pointer;
