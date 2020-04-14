@@ -10,7 +10,10 @@
                 <input class="full-width" type="text" formControlName="Nombre" placeholder="Usuario">
             </div>
             <div *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.invalid && Nombre.errors.required">
-                <span class="text-danger">Nombre de usuario invalido</span>
+                <span class="text-danger">Nombre de usuario inválido</span>
+            </div>
+            <div *ngIf="(Nombre.touched) && Nombre.invalid && Nombre.errors.invalidUsername">
+              <span class="text-danger">Nombre de usuario inválido (Min 1 mayúscula, minúscula y símbolo)</span>
             </div>
             <div *ngIf="userDoesntExists">
                 <span class="text-danger">El nombre de usuario no existe</span>
