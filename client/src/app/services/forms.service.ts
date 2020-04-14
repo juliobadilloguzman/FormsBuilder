@@ -61,6 +61,6 @@ export class FormsService {
 
   getAllFormsByDate(): Observable<CuestionarioGeneralInfo[]> {
     console.warn('Obteniendo los datos de los formularios...');
-    return this.http.get<CuestionarioGeneralInfo[]>(`${this.API_URI}/getFormsByDate`);
+    return this.http.post<CuestionarioGeneralInfo[]>(`${this.API_URI}/getFormsByDate`, {message: 'hola'});
   }
 }

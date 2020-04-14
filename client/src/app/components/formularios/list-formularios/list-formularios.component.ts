@@ -42,4 +42,8 @@ export class ListFormulariosComponent implements OnInit {
     this._authService.logOut();
   }
 
+  fillQ(idCuestionario: string | number){
+    this.router.navigate([`/fill/${idCuestionario}`]);
+  }
+
 }

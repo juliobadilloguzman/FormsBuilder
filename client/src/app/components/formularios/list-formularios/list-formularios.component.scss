@@ -80,3 +80,81 @@
         font-size: 3rem;
     }
 }
+
+.container-cuestionarios {
+    width: 70% !important;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    .nombreCuestionario {
+        font-family: 'Raleway', sans-serif;
+        font-size: 1.2rem !important;
+    }
+    .descripcionCuestionario {
+        font-family: 'Raleway', sans-serif;
+        color: rgb(121, 121, 121);
+    }
+    .btn-contestar {
+        margin-top: 1rem;
+        box-sizing: border-box;
+        border: none;
+        background: #fff;
+        color: #4ca730 !important;
+        font-weight: 400;
+        padding: 10px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+    }
+    .btn-contestar:hover {
+        color: #fff !important;
+        font-weight: 700 !important;
+        letter-spacing: 3px;
+        background: #404040;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+        transition: all 0.3s ease 0s;
+    }
+}
+
+.itemIndividual {
+    padding: 10px !important;
+}
+
+.container-spinner {
+    width: 100%;
+    min-height: 70vh;
+    background: #f5f7f9 !important;
+    margin-top: 3rem !important;
+    display: grid;
+    justify-content: center !important;
+    margin: auto !important;
+    .spinner-element {
+        margin-top: 5rem !important;
+    }
+}
+
+.container-breadcrumb {
+    width: 70% !important;
+}
+
+@media (max-width: 840px) {
+    .container-cuestionarios,
+    .container-breadcrumb {
+        width: 90% !important;
+    }
+    .container-crear h2 {
+        font-size: 2.5rem !important;
+    }
+}
+
+@media (max-width: 545px) {
+    .container-cuestionarios,
+    .container-breadcrumb {
+        width: 95% !important;
+    }
+    .container-crear h2 {
+        font-size: 2.1rem !important;
+    }
+}

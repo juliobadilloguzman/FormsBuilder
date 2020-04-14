@@ -12,7 +12,8 @@ router.get('/:idForm/graphs', formController.GetFormGraphs);
 router.post('/verifyOwner', formController.VerifyOwner);
 router.get('/:idCuestionario/answers', formController.ShowAnswers);
 router.get('/:idCuestionario/user/:idUsuario', formController.ShowUserAnswers);
-router.get('/getFormsByDate', formController.GetFormsByDate);
+
+router.post('/getFormsByDate', formController.GetFormsByDate);
 
 router.delete('/:idFormulario', formController.DeleteForm);
 

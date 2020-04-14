@@ -13,4 +13,31 @@
         <h2 class="text-white">Explora el amplio catálogo de encuestas</h2>
     </div>
 
+    <nav aria-label="breadcrumb" class="container-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/formularios">Inicio</a>/ </li>
+            <li class="breadcrumb-item active">Explorar</li>
+
+        </ol>
+    </nav>
+
+    <div class="container-cuestionarios" *ngIf="hasResponse; else noResponseYet">
+        <mat-list>
+            <mat-list-item *ngFor="let cuestionario of cuestionarios" class="itemIndividual">
+                <mat-icon mat-list-icon>menu_book</mat-icon>
+                <div mat-line><span class="nombreCuestionario">{{cuestionario.Nombre}}</span></div>
+                <div mat-line> <span class="descripcionCuestionario">{{cuestionario.Descripcion}}</span> </div>
+                <div><button class="btn btn-contestar" (click)="fillQ(cuestionario.idCuestionario)">Contestar</button></div>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+
+        </mat-list>
+    </div>
+
 </div>
+
+<ng-template #noResponseYet>
+    <div class="container-spinner">
+        <mat-spinner class="spinner-element"></mat-spinner>
+    </div>
+</ng-template>
