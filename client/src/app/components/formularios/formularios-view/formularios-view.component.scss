@@ -211,3 +211,32 @@
         color: #ea4335;
     }
 }
+
+
+/* Media Queries */
+
+@media (max-width: 800px) {
+    .container-cuestionarios,
+    .container-title-cuestionarios {
+        width: 80% !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .container-cuestionarios,
+    .container-title-cuestionarios {
+        width: 90% !important;
+    }
+}
+
+@media (max-width: 670px) {
+    .container-cuestionarios {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    .container-cuestionarios {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

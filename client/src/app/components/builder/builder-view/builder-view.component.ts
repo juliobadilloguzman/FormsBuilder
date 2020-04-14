@@ -106,6 +106,7 @@ export class BuilderViewComponent implements OnInit {
   }
 
   addNewOpcion(control) {
+    
     console.log(control);
 
     control.push(this.fb.group({

@@ -206,3 +206,24 @@
     background: #585858 !important;
     color: #fff !important;
 }
+
+@media (max-width: 1200px) {
+    .form,
+    .container-breadcrumb {
+        width: 70% !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .form,
+    .container-breadcrumb {
+        width: 85% !important;
+    }
+}
+
+@media (max-width: 715px) {
+    .form,
+    .container-breadcrumb {
+        width: 95% !important;
+    }
+}
