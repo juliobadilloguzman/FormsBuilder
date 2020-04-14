@@ -320,8 +320,7 @@ module.exports.GetFormGraphs = (req, res) => {
         if (cuestionario) {
 
             cuestionarioJson["Nombre"] = cuestionario.Nombre;
-            //Por si se quiere mostrar la descripcion del cuestionario
-            //cuestionarioJson["Descripcion"] = cuestionario.Descripcion;
+            cuestionarioJson["Descripcion"] = cuestionario.Descripcion;
 
             GetMultipleQuestionsGraphs(cuestionario.idCuestionario, cuestionarioJson).then((preguntasMultiples) => {
                 // Append se hace dentro de GetMultipleQuestions
