@@ -8,24 +8,31 @@
                 <input class="full-width" type="text" formControlName="Nombre" placeholder="Usuario">
             </div>
             <div *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.invalid && Nombre.errors.required">
-                <span class="text-danger">Nombre de usuario invalido</span>
+                <span class="text-danger">Nombre de usuario requerido</span>
+            </div>
+            <div *ngIf="(Nombre.touched) && Nombre.invalid && Nombre.errors.invalidUsername">
+                <span class="text-danger">Nombre de usuario inválido (Minimo 4 caracteres, sin caracteres especiales)</span>
             </div>
             <div *ngIf="userExists">
                 <span class="text-danger">El nombre de usuario ya existe</span>
             </div>
-            <div *ngIf="(Nombre.dirty || Nombre.touched) && Nombre.errors.minlength">
-                <span class="text-danger">El nombre debe de tener mínimo 4 caracteres</span>
-            </div>
             <div>
                 <input class="full-width" type="password" formControlName="Contrasena" placeholder="Contraseña">
             </div>
-            <div *ngIf="(Contrasena.dirty || Contrasena.touched) && Contrasena.errors.invalidUsername">
-                <span class="text-danger">La contraseña debe de tener mínimo 6 caracteres, 1 mayúscula, 1 minúscula y 1 símbolo</span>
+
+            <div *ngIf="(Contrasena.dirty || Contrasena.touched) && Contrasena.invalid && Contrasena.errors.required">
+                <span class="text-danger">Contraseña requerida</span>
+            </div>
+            <div *ngIf="(Contrasena.touched) && Contrasena.invalid && Contrasena.errors.invalidUsername">
+                <span class="text-danger">Contraseña inválida (Minimo 4 caracteres, sin caracteres especiales)</span>
             </div>
             <div>
                 <input class="full-width" type="password" formControlName="ConfirmContrasena" placeholder="Confirmar contraseña">
-
             </div>
+            <div *ngIf="(ConfirmContrasena.dirty || ConfirmContrasena.touched) && ConfirmContrasena.invalid && ConfirmContrasena.errors.required">
+                <span class="text-danger">Contraseña requerida</span>
+            </div>
+
             <div *ngIf="equalPassowords">
                 <span class="text-danger">Las contraseñas no coinciden</span>
             </div>

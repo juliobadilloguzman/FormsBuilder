@@ -107,9 +107,9 @@ export class SignupViewComponent implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
-      Nombre: new FormControl("", [Validators.required, Validators.minLength(4)]),
+      Nombre: new FormControl("", [Validators.required, userPasswordValidator]),
       Contrasena: new FormControl("", [Validators.required, userPasswordValidator]),
-      ConfirmContrasena: new FormControl("", [Validators.required])
+      ConfirmContrasena: new FormControl("", [Validators.required, userPasswordValidator])
     });
   }
 
