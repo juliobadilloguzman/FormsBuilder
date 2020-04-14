@@ -157,15 +157,31 @@ function GetMultipleQuestions(idCuestionario, cuestionarioJson) {
 }
 
 
-function GetMultipleQuestionsGraphs(idCuestionario, cuestionarioJson) {
+async function GetMultipleQuestionsGraphs(idCuestionario) {
+    
+        let preguntasMultiplesObj = [];
+        let tempIndex = [];
 
-    let request = new sql.Request();
-    let preguntasMultiplesObj = [];
+        await GetMultipleQuestionsGraphs_getIndex(idCuestionario).then((result)=>{
+            tempIndex = result;
+            console.log(tempIndex);
+        });
+
+        for (index in tempIndex) {
+            pregMult = {};
+            await GetMultipleQuestionsGraphs_async(tempIndex[index]).then((result)=>{
+                pregMult = result;
+            });
+            preguntasMultiplesObj.push(pregMult);
+        }
+
+        return preguntasMultiplesObj;
+}
+
+async function GetMultipleQuestionsGraphs_getIndex(idCuestionario){
+    let tempIndex = [];
 
     return new Promise((resolve, reject) => {
-
-        setTimeout(() => resolve(preguntasMultiplesObj), 1000);
-
         //Buscar todas las preguntas del cuestionario
         CuestionarioPreguntaMult.findAll({
             where: {
@@ -174,27 +190,36 @@ function GetMultipleQuestionsGraphs(idCuestionario, cuestionarioJson) {
         }).then(CuestionarioPreguntaMult => {
 
             for (index in CuestionarioPreguntaMult) {
-
-                let pregMult = {};
-                let element = CuestionarioPreguntaMult[index];
-
-                //Conseguir el texto de la pregunta
-                request = new sql.Request();
-                request.input('p_idCuestionarioPreguntaMult', sql.Int, element.idCuestionarioPreguntasMult);
-                request.execute('textoPreguntaMult_R', (err, result) => {
-                    pregMult["texto"] = result.recordset[0].Pregunta;
-                });
-
-                //Conseguir las opciones
-                request2 = new sql.Request();
-                request2.input('p_idCuestionarioPreguntasMult', sql.Int, element.idCuestionarioPreguntasMult);
-                request2.execute('EstadisticaPreguntaMult_R', (err, result2) => {
-                    pregMult["opciones"] = result2.recordset;
-                });
-                preguntasMultiplesObj.push(pregMult);
+                tempIndex.push(CuestionarioPreguntaMult[index].idCuestionarioPreguntasMult);
             }
-        })
-        cuestionarioJson["preguntas"] = preguntasMultiplesObj;
+        }).then(()=>{
+            resolve(tempIndex);
+        });
+    });
+
+}
+
+async function GetMultipleQuestionsGraphs_async(idCuestionario){
+    let pregMult = {};
+
+    return new Promise((resolve, reject) => {
+        //console.log(pregMult);
+
+        //Conseguir el texto de la pregunta
+        request = new sql.Request();
+        request.input('p_idCuestionarioPreguntaMult', sql.Int, idCuestionario);
+        request.execute('textoPreguntaMult_R', (err, result) => {
+            pregMult["texto"] = result.recordset[0].Pregunta;
+
+            //Conseguir las opciones
+            request2 = new sql.Request();
+            request2.input('p_idCuestionarioPreguntasMult', sql.Int, idCuestionario);
+            request2.execute('EstadisticaPreguntaMult_R', (err, result2) => {
+                pregMult["opciones"] = result2.recordset;
+
+                resolve(pregMult);
+            });
+        });
     });
 }
 
@@ -322,10 +347,8 @@ module.exports.GetFormGraphs = (req, res) => {
             cuestionarioJson["Nombre"] = cuestionario.Nombre;
             cuestionarioJson["Descripcion"] = cuestionario.Descripcion;
 
-            GetMultipleQuestionsGraphs(cuestionario.idCuestionario, cuestionarioJson).then((preguntasMultiples) => {
-                // Append se hace dentro de GetMultipleQuestions
-                // cuestionarioJson["preguntasMultiples"] = preguntasMultiples;
-            }).then(() => {
+            GetMultipleQuestionsGraphs(cuestionario.idCuestionario).then((preguntasMultiples) => {
+                cuestionarioJson["preguntas"] = preguntasMultiples;
                 res.json(cuestionarioJson);
             });
         } else {
