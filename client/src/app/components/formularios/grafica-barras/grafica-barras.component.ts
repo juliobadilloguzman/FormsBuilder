@@ -41,8 +41,16 @@ export class GraficaBarrasComponent implements OnInit {
   ];
 
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
   };
+
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
@@ -54,12 +62,12 @@ export class GraficaBarrasComponent implements OnInit {
     this.chartLabels = [];
 
     this.preguntaJson.opciones.forEach(element => {
-      this.chartData.push(element.Porcentaje);
+      this.chartData.push(element.Votos);
       this.chartLabels.push(element.Texto);
     });
 
     this.chartDatasets = [
-      { data: this.chartData, label: this.chartLabel }
+      { data: this.chartData, label: "" }
     ];
 
   }

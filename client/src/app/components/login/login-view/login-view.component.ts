@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { userPasswordValidator } from 'src/app/validators/userPassword.validator';
 
 @Component({
   selector: 'app-login-view',
@@ -22,13 +23,13 @@ export class LoginViewComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    
+
   }
 
   get Nombre() {
     return this.loginForm.get('Nombre');
   }
-  
+
   get Contrasena() {
     return this.loginForm.get('Contrasena');
   }
@@ -64,8 +65,8 @@ export class LoginViewComponent implements OnInit {
 
   createFormGroup(){
     return new FormGroup({
-      Nombre: new FormControl('', [Validators.required]), 
-      Contrasena: new FormControl('', [Validators.required])
+      Nombre: new FormControl('', [Validators.required, userPasswordValidator]),
+      Contrasena: new FormControl('', [Validators.required, userPasswordValidator])
     })
   }
 

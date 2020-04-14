@@ -118,3 +118,19 @@
       }
   }
 }
+
+.container-sinUsuarios {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  .ops-texto {
+      font-size: 2rem;
+      font-family: 'Raleway', sans-serif !important;
+      margin-bottom: 1rem;
+  }
+  .noUsuarios {
+      text-align: center !important;
+      color: #ea4335;
+      font-family: 'Raleway', sans-serif !important;
+  }
+}

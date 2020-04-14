@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "src/app/services/auth.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { userPasswordValidator } from 'src/app/validators/userPassword.validator';
 
 @Component({
   selector: "app-signup-view",
@@ -107,7 +108,7 @@ export class SignupViewComponent implements OnInit {
   createFormGroup() {
     return new FormGroup({
       Nombre: new FormControl("", [Validators.required, Validators.minLength(4)]),
-      Contrasena: new FormControl("", [Validators.required, Validators.minLength(4)]),
+      Contrasena: new FormControl("", [Validators.required, userPasswordValidator]),
       ConfirmContrasena: new FormControl("", [Validators.required])
     });
   }
